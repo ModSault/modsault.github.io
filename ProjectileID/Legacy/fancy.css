@@ -1,0 +1,264 @@
+.box { width: 94%; overflow: auto; margin: 20px auto; max-width: 2000px; }
+
+/* -------------------- Documentation of HardCoded Damage ----------------------- */
+
+#tableGrid_hc {
+    display: grid;
+    grid-template-columns: max-content 4fr 1fr 4fr;
+    margin: 20px 0;
+    text-align: center;
+}
+#tableGrid_hc p { margin: 0; }
+#tableGrid_hc > * {
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    text-align: center;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#tableGrid_hc > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; }
+#tableGrid_hc > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
+
+/* -------------------- Documentation of Weapon Damage ----------------------- */
+
+#tableGrid {
+    display: grid;
+    grid-template-columns: 3fr max-content repeat(6, 1fr) 2fr;
+    margin: 20px 0;
+    text-align: center;
+}
+#tableGrid p { margin: 0; }
+#tableGrid > * {
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    text-align: center;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#tableGrid > *:nth-child(-n+9) { border-top: var(--table-border-color) 1px solid; }
+#tableGrid > *:nth-child(9n+1) { border-left: var(--table-border-color) 1px solid; }
+
+#tableGrid > *:nth-child(3) { border-left: var(--table-border-color) 1px solid; }
+#tableGrid > *:nth-child(10), #tableGrid > *:nth-child(11), #tableGrid > *:nth-child(18) { border-top: var(--table-border-color) 1px solid; }
+
+#tableGrid > *:nth-child(9n+3), #tableGrid > *:nth-child(9n+4), #tableGrid > *:nth-child(9n+5) { background-color: var(--a-generic-background-blue); }
+#tableGrid > *:nth-child(9n+6), #tableGrid > *:nth-child(9n+7), #tableGrid > *:nth-child(9n+8) { background-color: var(--a-generic-background-green); }
+
+/* -------------------- Changing HardCoded Weapons ----------------------- */
+
+#CustomHardCodedContainer {
+    display: grid;
+    grid-template-columns: 10fr 5fr 2fr 2fr;
+    text-align: center;
+    justify-content: center;
+    font-size: 18px;
+}
+#CustomHardCodedContainer > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; margin: 0; }
+#CustomHardCodedContainer > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
+#CustomHardCodedContainer > * {
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* -------------------- Making Codes Weapons ----------------------- */
+
+#CustomWeaponDamageContainer {
+    display: grid;
+    grid-template-columns: 10fr 5fr 5fr 5fr 5fr 2fr;
+    text-align: center;
+    font-size: 18px;
+}
+#CustomWeaponDamageContainer > *:nth-child(-n+6) { border-top: var(--table-border-color) 1px solid; margin: 0; }
+#CustomWeaponDamageContainer > *:nth-child(6n+1) { border-left: var(--table-border-color) 1px solid; }
+#CustomWeaponDamageContainer > * {
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* -------------------- Buttons to add/remove rows ----------------------- */
+
+.AddCustomWeaponButton, .RemoveAllWeaponButton {
+    display: flex;
+    margin: 10px;
+    height: 35px;
+    font-size: 20px;
+    width: max-content;
+    padding: 10px;
+    align-items: center;
+}
+.AddCustomWeaponButton { margin-left: auto; background-color: var(--green-button); }
+.RemoveAllWeaponButton { margin-right: auto; background-color: var(--red-button); }
+.removeAllBackgroundTransition { animation: backgroundColor_Transition 0.3s; }
+
+@keyframes backgroundColor_Transition {
+    0% { background-color: var(--red-button-darker); }
+    75% { background-color: var(--red-button-darker); }
+    100% { background:  var(--red-button); }
+}
+
+/* ------------------------ Making Codes -------> Weapon And Gamemode Type Dropdown ------------------------------ */
+
+.WeaponTypeDropdown {
+    font-size: 18px;
+    width: 100%;
+    text-wrap: wrap;
+    height: 95%;
+}
+.WeaponTypeDropdown * { font-size: 18px; }
+
+.WeaponTypeDropdown_Advanced_TextInput {
+    font-size: 18px;
+    margin: auto;
+    margin-left: 5px;
+    width: 0;
+}
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .WeaponTypeDropdown_Advanced_TextInput  { width: 40%; }
+
+
+/** ------------------------ Making Codes -------> Damage Number Deciding Dropdown ------------------------------ */
+
+#CustomHardCodedContainer .WeaponDamage_TextInput { width: 80%; }
+.WeaponDamage_TextInput {
+    font-size: 18px;
+    margin: auto;
+    display: flex;
+    width: 40%;
+}
+
+/** ------------------------ Making Codes -------> Other Section ------------------------------ */
+
+.DeleteWeaponCodeButton {
+    display: flex;
+    font-size: 16px;
+    width: max-content;
+    padding: 3px;
+    align-items: center;
+    margin: auto;
+    background-color: var(--red-button);
+}
+#AdvancedModeCheckMark:checked ~ #ContainerForAll #CustomWeaponDamageContainer .DeleteWeaponCodeButton  { font-size: 12px; }
+
+.ExtraOffsetAdvancedThing {
+    font-size: 16px;
+    width: 40px;
+}
+
+/** ------------------------ Code Conversion Arrows ------------------------------ */
+
+.ArrowsToConvertContainer {
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    justify-content: space-between;
+}
+.ArrowsToConvertContainer > * { margin: auto; width: max-content; }
+
+#InfoToCode, #CodeToInfo, #RandomInfoToCode {
+    display: flex;
+    padding: 10px;    
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    margin-left: 20px;
+    background-color: var(--button-background-color);
+}
+
+#CodeToInfo { border-top: none; }
+#CodeToInfo_Before {
+    width: 140px;
+    height: 30px;
+    background-color: var(--button-background-color);
+    border-bottom: 0;
+    clip-path: polygon(50% 0%, 0% 101%, 100% 101%);
+}
+
+#InfoToCode, #RandomInfoToCode { border-bottom: none; }
+#InfoToCode_After, #RandomInfoToCode_After {
+    width: 140px;
+    height: 30px;
+    background-color: var(--button-background-color);
+    border-top: 0;
+    clip-path: polygon(50% 101%, 0% 0%, 101% 0%);
+}
+
+/** ------------------------ Textarea with the code ------------------------------ */
+
+.ErrorText {
+    margin: auto;
+    margin-top: 20px;
+    color: var(--red-button);
+    text-align: center;
+}
+.WarningText {
+    margin: auto;
+    color: var(--warning-text-color);
+    text-align: center;
+}
+textarea {
+    margin: 20px auto;
+    display: flex;
+    width: 50%;
+    height: 200px;
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+}
+
+/* ------------------------ Randomize Code Table ------------------------------ */
+
+#RandomizeDamageContainer {
+    display: grid;
+    grid-template-columns: 4fr 4fr 8fr 8fr 10fr 8fr;
+    text-align: center;
+    font-size: 18px;
+}
+#RandomizeDamageContainer > *:nth-child(-n+6) { border-top: var(--table-border-color) 1px solid; margin: 0; }
+#RandomizeDamageContainer > *:nth-child(6n+1) { border-left: var(--table-border-color) 1px solid; }
+#RandomizeDamageContainer > * {
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    display: flex;
+    /* flex-direction: row; */
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------------ Damage Type ------------------------------ */
+
+.Random_DamageType {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.Random_DamageType > * {
+    margin: 1px 5px;
+    font-size: 16px;
+    flex: 1;
+    min-width: 200px;
+    width: 200px;
+}
+
+.Random_OtherBox {
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.Random_OtherBox label { font-size: 16px; }
+.Random_OtherBox > * { margin: auto; }

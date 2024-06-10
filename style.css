@@ -1,0 +1,172 @@
+:root {
+  --background-color: #121212;
+  --background-color-box: #1e1e1e;
+  --background-color-tooltip: #353535;
+  --font-color: #e1e1e1;
+
+  --navbar-background-color: #1e1e1e;
+  --navbar-background-color-hover: #575757;
+  --navbar-extra-elements-background-color: #3b3b3b;
+  --navbar-extra-elements-background-color-hover: #7b7b7b;
+
+  --red-button: #c23f37;
+  --red-button-darker: #842a25;
+  --green-button: #8ef48b;
+
+  --input-file-grey: grey;
+  --link-color: #1e90ff;
+  --link-color-hover: #1e90ff;
+  --link-color-visited: #b522ff;
+
+  --table-border-color: #dbdbdb;
+  --warning-text-color: orange;
+  --button-background-color: #F0F0F0;
+  --a-generic-background-blue: #1c235d;
+  --a-generic-background-green: #182c25;
+
+  font-family: Verdana;
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
+
+.flexContainer { display: flex; flex-wrap: wrap;}
+.flexRow { display: flex; flex-direction: row; }
+.flexColumn { display: flex; flex-direction: column; }
+#AdvancedModeCheckMark { display: none; }
+.AdvancedOnly { display: none; }
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .AdvancedOnly  { display: unset; }
+a { color: var(--link-color) }
+a:hover { color: var(--link-color-hover) }
+a:visited { color: var(--link-color-visited) }
+
+body { margin: 0; }
+#ContainerForAll { width: 97%; margin: auto; }
+#Title {
+  display: inline-block;
+  margin: 20px;
+  font-weight: 100;
+  padding-right: 50px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--font-color);
+  font-size: 32px;
+}
+#TopRightOfScreen {
+  margin: 10px 20px 10px auto;
+}
+.GameVersionSelector {
+  height: max-content;
+  width: max-content;
+  margin: 2px;
+  font-size: 20px;
+}
+#AdvancedModeButton {
+  display: flex;
+  margin: 2px;
+  height: 40px;
+  font-size: 20px;
+  align-items: center;
+  margin: auto;
+  position: relative;
+}
+#AdvancedModeButton p:nth-child(1) {
+  position: relative;
+  top: -5px;
+}
+#AdvancedModeButton p:nth-child(2) {
+  position: absolute;
+  top: 10px;
+  text-align: center;
+  width: calc(100% - 12px);
+  font-size: 12px;
+}
+
+/* ---------------- Navbar ----------------- */
+
+#NavBar {
+  width: 100%;
+  height: max-content;
+  background-color: var(--navbar-background-color);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#NavBar > a, .NavBar_dropdown p, .NavBar_dropdown div a {
+  display: block;
+  padding: 10px 20px;
+  margin: 0;
+  font-size: 20px;
+  color: var(--font-color);
+  text-decoration: none;
+}
+#NavBar > *:hover {
+  background-color: var(--navbar-background-color-hover);
+  cursor: pointer;
+}
+.NavBar_dropdown:hover * {
+  display: block;
+}
+.NavBar_dropdown div {
+  display: none;
+  position: absolute;
+  min-width: 350px;
+  z-index: 1;
+}
+.NavBar_dropdown div a {
+  display: block;
+  background-color: var(--navbar-extra-elements-background-color);
+}
+.NavBar_dropdown div a:hover {
+  background-color: var(--navbar-extra-elements-background-color-hover);
+}
+
+/* ---------------- Content on Page ----------------- */
+
+.box {
+  background-color: var( --background-color-box);
+  display: flex;
+  flex-direction: column;
+  border-radius: 50px;
+  padding: 20px;
+}
+.box h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+/* ---------------- Tooltip ----------------- */
+
+.tooltip {
+  opacity: 0;
+  transition: opacity 1s; 
+
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  height: max-content;
+  width: 200px;
+  z-index: 1;
+  color: var(--font-color);
+}
+.tooltip.fade {
+  opacity: 1;
+}
+.tooltip::before {
+  content: "";
+  height: 1px;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--background-color-tooltip) transparent;
+  width: 1px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tooltip::after {
+  content: "Allow viewing and customizing information on a higher level";
+  font-size: 12px;
+  background-color: var(--background-color-tooltip);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+}

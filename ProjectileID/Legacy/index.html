@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./fancy.css">
+    <script src="../../script.js"></script>
+    <script src="./logic.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../favicon.png">
+    <title>Weapon ID and Damage SFA | ModSault </title>
+  </head>
+
+  <body>
+    <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark">
+    <script>makeNavBar("../..");</script>
+    <script>makeHeader("Star Fox Assault Projectile ID and Damage documentation", resetTable);</script>
+    
+    <div id = "ContainerForAll">
+      <div class = "box">
+        <h2> Damage Table for Hardcoded Values </h2>
+        <p> These are the damage values that are hardcoded into the game's code and are the same for all game modes. The number is purely for deciding what random numbers to change. It means NOTHING in the actual game. </p>
+        <div id="tableGrid_hc">
+          <p> # </p>
+          <p> Damage Type </p>
+          <p> Damage </p>
+          <p> Notes </p>
+        </div>
+      </div>
+
+      <div class = "box">
+        <h2> Damage Table for weapons <span class="AdvancedOnly"> (only verified on Mission 4 and VS mode in Katina Outpost. Don't think it matters though) </span> </h2>
+        <p> There are many special cases where reduced damage, and possibly addition damage, is dealt without being documented. So keep that in mind when looking at the table. </p>
+        <div id="tableGrid">
+          <!-- Display none is a bandage solution for nth child selection in css file -->
+          <div style="display: none;"> </div>
+          <div style="display: none;"> </div>
+          <p style="grid-column: 3 / 6;"> Single Player Damage (Direct/Splash Damage) </p>
+          <div style="display: none;"> </div>
+          <div style="display: none;"> </div>
+          <p style="grid-column: 6 / 9;"> Vs Mode Damage (Direct/Splash Damage) </p>
+          <div style="display: none;"> </div>
+          <div style="display: none;"> </div>
+          <div style="border: 0"> </div>
+
+          <div style="grid-row: 2;"> <p> Weapon </p> </div>
+          <p> ID </p>
+          <p> Pilot or Enemy </p>
+          <p> Arwing or Wolfen </p>
+          <p> Landmaster <span class="AdvancedOnly"> or ??? </span> </p>
+          <p> Pilot </p>
+          <p> Arwing or Wolfen </p>
+          <p> Landmaster <span class="AdvancedOnly"> or ??? </span> </p>
+          <p> Notes </p>
+        </div>
+
+        <p>
+          IDs for teammate shots in On-rails, enemy's chasing teammates in On-rails, touching certain enemies in On-Rails, enemies chasing teammates in Wing Riding weren't obtained
+          due to complications. So those could be the missing IDs along with others I may not know about.
+        </p>
+      </div>
+
+      <div class = "box">
+        <h2> Code Making </h2>
+        <script>makeGameModeSelector(resetTable);</script>
+
+        <p>
+          This allows you to change damage weapons for any of the above weapons and decide for what game modes it'll apply for. Leave something blank to not change its value.
+          Report any bugs to ModSault whether on discord, email, reddit, or github. Links can be found on the Youtube Page.
+        </p>
+
+        <div id="CustomHardCodedContainer">
+          <p> Hardcoded Damage Type </p>
+          <p> GameMode </p>
+          <p> Damage </p>
+          <p> Other </p>
+        </div>
+
+        <div class="flexContainer flexRow">
+          <button class = "AddCustomWeaponButton" onclick="AddCustomHardCodedButton();"> Add Row </button>
+          <button class = "RemoveAllWeaponButton" onclick="removeAllWeaponCodes_DoubleClickHandler_hc(this);"> Delete All (double click) </button>
+        </div>
+
+        <br><br>
+        <p class="AdvancedOnly"><b>
+          The input box in the Other section is for an additional offset from where the damage value should normally be found at. It changes automatically when
+          switching weapons. But if you want to change it manually, you can do so. Only recommended for non-documented IDs. The valid range is from -14 to 40 as
+          an increase in id of 1 moves to the next weapons damage value 40 memory address away. The -16 is also valid as damage values are 16 bytes away from the base
+          struct, so while you can make overlap as an id of 2 and offset of 30 is the same as an id of 3 with an offset of -10, I wanted to give flexibility to account for this.
+        </b></p>
+
+        <div id="CustomWeaponDamageContainer">
+          <p> Weapon Type </p>
+          <p> GameMode </p>
+          <p> Pilot/Enemy Damage (Direct/Splash) </p>
+          <p> Arwing/Wolfen Damage (Direct/Splash) </p>
+          <p> Landmaster/??? Damage (Direct/Splash) </p>
+          <p> Other </p>
+        </div>
+
+        <div class="flexContainer flexRow">
+          <button class = "AddCustomWeaponButton" onclick="AddCustomCodeWeaponButton();"> Add Row </button>
+          <button class = "RemoveAllWeaponButton" onclick="removeAllWeaponCodes_DoubleClickHandler(this);"> Delete All (double click) </button>
+        </div>
+
+        <div class="ArrowsToConvertContainer flexContainer flexRow">
+          <div class="flexContainer flexColumn">
+            <button id = "InfoToCode" onclick="convertInfoToCode();"> Convert to Gecko Code </button>
+            <label for="InfoToCode" id="InfoToCode_After"></label>
+          </div>
+          
+          <div class="flexContainer flexColumn">
+            <label for="CodeToInfo" id="CodeToInfo_Before"></label>
+            <button id = "CodeToInfo" onclick="convertCodeToInfo();"> Convert to Human Readable Information </button>
+          </div>
+        </div>
+
+        <p id="ErrorText" class="ErrorText"></p>
+        <p id="WarningText" class="WarningText"></p>
+        <textarea id="CustomWeaponDamageCode"></textarea>
+      </div>
+
+      <div class = "box">
+        <h2> Randomizing Damage </h2>
+        <script>makeGameModeSelector(resetTable);</script>
+        <p>
+          This allows you to make a code that'll randomize the damage of everything you want to randomize. Just pick if its a weapon ID or Hardcoded damage,
+          the game mode, the ids/# range for the damage type, then the damage range. Then make the code.
+        </p>
+
+        <div id="RandomizeDamageContainer">
+          <p> Weapon Type </p>
+          <p> GameMode </p>
+          <p> ID/Hardcoded Number Range (Inclusive) </p>
+          <p> Damage Range (Inclusive) </p>
+          <p> Damage Types (if Weapon ID) </p>
+          <p> Other </p>
+        </div>
+
+        <div class="flexContainer flexRow">
+          <button class = "AddCustomWeaponButton" onclick="addRandomRowButton();"> Add Row </button>
+          <button class = "RemoveAllWeaponButton" onclick="removeAllWeaponCodes_DoubleClickHandler_Random(this);"> Delete All (double click) </button>
+        </div>
+
+        <div class="ArrowsToConvertContainer flexContainer flexRow">
+          <div class="flexContainer flexColumn">
+            <button id = "RandomInfoToCode" onclick="convertRandomToCode();"> Convert to Gecko Code </button>
+            <label for="RandomInfoToCode" id="RandomInfoToCode_After"></label>
+          </div>
+        </div>
+
+        <p id="ErrorText2" class="ErrorText"></p>
+        <p id="WarningText2" class="WarningText"></p>
+        <textarea id="RandomWeaponDamageCode" readonly></textarea>
+      </div>
+
+      <div class = "box">
+        <h2> Credits and How to Help </h2>
+        <p id="HelpText">
+          Function for calculating Weapon Damage:<br>
+          &emsp;Pilot: 0x1 <br>
+          &emsp;Arwing/Wolfen: 0x2 <br>
+          &emsp;Landmaster: 0x3 <br>
+          &emsp;Enemies: 0x4 <br>
+          &emsp;??? (I don't know what's this for): 0x5 <br>
+        </p>
+        <p>
+          The Weapon IDs 0-37 were originally documented by Jase-Vendor and updated slightly by ModSault. The rest of the IDs were found by ModSault, including hardcoded values.
+          If you want to help with any documentation, whether it be for the missing IDs, reporting bugs, or anything else, feel free to do so. My contact information can be found
+          on my Youtube Channel's About Me page.
+          
+          <br><br>
+          The method I used to get the hardcoded values mainly involved placing a memory breakpoint on the health of the player/Landmaster/Arwing, taking damage by the hardcoded amount,
+          and tracing it back with a gdb like debugger using Dolphin to find where its damage value is saved.
+
+          <br><br>
+          As for the Weapon IDs, a function is called when the Pilot/Arwing/Enemy/Landmaster is hit to determine how much damage should be taken. The address of the start of the function are above.
+          All you need is a breakpoint on the appropriate function, and then get hit by the attack. Run the first instruction of the function and the register (r0 or r7 as seen on the first instruction of the function)
+          will have the ID number of the weapon.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
