@@ -94,6 +94,10 @@ function makeNavBar(pathToRoot) {
                     "link": pathToRoot + "/ProjectileID/Legacy/"
                 }
             ]
+        },
+        {
+            "text": "VsMode Spawns (Beta)",
+            "link": pathToRoot + "/VsModeSpawns/"
         }
     ]
 
