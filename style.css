@@ -3,6 +3,7 @@
   --background-color-box: #1e1e1e;
   --background-color-tooltip: #353535;
   --font-color: #e1e1e1;
+  --font-color-invert: #121212;
 
   --navbar-background-color: #1e1e1e;
   --navbar-background-color-hover: #575757;
@@ -12,6 +13,7 @@
   --red-button: #c23f37;
   --red-button-darker: #842a25;
   --green-button: #8ef48b;
+  --blue-button: #1485f0;
 
   --input-file-grey: grey;
   --link-color: #1e90ff;
@@ -21,8 +23,31 @@
   --table-border-color: #dbdbdb;
   --warning-text-color: orange;
   --button-background-color: #F0F0F0;
+  --button-background-color-2: #03dac6;
+  --button-background-color-3: #ee3800;
   --a-generic-background-blue: #1c235d;
   --a-generic-background-green: #182c25;
+
+  --code-block-bg: #f5f5f5;
+
+  --highlightColor-01: #2e2020;
+  --highlightColor-02: #362222;
+  --highlightColor-03: #3b2d21;
+  --highlightColor-04: #40211a;
+  --highlightColor-05: #334363;
+  --highlightColor-06: #1b223a;
+  --highlightColor-07: #1f2a36;
+  --highlightColor-08: #232a44;
+  --highlightColor-09: #162b22;
+  --highlightColor-10: #1a2f2a;
+  --highlightColor-11: #2a2f1a;
+  --highlightColor-12: #1c3326;
+  --highlightColor-13: #25162b;
+  --highlightColor-14: #331c3a;
+  --highlightColor-15: #1e1a33;
+  --highlightColor-16: #361a2f;
+  --highlightColor-17: #58504b;
+  --highlightColor-18: #6685a1;
 
   font-family: Verdana;
   background-color: var(--background-color);
@@ -33,8 +58,7 @@
 .flexRow { display: flex; flex-direction: row; }
 .flexColumn { display: flex; flex-direction: column; }
 #AdvancedModeCheckMark { display: none; }
-.AdvancedOnly { display: none; }
-#AdvancedModeCheckMark:checked ~ #ContainerForAll .AdvancedOnly  { display: unset; }
+#AdvancedModeCheckMark:not(:checked) ~ #ContainerForAll .AdvancedOnly { display: none; }
 a { color: var(--link-color) }
 a:hover { color: var(--link-color-hover) }
 a:visited { color: var(--link-color-visited) }
@@ -58,6 +82,7 @@ body { margin: 0; }
   width: max-content;
   margin: 2px;
   font-size: 20px;
+  color: var(--font-color-invert);
 }
 #AdvancedModeButton {
   display: flex;
@@ -67,14 +92,15 @@ body { margin: 0; }
   align-items: center;
   margin: auto;
   position: relative;
+  color: var(--font-color-invert);
 }
-#AdvancedModeButton p:nth-child(1) {
+#AdvancedModeButton span:nth-child(1) {
   position: relative;
   top: -5px;
 }
-#AdvancedModeButton p:nth-child(2) {
+#AdvancedModeButton span:nth-child(2) {
   position: absolute;
-  top: 10px;
+  top: 20px;
   text-align: center;
   width: calc(100% - 12px);
   font-size: 12px;
@@ -132,6 +158,21 @@ body { margin: 0; }
 .box h2 {
   font-size: 20px;
   margin: 0;
+}
+.box p, .box code {
+  font-size: 16px;
+}
+.code-block {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  width: max-content;
+  background-color: var(--code-block-bg);
+  color: var(--font-color-invert);
+  margin-top: 6px;
+  padding: 6px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--font-color);
+  display: block;
+  font-size: 16px;
 }
 
 /* ---------------- Tooltip ----------------- */

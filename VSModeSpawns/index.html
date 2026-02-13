@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./fancy.css">
+
+    <script src="../script.js"></script>
+    <script type="importmap"> { "imports": { "three": "../Resources/three.js/build/three.module.min.js" } } </script>
+    <script src="./logic.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.png">
+    <title>Vs Mode Spawn Manipulation | Modsault </title>
+  </head>
+
+  <body>
+    <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark">
+    <script>makeNavBar("..");</script>
+    <script>makeHeader("Star Fox Assault Vs Mode Spawn Manipulation", null);</script>
+    
+    <div id = "ContainerForAll">
+      <div id = "InputFileContainer" class = "box">
+        <input type="file" id="file" name="file" accept=".bin" onchange="fileChange(this.files[0]);" hidden>
+        <div class = "GreyOutline">
+          <label id = "labelFile" for="file" ondrop="dropHandler(event);" ondragover="event.preventDefault();">
+            <svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--font-color)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+            No file selected. Choose a "_vs_Axx.bin" file in the root of the game's disc. "xx" can be any decimal number.
+          </label>
+        </div>
+      </div>
+
+      <br>
+      <div id="ContentSplitter">
+        <div class="box" id="SpawnInfoBox"></div>
+
+        <div class="box" id="ThreeJsDisplay">
+          <button id="UnloadedThreeJSButton" onclick="initialize3DDisplay()">Load 3D Display (website will download more and run slower)</button>
+          <div id="ThreeJSLeftBar" style="display: none;">
+            <p>Powered By <a href="https://threejs.org/">ThreeJs</a>!</p>
+            <input type="file" id="fileMap" name="fileMap" accept=".gltf,.glb,.obj,.mtl,.fbx,.dae,.stl,.ply,.3mf,.amf,.vtk,.vtp,.usdz" onchange="ChangeMapLoadedFile(this.files[0]);" hidden>
+            <button onclick="document.getElementById('fileMap').click();">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-invert)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+              Load Map
+            </button>
+            <p id="LoadingMapText"></p>
+            <br>
+
+            <div class="ThreeJSKey">
+              <label for="Key00">On-Foot Spawns</label>
+              <span>
+                <input id="Key00" name="Key00" type="checkbox" onchange="toggleRenderIndex(0, this.checked);" checked>
+                <label for="Key00" class="arrow keyColor-red"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key01">Player as Arwing/Wolfen Spawns</label>
+              <span>
+                <input id="Key01" name="Key01" type="checkbox" onchange="toggleRenderIndex(1, this.checked);" checked>
+                <label for="Key01" class="arrow keyColor-blue"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key02">Player as Landmaster Spawns</label>
+              <span>
+                <input id="Key02" name="Key02" type="checkbox" onchange="toggleRenderIndex(2, this.checked);" checked>
+                <label for="Key02" class="arrow keyColor-green"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key04">Vehicle Spawn</label>
+              <span>
+                <input id="Key04" name="Key04" type="checkbox" onchange="toggleRenderIndex(4, this.checked);" checked>
+                <label for="Key04" class="arrow keyColor-orange"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key06">On-Foot Weapon Spawn</label>
+              <span>
+                <input id="Key06" name="Key06" type="checkbox" onchange="toggleRenderIndex(6, this.checked);" checked>
+                <label for="Key06" class="circle keyColor-red"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key08">On-Foot PowerUp Spawn</label>
+              <span>
+                <input id="Key08" name="Key08" type="checkbox" onchange="toggleRenderIndex(8, this.checked);" checked>
+                <label for="Key08" class="circle keyColor-green"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key10">Vehicle PowerUp Spawn</label>
+              <span>
+                <input id="Key10" name="Key10" type="checkbox" onchange="toggleRenderIndex(10, this.checked);" checked>
+                <label for="Key10" class="circle keyColor-blue"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key11">Crown Spawn</label>
+              <span>
+                <input id="Key11" name="Key11" type="checkbox" onchange="toggleRenderIndex(11, this.checked);" checked>
+                <label for="Key11" class="circle keyColor-yellow"></label>
+              </span>
+            </div>
+            <br>
+            <div class="ThreeJSKey">
+              <label for="Key12">Custom Spawn Type (if any)</label>
+              <span>
+                <input id="Key12" name="Key12" type="checkbox" onchange="toggleRenderIndex(12, this.checked);" checked>
+                <label for="Key12" class="circle keyColor-black"></label>
+              </span>
+            </div>
+            <p id="ThreeJSInfoText">Loading Threejs...</p>
+          </div>
+          <div id="ThreeJSRightBar" style="display: none;"></div>
+        </div>
+      </div>
+
+      <br>
+      <div class="box">
+        <h2>Additional Codes and Information</h2>
+        <script>makeGameModeSelector(updateGeckoCodes);</script>
+
+        <br>
+        <h3>More than 4 Vehicles at Once [ModSault]</h3>
+        <p class="no-margin">
+          The game unfortunately can't have more than 4 vehicles at once as it checks if it exceeds that value. This code sets the value it checks with to 255 instead of 4.
+          <span class="AdvancedOnly"><br>Advanced Explanation: Seems the spawn limit for vehicles is 2 bytes even though this file only has space for 1 byte. Another funny this is that values bigger than 127 don't need this code because it compares the value as a signed integer. So typing 255 actually means you want 0xFFFF max vehicles instead of 0xFF. My website will not handle this case.</span>
+          <span class="AdvancedOnly"><br>Code Explanation: The first line checks if its Vs mode, the second line sets the value of max possible vehicles to 255, and the third line is an endif</span>
+          <br>
+          <code id="4VehCode" class="code-block"> 282A2C9C FF000001<br>002A2E45 000000FF<br>E2000001 00000000 </code>
+        </p>
+
+        <br>
+        <h3>Reversal Weapon is Unlocked and Gives Ammo [ModSault]</h3>
+        <p class="no-margin">
+          The reversal weapon won't spawn even if its in the file. To fix that we set a flag to true. I also write custom code to allow the pickup to give one ammo instead of 0. The maximum amount of ammo is 3.
+          <br>
+          <code id="ReversalCode" class="code-block"> C2084D04 00000004<br>A0DE023A 38C60001<br>2C060003 41810008<br>38C00003 B0DE023A<br>887E01FA 00000000 </code>
+        </p>
+        
+        <br>
+        <h3>Filename to Download</h3>
+        <select name="MapName" id="MapSelector" onchange="fileNum=this.value">
+            <option value="0">----&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A00.bin)</option>
+            <option value="1">Katina Outpost&emsp;&emsp;&emsp;&emsp;(_vs_A01.bin)&emsp;&emsp;&emsp;(MapID: 0x00)</option>
+            <option value="2">Sargasso&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A02.bin)&emsp;&emsp;&emsp;(MapID: 0x01)</option>
+            <option value="3">Fichina&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A03.bin)&emsp;&emsp;&emsp;(MapID: 0x02)</option>
+            <option value="4">Titania Desert&emsp;&emsp;&emsp;&emsp;(_vs_A04.bin)&emsp;&emsp;&emsp;(MapID: 0x03)</option>
+            <option value="5">Corneria&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A05.bin)&emsp;&emsp;&emsp;(MapID: 0x04)</option>
+            <option value="6">Orbital Gate&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A06.bin)&emsp;&emsp;&emsp;(MapID: 0x05)</option>
+            <option value="7">Aparoid Homeworld (_vs_A07.bin)&emsp;&emsp;&emsp;(MapID: 0x06)</option>
+            <option value="8">???&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A08.bin)</option>
+            <option value="9">Zoness Sea Base&emsp;&emsp;&emsp;(_vs_A09.bin)&emsp;&emsp;&emsp;(MapID: 0x08)</option>
+            <option value="10">Great Fox&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A10.bin)&emsp;&emsp;&emsp;(MapID: 0x09)</option>
+            <option value="11">Sauria&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A11.bin)&emsp;&emsp;&emsp;(MapID: 0x0A)</option>
+            <option value="12">???&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A12.bin)</option>
+            <option value="13">Simple Map 1&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A13.bin)&emsp;&emsp;&emsp;(MapID: 0x0C)</option>
+            <option value="14">Simple Map 2&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A14.bin)&emsp;&emsp;&emsp;(MapID: 0x0D)</option>
+            <option value="15">Simple Map 3&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A15.bin)&emsp;&emsp;&emsp;(MapID: 0x0E)</option>
+            <option value="16">Simple Map 4&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A16.bin)&emsp;&emsp;&emsp;(MapID: 0x0F)</option>
+            <option value="17">Simple Map 5&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A17.bin)&emsp;&emsp;&emsp;(MapID: 0x10)</option>
+          </select>
+      </div>
+
+      <br>
+      <div id="ButtonsAtBottomOfScreen">
+        <button onclick="downloadBin()"> Download </button>
+        <button onclick="geckoCodeCopy()">Copy as Gecko code into Clipboard</button>
+        <button onclick="downloadJSON()" class="AdvancedOnly">Download as JSON (Advanced Mode only, replace 'AllSpawnData' in dev tools and call 'DisplayAllSpawnDataFromScratch()' to load)</button>
+      </div>
+
+      <br class="box AdvancedOnly">
+      <div class="box AdvancedOnly">
+        <h2>File Preview</h2>
+        <script>makeGameModeSelector(updateGeckoCodes);</script>
+
+        <div class="flexContainer flexRow">
+          <div id="OffsetDescriptionGrid"></div>
+          <div id="FilePreviewGrid"></div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

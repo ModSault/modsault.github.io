@@ -1,0 +1,380 @@
+button, summary {cursor: pointer;}
+
+/* ------------- Setup for seeing spawn info and map at same time ------------- */
+
+#ContentSplitter {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#ContentSplitter > div {
+    margin: 5px;
+}
+
+/* ---------------- Input File ----------------- */
+
+#InputFileContainer {
+    width: 100%;
+    min-height: 100px;
+    height: max-content;
+    padding: 0;
+}
+.GreyOutline {
+    width: calc(100% - 10px);
+    margin: 5px auto;
+}
+#labelFile {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    border: 3px dashed var(--input-file-grey);
+    border-radius: 50px;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+#labelFile img {
+    margin: 0 20px;
+}
+
+/* ------------- Each Spawn's content ------------- */
+
+#SpawnInfoBox { min-width: 1025px; flex-grow: 1; height: 1000px; overflow: auto; padding: unset; }
+#SpawnInfoBox > * { position: relative; }
+#SpawnInfoBox details { padding: 0 20px 0 20px; min-width: max-content; }
+#SpawnInfoBox details {
+    padding-bottom: 10px;
+    border-bottom: var(--navbar-background-color-hover) 4px solid;
+}
+#SpawnInfoBox details { padding-top: 10px; }
+details > div {
+    margin: 10px 10px 0 30px;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+} 
+summary {
+    font-size: 20px;
+}
+
+/* ------------- For buttons to collapse and Expand and Add Custom Spawn ------------- */
+
+#SpawnInfoBox > .collapseExpandButtons { position: sticky; }
+.collapseExpandButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0 10px 30px;
+    top: 0;
+    background-color: var(--background-color-tooltip);
+    z-index: 2;
+    border-bottom: var(--navbar-background-color-hover) 4px solid;
+}
+.collapseExpandButtons > button, .CustomAddSpawnButton {
+    font-size: 20px;
+    margin: 2px;
+}
+.CustomAddSpawnButton {
+    margin: 10px;
+    background-color: var(--green-button);
+}
+
+/* ------------- Tables for all spawn points ------------- */
+
+.gridOfSpawnInfoGeneric {
+    display: grid;
+    margin: 10px 0 0 0;
+    text-align: center;
+}
+.gridOfSpawnInfoGeneric p { margin: 0; }
+.gridOfSpawnInfoGeneric > * {
+    display: flex;
+    flex-direction: column;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    text-align: center;
+    padding: 7px;
+    justify-content: center;
+    align-items: center;
+}
+.gridOfSpawnInfoGeneric input {
+    width: 120px;
+    font-size: 16px;
+    text-align: left;
+}
+.gridOfSpawnInfoGeneric input[step="1"] {
+    width: 60px;
+}
+.gridOfSpawnInfoGeneric select {
+    font-size: 18px;
+    width: 180px;
+}
+
+
+.grid_PlayerSpawnType { grid-template-columns: repeat(6, max-content); } /* # X Y Z Angle Other */
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .grid_PlayerSpawnType { grid-template-columns: repeat(7, max-content); } /* # X Y Z Unused2Bytes Angle Other */
+.grid_PlayerSpawnType > *:nth-child(-n+7) { border-top: var(--table-border-color) 1px solid; }
+.grid_PlayerSpawnType > *:nth-child(7n+1) { border-left: var(--table-border-color) 1px solid; }
+.grid_PlayerSpawnType > *:nth-child(7n+7) { flex-direction: row; }
+
+
+.grid_VehicleSpawnType { grid-template-columns: repeat(7, max-content); } /* # X Y Z Angle ID Other */
+.grid_VehicleSpawnType > *:nth-child(-n+7) { border-top: var(--table-border-color) 1px solid; }
+.grid_VehicleSpawnType > *:nth-child(7n+1) { border-left: var(--table-border-color) 1px solid; }
+.grid_VehicleSpawnType > *:nth-child(7n+7) { flex-direction: row; }
+
+.grid_WeaponSpawnType { grid-template-columns: repeat(6, max-content); } /* # X Y Z ID Other */
+.grid_WeaponSpawnType > *:nth-child(-n+6) { border-top: var(--table-border-color) 1px solid; }
+.grid_WeaponSpawnType > *:nth-child(6n+1) { border-left: var(--table-border-color) 1px solid; }
+.grid_WeaponSpawnType > *:nth-child(6n+6) { flex-direction: row; }
+
+.grid_CrownSpawnType { grid-template-columns: repeat(5, max-content); } /* # X Y Z Other */
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .grid_CrownSpawnType { grid-template-columns: repeat(6, max-content); } /* # X Y Z Unused4Bytes Other */
+.grid_CrownSpawnType > *:nth-child(-n+6) { border-top: var(--table-border-color) 1px solid; }
+.grid_CrownSpawnType > *:nth-child(6n+1) { border-left: var(--table-border-color) 1px solid; }
+.grid_CrownSpawnType > *:nth-child(6n+6) { flex-direction: row; }
+
+.grid_SpawnLimitType { grid-template-columns: repeat(2, max-content); } /* # Amt */
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .grid_SpawnLimitType { grid-template-columns: repeat(3, max-content); } /* # Amt Other */
+.grid_SpawnLimitType > *:nth-child(-n+3) { border-top: var(--table-border-color) 1px solid; }
+.grid_SpawnLimitType > *:nth-child(3n+1) { border-left: var(--table-border-color) 1px solid; }
+.grid_SpawnLimitType > *:nth-child(3n+3) { flex-direction: row; }
+
+.grid_Custom16Type { grid-template-columns: repeat(9, max-content); } /* # X Y Z Byte13 Byte14 Byte15 Byte16 Other */
+.grid_Custom16Type > *:nth-child(-n+9) { border-top: var(--table-border-color) 1px solid; }
+.grid_Custom16Type > *:nth-child(9n+1) { border-left: var(--table-border-color) 1px solid; }
+.grid_Custom16Type > *:nth-child(9n+9) { flex-direction: row; }
+
+/* ------------- Arrows and Red X ------------- */
+
+.arrow-down, .arrow-up {
+    background-color: transparent;
+    width: 30px;
+    height: 30px;
+    border-color: transparent;
+    margin: 3px;
+    position: relative;
+}
+.arrow-down::before, .arrow-up::before {
+    content: '';
+    position: absolute;
+    transform-origin: center;
+    left: 0px;
+    top: 0px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--input-file-grey);
+    border-top: 0;
+    clip-path: polygon(0% 60%, 20% 60%, 20% 0%, 80% 0%, 80% 60%, 100% 60%, 50% 100%);
+}
+.arrow-up::before { transform: rotate(180deg); }
+.red-x { /* chatGPT helped a lot with the red X */
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background-color: unset;
+    border: 0;
+    margin: 3px;
+}
+.red-x::before, .red-x::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 30px;
+    background-color: var(--red-button);
+    transform-origin: center;
+}
+.red-x::before { transform: translate(-50%, -50%) rotate(45deg); }
+.red-x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.CustomSpawnRedX {
+    height: 15px;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}
+
+/* ------------ Additional Information Formatting -------------- */
+
+.box h3 {
+    margin: 0 0 2px 0;
+    text-decoration: underline;
+    font-weight: bold;
+}
+.no-margin { margin: 0; }
+
+/* ------------- Green Button to add new row ------------- */
+
+.addNewRow {
+    background-color: var(--green-button);
+    width: 100px;
+    height: 40px;
+    margin: 5px auto;
+    position: relative;
+}
+.addNewRow::before, .addNewRow::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 20px;
+    background-color: var(--font-color-invert);
+    transform-origin: center;
+}
+.addNewRow::before { transform: translate(-50%, -50%) rotate(90deg); }
+.addNewRow::after { transform: translate(-50%, -50%) rotate(180deg); }
+
+/* ------------- File Preview Grids ------------------ */
+
+#OffsetDescriptionGrid {
+    display: grid;
+    grid-template-columns: max-content max-content max-content minmax(300px, 750px);
+    grid-auto-rows: max-content;
+    margin: 10px 30px 0 0;
+}
+#OffsetDescriptionGrid > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; }
+#OffsetDescriptionGrid > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
+#OffsetDescriptionGrid > *:nth-child(4n+8) { text-align: left; }
+
+#FilePreviewGrid {
+    display: grid;
+    grid-template-columns: repeat(18, max-content);
+    grid-auto-rows: max-content;
+    margin: 10px 0 0 0;
+}
+#FilePreviewGrid > p, #OffsetDescriptionGrid p {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 19px;
+    margin: 0;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    text-align: center;
+    padding: 6px;
+}
+#FilePreviewGrid > *:nth-child(-n+18) { border-top: var(--table-border-color) 1px solid; }
+#FilePreviewGrid > *:nth-child(18n+1) { border-left: var(--table-border-color) 1px solid; }
+#FilePreviewGrid > *:nth-child(18n+2) { border-right: var(--table-border-color) 19px solid; }
+
+/* ------------- Export Buttons ------------- */
+
+#ButtonsAtBottomOfScreen {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    height: max-content;
+    margin: 0 0 30px 0;
+}
+#AdvancedModeCheckMark:checked ~ #ContainerForAll #ButtonsAtBottomOfScreen { grid-template-columns: repeat(3, 1fr); }
+
+#ButtonsAtBottomOfScreen > button {
+    width: 100%;
+    min-height: 50px;
+    font-size: 20px;
+    color: var(--font-color-invert);
+    background-color: var(--blue-button);
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease
+}
+#ButtonsAtBottomOfScreen > button:hover { transform: translateY(-2px); }
+#ButtonsAtBottomOfScreen > button:active { transform: translateY(0); }
+
+/* --------------- Three JS Segment ------------------------ */
+
+#ThreeJsDisplay {
+    min-width: 700px;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 99;
+}
+#UnloadedThreeJSButton {
+    width: 100%;
+    min-height: 50px;
+    font-size: 20px;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+#MapSelector {
+    font-size: 18px;
+    width: 600px;
+    height: 30px;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+}
+#ThreeJSLeftBar {
+    display: flex;
+    justify-content: center;
+    max-width: 200px;
+    flex-direction: column;
+}
+#ThreeJSLeftBar p {
+    margin: 0;
+    text-align: center;
+}
+#ThreeJSLeftBar button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    height: 30px;
+    color: var(--font-color-invert);
+}
+#ThreeJSRightBar {
+    flex-grow: 1;
+    overflow: hidden;
+}
+#ThreeJSRightBar canvas {
+    margin: auto
+}
+#ThreeJSRightBar p {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    text-wrap: wrap;
+}
+#LoadingMapText {
+    margin: 0;
+    text-align: center;
+}
+.ThreeJSKey, .ThreeJSKey span {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.ThreeJSKey {
+    flex-direction: column;
+}
+.ThreeJSKey * {
+    margin: auto;
+}
+.ThreeJSKey p, .ThreeJSKey input {
+    margin: 0;
+}
+.arrow {
+    width: 25px;
+    height: 25px;
+    margin: 0 5px;
+    clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+}
+.circle {
+    width: 25px;
+    height: 25px;
+    margin: 0 5px;
+    clip-path: circle(50% at 50% 50%);
+}
+.keyColor-red { background: #F00; }
+.keyColor-blue { background: #00F; }
+.keyColor-green { background: #0F0; }
+.keyColor-orange { background: #FFA500; }
+.keyColor-yellow { background: #FFFF00; }
+.keyColor-black { background: #444; }

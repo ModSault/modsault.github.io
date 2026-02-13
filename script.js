@@ -7,6 +7,10 @@ var allGameModeSelectors = [];
 // ---------------------------- Load Information from Local Storage  --------------------------
 
 function loadInfo() {
+    // set initial values if first load onto site
+    if (localStorage.getItem("GameMode") == null) { localStorage.setItem("GameMode", 0); }
+    if (localStorage.getItem("AdvancedMode") == null) { localStorage.setItem("AdvancedMode", 'false'); }
+
     // Game Version
     GameVersion = Math.max(0, Math.min(localStorage.getItem("GameMode"), 2));
     if (isNaN(GameVersion) || (typeof GameVersion) != "number") {
@@ -159,7 +163,7 @@ function makeGameModeSelector(funcToCall) {
     topLevel.value = GameVersion; // set the default value to the current game version
     allGameModeSelectors.push(topLevel); // add to list of all game mode selectors for updating all later
 
-    // add gamemode selector to page
+    // add game mode selector to page
     let scriptTag = document.currentScript;
     scriptTag.parentNode.replaceChild(topLevel, scriptTag);
 }
@@ -184,7 +188,7 @@ function makeHeader(title, funcToCall = null) {
     gameModeSelector.textContent = "makeGameModeSelector("+funcToCall+");";
     topRightDiv.appendChild(gameModeSelector);
 
-    // --<button id = "AdvancedModeButton" onmouseover = "hoverToolTipStart(this);" onmouseleave = "hoverToolTipEnd();" onclick = "toggleAdvanced();" style = "background-color: var(--red-button);"> Advanced Mode </button>
+    // --<button id = "AdvancedModeButton" onmouseover = "hoverToolTipStart(this);" onmouseleave = "hoverToolTipEnd();" onclick = "toggleAdvanced();" style = "background-color: var(--red-button);"></button>
     let advancedModeButton = document.createElement("button");
     advancedModeButton.id = "AdvancedModeButton";
     advancedModeButton.onmouseover = function () { hoverToolTipStart(this); };
@@ -198,13 +202,13 @@ function makeHeader(title, funcToCall = null) {
     }
     topRightDiv.appendChild(advancedModeButton);
 
-    // ---<p>Advanced Mode</p>
-    let advancedModeText_1 = document.createElement("p");
+    // ---<span>Advanced Mode</span>
+    let advancedModeText_1 = document.createElement("span");
     advancedModeText_1.textContent = "Advanced Mode";
     advancedModeButton.appendChild(advancedModeText_1);
 
-    // ---<p>(currently on/off)</p>
-    let advancedModeText_2 = document.createElement("p");
+    // ---<span>(currently on/off)</span>
+    let advancedModeText_2 = document.createElement("span");
     advancedModeText_2.textContent = "(currently " + (advancedMode ? "on" : "off") + ")";
     advancedModeButton.appendChild(advancedModeText_2);
 
