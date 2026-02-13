@@ -156,8 +156,8 @@ function makeThreeJSWindow() {
     renderer.setSize(0, 0, true);
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      const width = container.clientWidth - 20;
-      const height = container.clientHeight;
+      const width = container.getBoundingClientRect().width;
+      const height = container.getBoundingClientRect().height;
 
       camera.aspect = width / height;
       camera.updateProjectionMatrix();

@@ -347,9 +347,9 @@ summary {
         -1px  1px 0 black,
          1px  1px 0 black;
 }
-#ThreeJSRightBar p:nth-child(1) { left: 0; text-align: left; }
-#ThreeJSRightBar p:nth-child(2) { right: 0; text-align: right; }
-#ThreeJSRightBar p:nth-child(3) { bottom: 0; text-align: center; width: 100%; }
+#ThreeJSRightBar p:nth-child(1) { left: 5px; top: 5px; text-align: left; }
+#ThreeJSRightBar p:nth-child(2) { right: 5px; top: 5px; text-align: right; }
+#ThreeJSRightBar p:nth-child(3) { bottom: 5px; text-align: center; width: 95%; }
 #LoadingMapText {
     margin: 0;
     text-align: center;
