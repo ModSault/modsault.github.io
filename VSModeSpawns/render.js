@@ -29,14 +29,18 @@ var camera = null;
 var controls = null;
 var isLoadingMap = false;
 
+function resetCamera() {
+  camera.position.set(0, 75, 100);
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
+}
 function makeThreeJSWindow() {
   const container = document.getElementById('ThreeJSRightBar');
+  const container_pTag = container.getElementsByTagName("p");
 
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(75, container.getBoundingClientRect().width / container.getBoundingClientRect().height, 0.1, 100000);
-  camera.position.set(0, 10, 10);
-  camera.lookAt(new THREE.Vector3(0, 0, 0));
+  resetCamera();
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(container.getBoundingClientRect().width, container.getBoundingClientRect().height, false);
@@ -108,15 +112,15 @@ function makeThreeJSWindow() {
     if (!moved && !rotated) { return; }
 
     // update text with camera position and angle.
-    const cameraInfoText = document.getElementById("ThreeJSInfoText");
-    cameraInfoText.innerHTML  = "<br>Camera Position: (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " +  camera.position.z.toFixed(2) + ").<br><br>";
+    container_pTag[1].innerHTML = "Position: (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " +  camera.position.z.toFixed(2) + ")<br>";
+    
     
     const dir = new THREE.Vector3();
     camera.getWorldDirection(dir);
     let yaw = Math.atan2(dir.x, dir.z) * 180 / Math.PI;
     yaw *= -1;
     if (yaw < 0) yaw = 360 - (yaw*-1);
-    cameraInfoText.innerHTML += "Camera Angle: " + (yaw).toFixed(2) + "<br><br>";
+    container_pTag[1].innerHTML += "Angle: " + (yaw).toFixed(2) + "<br><br>";
 
     // there is definitely a better way to tell you what you looked at but I want to get this done already
     const raycaster = new THREE.Raycaster();
@@ -138,11 +142,9 @@ function makeThreeJSWindow() {
     }
 
     if (allSpawnsTouched == "") {
-      cameraInfoText.innerHTML += "Looking at no spawns";
+      container_pTag[2].innerText = "Looking at no spawns";
     } else {
-      const maxSize = 125;
-      if (allSpawnsTouched.length > maxSize) { allSpawnsTouched = allSpawnsTouched.substring(0,maxSize) + "..."; }
-      cameraInfoText.innerHTML += "Looking at:" + allSpawnsTouched;
+      container_pTag[2].innerText = "Looking at:" + allSpawnsTouched;
     }
   };
 
@@ -370,7 +372,16 @@ async function ChangeMapLoadedFile(file) {
 
     const fileContent = await new Promise((resolve, reject) => {
       reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject(reader.error);
+      reader.onerror = () => {
+        isLoadingMap = false;
+        document.getElementById("LoadingMapText").innerText = "Failed to read file";
+        reject(reader.error);
+      };
+      reader.onabort = () => {
+        isLoadingMap = false;
+        document.getElementById("LoadingMapText").innerText = "Aborted read file";
+        reject(new Error("File read aborted"));
+      };
       if (isText) reader.readAsText(file);
       else reader.readAsArrayBuffer(file);
     });
