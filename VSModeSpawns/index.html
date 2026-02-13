@@ -38,7 +38,7 @@
         <div class="box" id="ThreeJsDisplay">
           <button id="UnloadedThreeJSButton" onclick="initialize3DDisplay()">Load 3D Display (website will download more and run slower)</button>
           <div id="ThreeJSLeftBar" style="display: none;">
-            <p>Powered By <a href="https://threejs.org/">ThreeJs</a>!</p>
+            <p>Powered By <a href="https://threejs.org/">ThreeJS</a>!</p>
             <input type="file" id="fileMap" name="fileMap" accept=".gltf,.glb,.obj,.mtl,.fbx,.dae,.stl,.ply,.3mf,.amf,.vtk,.vtp,.usdz" onchange="ChangeMapLoadedFile(this.files[0]);" hidden>
             <button onclick="document.getElementById('fileMap').click();">
               <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-invert)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
@@ -46,7 +46,8 @@
             </button>
             <p id="LoadingMapText"></p>
             <br>
-
+            <button onClick="resetCamera();">Reset Camera</button>
+            <br>
             <div class="ThreeJSKey">
               <label for="Key00">On-Foot Spawns</label>
               <span>
@@ -112,15 +113,18 @@
             </div>
             <br>
             <div class="ThreeJSKey">
-              <label for="Key12">Custom Spawn Type (if any)</label>
+              <label for="Key12">Custom Spawn Type</label>
               <span>
                 <input id="Key12" name="Key12" type="checkbox" onchange="toggleRenderIndex(12, this.checked);" checked>
                 <label for="Key12" class="circle keyColor-black"></label>
               </span>
             </div>
-            <p id="ThreeJSInfoText">Loading Threejs...</p>
           </div>
-          <div id="ThreeJSRightBar" style="display: none;"></div>
+          <div id="ThreeJSRightBar" style="display: none;">
+            <p>Movement - WASDQE<br>Camera - Mouse</p>
+            <p>Loading Threejs...</p>
+            <p>Looking at No Spawns</p>
+          </div>
         </div>
       </div>
 
@@ -133,7 +137,7 @@
         <h3>More than 4 Vehicles at Once [ModSault]</h3>
         <p class="no-margin">
           The game unfortunately can't have more than 4 vehicles at once as it checks if it exceeds that value. This code sets the value it checks with to 255 instead of 4.
-          <span class="AdvancedOnly"><br>Advanced Explanation: Seems the spawn limit for vehicles is 2 bytes even though this file only has space for 1 byte. Another funny this is that values bigger than 127 don't need this code because it compares the value as a signed integer. So typing 255 actually means you want 0xFFFF max vehicles instead of 0xFF. My website will not handle this case.</span>
+          <span class="AdvancedOnly"><br>Advanced Explanation: Seems the spawn limit for vehicles is 2 bytes even though this file only has space for 1 byte. Another funny thing is that values bigger than 127 don't need this code because it compares the value as a signed integer. So typing 255 actually means you want 0xFFFF max vehicles instead of 0xFF. My website will not handle this case.</span>
           <span class="AdvancedOnly"><br>Code Explanation: The first line checks if its Vs mode, the second line sets the value of max possible vehicles to 255, and the third line is an endif</span>
           <br>
           <code id="4VehCode" class="code-block"> 282A2C9C FF000001<br>002A2E45 000000FF<br>E2000001 00000000 </code>
@@ -148,8 +152,9 @@
         </p>
         
         <br>
-        <h3>Filename to Download</h3>
-        <select name="MapName" id="MapSelector" onchange="fileNum=this.value">
+        <h3>Exporting Options</h3>
+        <p class="no-margin">This dropdown allows you to choose the map file to download and/or copy as a Gecko Code. Select "----" for the Gecko code to work on all maps.</p>
+        <select name="MapName" id="MapSelector" onchange="updateFileNum(this.value)">
             <option value="0">----&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A00.bin)</option>
             <option value="1">Katina Outpost&emsp;&emsp;&emsp;&emsp;(_vs_A01.bin)&emsp;&emsp;&emsp;(MapID: 0x00)</option>
             <option value="2">Sargasso&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A02.bin)&emsp;&emsp;&emsp;(MapID: 0x01)</option>
@@ -173,8 +178,8 @@
 
       <br>
       <div id="ButtonsAtBottomOfScreen">
-        <button onclick="downloadBin()"> Download </button>
-        <button onclick="geckoCodeCopy()">Copy as Gecko code into Clipboard</button>
+        <button onclick="downloadBin()"></button>
+        <button onclick="geckoCodeCopy()"></button>
         <button onclick="downloadJSON()" class="AdvancedOnly">Download as JSON (Advanced Mode only, replace 'AllSpawnData' in dev tools and call 'DisplayAllSpawnDataFromScratch()' to load)</button>
       </div>
 

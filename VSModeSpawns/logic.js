@@ -194,7 +194,7 @@ function makeFixedNumInput(value, min, max, step, index_SpawnType, index_SpawnNu
   }
   return input;
 }
-function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNumber) {
+function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNumber, totalNumSpawns) {
   let divForOtherBox = document.createElement("div");
 
   if (haveUpArrow) {
@@ -221,8 +221,16 @@ function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNu
     divForOtherBox.appendChild(downArrow);
   }
 
+  if (totalNumSpawns == 1) {
+    let pWarning = document.createElement("p");
+    pWarning.innerHTML = "X removed<br>for safety"
+    pWarning.className = "NotAdvancedOnly";
+    divForOtherBox.appendChild(pWarning);
+  }
+
   let xMark = document.createElement("button");
   xMark.className = "red-x";
+  if (totalNumSpawns == 1) xMark.className += " AdvancedOnly"
   xMark.onclick = function() {
     AllSpawnData[index_SpawnType].spawns.splice(index_SpawnNumber, 1);
     refreshSpawnData(index_SpawnType);
@@ -347,21 +355,23 @@ function DisplaySpawnDataFromScratch(index) {
   }
   details.appendChild(summary);
 
+  let pWarning = document.createElement("p");
+  if (AllSpawnData[index].name == "Vehicle Spawns") {
+    pWarning.innerHTML = "Vehicles won't spawn within 10 or so units from each other even when below the spawn limit.";
+  }
   if (spawnType == "Spawn Limit") {
-    let pWarning = document.createElement("p");
     pWarning.innerHTML = "Values above 127 have inconsistent behavior depending on the map<br>(due to this value being read as an unsigned value sometimes and signed other times)";
-    details.appendChild(pWarning);
   }
   if (spawnType == "Weapon Spawn") {
-    let pWarning = document.createElement("p");
     pWarning.innerHTML = "Items/PowerUps for the Pilot will spawn on the closest floor";
-    details.appendChild(pWarning);
   }
   if (spawnType == "Crown Spawn") {
-    let pWarning = document.createElement("p");
     pWarning.innerHTML = "This will spawn on the closest floor regardless of position";
-    details.appendChild(pWarning);
   }
+  if (spawnType == "Custom 16 bytes") {
+    pWarning.innerHTML = "This is a spawn that has no effect on the game<br>This only exists in case someone wants a new category for their own mod";
+  }
+  details.appendChild(pWarning);
   
   let gridInfoDiv = document.createElement("div");
   details.appendChild(gridInfoDiv);
@@ -454,7 +464,7 @@ function refreshSpawnData_CrownSpawn(index) {
     gridDiv.appendChild(divForUnused4Bytes);
 
     // Other Box
-    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i));
+    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i, spawnData.length));
   }
 }
 function refreshSpawnData_WeaponSpawn(index) {
@@ -523,7 +533,7 @@ function refreshSpawnData_WeaponSpawn(index) {
     gridDiv.appendChild(divForID);
 
     // Other Box
-    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i));
+    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i, spawnData.length));
 
     // update the value of the select box
     select.value = spawnData[i].id;
@@ -591,7 +601,7 @@ function refreshSpawnData_VehicleSpawn(index) {
     gridDiv.appendChild(divForID);
 
     // Other Box
-    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i));
+    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i, spawnData.length));
 
     // update the value of the select box
     select.value = spawnData[i].id;
@@ -624,7 +634,7 @@ function refreshSpawnData_SpawnLimit(index) {
     gridDiv.appendChild(divForAmt);
 
     // Other Box
-    let otherBox = makeOtherBox(i != 0, i+1 != spawnData.length, index, i);
+    let otherBox = makeOtherBox(i != 0, i+1 != spawnData.length, index, i, spawnData.length);
     otherBox.className = "AdvancedOnly";
     gridDiv.appendChild(otherBox);
   }
@@ -666,7 +676,7 @@ function refreshSpawnData_PlayerSpawn(index) {
     gridDiv.appendChild(divForAngle);
 
     // Other Box
-    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i));
+    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i, spawnData.length));
   }
 }
 function refreshSpawnData_Custom16Type(index) {
@@ -715,7 +725,7 @@ function refreshSpawnData_Custom16Type(index) {
     gridDiv.appendChild(byte16Div);
 
     // Other Box
-    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i));
+    gridDiv.appendChild(makeOtherBox(i != 0, i+1 != spawnData.length, index, i, spawnData.length));
   }
 }
 function AddButtonAtBottom() {
@@ -743,10 +753,25 @@ function DisplayAllSpawnDataFromScratch() {
   }
   AddButtonAtBottom();
   recalculateFileContents();
-  if (document.getElementById("UnloadedThreeJSButton") == null) makeAllShapesFromScratch();
+  if (document.getElementById("UnloadedThreeJSButton") == null) {
+    document.getElementsByClassName("ThreeJSKey")[8].style.display = (AllSpawnData.length > 12) ? "" : "none";
+    makeAllShapesFromScratch();
+  }
 }
 
 // ---------------------------- File Logic  --------------------------
+
+function updateFileNum(newFilNum) {
+  fileNum = newFilNum;
+  document.getElementById("MapSelector").value = newFilNum;
+  let mapName = document.getElementById("MapSelector").selectedOptions[0].text;
+  mapName = mapName.substring(0, mapName.indexOf("(")-1).trim();
+  if (mapName == "----") mapName = "all maps"
+
+  allButtons = document.getElementById("ButtonsAtBottomOfScreen").getElementsByTagName("button");
+  allButtons[0].innerText = "Download (" + fileNumToStr() + ".bin)";
+  allButtons[1].innerText = "Copy as Gecko code into Clipboard (" + mapName + ")";
+}
 
 function fileChange(file) {
   if (file == undefined) { return; }
@@ -757,9 +782,9 @@ function fileChange(file) {
     let response = confirm("The file name '" + filename + "' seems incorrect. Are you sure you want to proceed?");
     if (!response) { return; }
   }
-  let fileNum = parseInt(filename.replace(/\D+/g, ''));
-  if (isNaN(fileNum) || fileNum == undefined || fileNum < 0 || fileNum > 17) fileNum = 0;
-  document.getElementById("MapSelector").value = fileNum;
+  let newFileNum = parseInt(filename.replace(/\D+/g, ''));
+  if (isNaN(newFileNum) || newFileNum == undefined || newFileNum < 0 || newFileNum > 17) newFileNum = 0;
+  updateFileNum(newFileNum);
 
   let mapName = document.getElementById("MapSelector").selectedOptions[0].text;
   mapName = mapName.substring(0, mapName.indexOf("(")-1).trim();
@@ -908,14 +933,14 @@ function geckoCodeCopy() {
   let advancedModeText = "";
   if (advancedMode) {
     advancedModeText = "\n\nCode Explanation: First line check if in Vs mode, second line checks if on the loading screen menu,";
-    if (MapIDstr != "FF") advancedModeText += "second line checks if map id is the map you wanted,";
+    if (MapIDstr != "FF") advancedModeText += "third line checks if map id is the map you wanted,";
     advancedModeText += " the last line is to end all if statements, and everything in between is for setting the proper memory addresses to the values they need to be to load this file.";
   }
 
   navigator.clipboard.writeText(toSetClipboard)
   .then(() => {
     if (MapIDstr != "FF") alert("Success! It will only work for the map: " + mapName + "." + advancedModeText);
-    else                  alert("Success! It will only work for all maps." + advancedModeText);
+    else                  alert("Success! It will work for all maps." + advancedModeText);
   })
   .catch(err => {
     alert("Failed to copy to clipboard. Error:", err);
@@ -1228,7 +1253,7 @@ function updateFilePreview() {
           offsetElement.appendChild(pTagColor("0x" + (startingAddress + curOffset).toString(16).toUpperCase(), fileDownloadSegmentColor[curOffset]));
           offsetElement.appendChild(pTagColor("+0x" + (curOffset).toString(16).toUpperCase(), fileDownloadSegmentColor[curOffset]));
           offsetElement.appendChild(pTagColor("1 Byte Integer", fileDownloadSegmentColor[curOffset]));
-          offsetElement.appendChild(pTagColor(AllSpawnData[i].name + " - " + j + " Player Game: Max amount to spawn", fileDownloadSegmentColor[curOffset]));
+          offsetElement.appendChild(pTagColor(AllSpawnData[i].name + " - " + (j+1) + " Player Game: Max amount to spawn", fileDownloadSegmentColor[curOffset]));
           curOffset += 1;
           break;
         case "Custom 16 bytes":
@@ -1270,6 +1295,7 @@ function initialize3DDisplay() {
   allChildren.forEach(elem => {
     elem.style.display = "";
   });
+  document.getElementsByClassName("ThreeJSKey")[8].style.display = (AllSpawnData.length > 12) ? "" : "none"; // hide custom spawn key if none exists
 
   const containerRelevant = document.getElementById("ThreeJSRightBar");
   
@@ -1304,6 +1330,7 @@ window.addEventListener("load", function() {
   initializeSpawnData();
   DisplayAllSpawnDataFromScratch();
   updateGeckoCodes();
+  updateFileNum(0);
   wasFileChanged = false;
 });
 window.addEventListener("beforeunload", (event) => {
