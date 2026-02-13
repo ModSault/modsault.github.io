@@ -59,6 +59,7 @@
 .flexColumn { display: flex; flex-direction: column; }
 #AdvancedModeCheckMark { display: none; }
 #AdvancedModeCheckMark:not(:checked) ~ #ContainerForAll .AdvancedOnly { display: none; }
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .NotAdvancedOnly { display: none; }
 a { color: var(--link-color) }
 a:hover { color: var(--link-color-hover) }
 a:visited { color: var(--link-color-visited) }
