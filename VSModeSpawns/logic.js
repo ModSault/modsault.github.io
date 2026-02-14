@@ -28,7 +28,7 @@ var wasFileChanged = false;
 
 /* ------------ Modify above variable ------------ */
 
-function addNewSpawn(index, param1 = 0, param2 = 0, param3 = 0, param4 = 0, param5 = 0, param6 = 0, param7 = 0) {
+function addNewSpawn(index, defaults = true, param1 = 0, param2 = 0, param3 = 0, param4 = 0, param5 = 0, param6 = 0, param7 = 0) {
   let spawnType = AllSpawnData[index].type;
   switch (spawnType) {
     case "Player Spawn":
@@ -46,15 +46,18 @@ function addNewSpawn(index, param1 = 0, param2 = 0, param3 = 0, param4 = 0, para
         y_pos: param2,
         z_pos: param3,
         angle: param4,
-        id: (param5 == 0 && param6 == 0) ? 1 : param5
+        id: (defaults) ? 1 : param5
       });
       break;
     case "Weapon Spawn":
+      let defSpawn = 0;
+      if (index == 8) defSpawn = 11; // Booster Pack default for On-foot power up
+      if (index == 10) defSpawn = 17; // Instant Dual Blue Hyper Lasers default for Vehicle power up
       AllSpawnData[index].spawns.push({
         x_pos: param1,
         y_pos: param2,
         z_pos: param3,
-        id: param4
+        id: (defaults) ? defSpawn : param4
       });
       break;
     case "Crown Spawn":
@@ -150,6 +153,7 @@ function makePositionElements(value, index_SpawnType, index_SpawnNumber, nameOfE
   floatInput.step = "any";
   floatInput.name = "Position_As_Float";
   floatInput.onchange = function() {
+    this.blur();
     AllSpawnData[index_SpawnType].spawns[index_SpawnNumber][nameOfElement] = parseFloat(floatInput.value);
     refreshSpawnData(index_SpawnType);
   }
@@ -164,6 +168,7 @@ function makePositionElements(value, index_SpawnType, index_SpawnNumber, nameOfE
   hexInput.name = "Position_As_Hex";
   hexInput.className = "AdvancedOnly";
   hexInput.onchange = function() {
+    this.blur();
     let hexValue = hexInput.value;
     //remove all non-hex characters
     hexValue = hexValue.replace(/[^0-9A-Fa-f]/g, "");
@@ -187,6 +192,7 @@ function makeFixedNumInput(value, min, max, step, index_SpawnType, index_SpawnNu
   input.step = step;
   input.name = "Fixed_Input"
   input.onchange = function() {
+    this.blur();
     let newValue = parseInt(input.value);
     newValue = clampValue(newValue, min, max);
     AllSpawnData[index_SpawnType].spawns[index_SpawnNumber][nameOfElement] = newValue;
@@ -201,6 +207,7 @@ function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNu
     let upArrow = document.createElement("button");
     upArrow.className = "arrow-up";
     upArrow.onclick = function() {
+      this.blur();
       let temp = AllSpawnData[index_SpawnType].spawns[index_SpawnNumber];
       AllSpawnData[index_SpawnType].spawns[index_SpawnNumber] = AllSpawnData[index_SpawnType].spawns[index_SpawnNumber - 1];
       AllSpawnData[index_SpawnType].spawns[index_SpawnNumber - 1] = temp;
@@ -213,6 +220,7 @@ function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNu
     let downArrow = document.createElement("button");
     downArrow.className = "arrow-down";
     downArrow.onclick = function() {
+      this.blur();
       let temp = AllSpawnData[index_SpawnType].spawns[index_SpawnNumber];
       AllSpawnData[index_SpawnType].spawns[index_SpawnNumber] = AllSpawnData[index_SpawnType].spawns[index_SpawnNumber + 1];
       AllSpawnData[index_SpawnType].spawns[index_SpawnNumber + 1] = temp;
@@ -232,10 +240,30 @@ function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNu
   xMark.className = "red-x";
   if (totalNumSpawns == 1) xMark.className += " AdvancedOnly"
   xMark.onclick = function() {
+    this.blur();
     AllSpawnData[index_SpawnType].spawns.splice(index_SpawnNumber, 1);
     refreshSpawnData(index_SpawnType);
   }
   divForOtherBox.appendChild(xMark);
+
+  try {
+    if (document.getElementById("UnloadedThreeJSButton") == null && !([3,5,7,9]).includes(index_SpawnType)) {
+      let goToButton = document.createElement("button");
+      goToButton.innerText = "goto";
+      goToButton.onclick = function() {
+        this.blur();
+        newYaw = -1;
+        if (([0,1,2,4]).includes(index_SpawnType)) {
+          newYaw = AllSpawnData[index_SpawnType].spawns[index_SpawnNumber].angle;
+        }
+        setCamera(AllSpawnData[index_SpawnType].spawns[index_SpawnNumber].x_pos, AllSpawnData[index_SpawnType].spawns[index_SpawnNumber].y_pos, AllSpawnData[index_SpawnType].spawns[index_SpawnNumber].z_pos, newYaw);
+      }
+      divForOtherBox.appendChild(goToButton);
+    }
+  } catch (error) {
+    console.error("Error: " + error);
+  }
+
 
   return divForOtherBox;
 }
@@ -363,7 +391,7 @@ function DisplaySpawnDataFromScratch(index) {
     pWarning.innerHTML = "Values above 127 have inconsistent behavior depending on the map<br>(due to this value being read as an unsigned value sometimes and signed other times)";
   }
   if (spawnType == "Weapon Spawn") {
-    pWarning.innerHTML = "Items/PowerUps for the Pilot will spawn on the closest floor";
+    pWarning.innerHTML = "Items/PowerUps for the Pilot will spawn on the closest floor<br><span class='AdvancedOnly'>Spawn Limit is ignored when mixing items not suited for this section (i.e. powerup in weapon)</span>";
   }
   if (spawnType == "Crown Spawn") {
     pWarning.innerHTML = "This will spawn on the closest floor regardless of position";
@@ -389,6 +417,7 @@ function DisplaySpawnDataFromScratch(index) {
     addNewRowButton.className += " AdvancedOnly";
   }
   addNewRowButton.onclick = function() {
+    this.blur();
     addNewSpawn(index);
     refreshSpawnData(index);
   }
@@ -494,30 +523,41 @@ function refreshSpawnData_WeaponSpawn(index) {
 
     // ID
     let divForID = document.createElement("div");
-    let allKnownIDs = ["Homing Launcher", "Grenade", "Sensor Bomb", "Sniper", "Machine Gun",
-                      "Missile-Launcher", "Predator Rocket", "Gatling Gun", "Demon Sniper",
-                      "Fireburst Pod", "Reversal Weapon", "Booster Pack", "Barrier",
-                      "Stealth Suit", "Green Health pack", "Silver Health pack", "Gold Health pack",
-                      "Instant Dual Hyper Lasers", "Smart Bombs", "Cluster Bombs", "Silver Ring",
-                      "Gold Ring", "Silver Star", "??? Invisible Item", "??? Invisible Item 2", 
-                      "??? Unloaded Item", "??? Unloaded Vehicle item", "Laser Upgrade",
-                      "Silver ring no “supplies”", "Random Weapon (Homing and Missile Launcher, Sniper, Machine Gun, Sensor Bomb, Grenade)",
-                      "Random Weapon 2 (Gatling Gun, Demon Sniper, Fireburst Pod, Reversal Weapon, Predator Rocket)",
-                      "Random PowerUp (Booster Pack, All Health Packs, Barrier, Stealth Suit)",
-                      "Random Vehicle PowerUp (Both laser upgrades, both bombs, both rings, and silver star)"];
+    let allKnownIDs = ["Homing Launcher", "Grenade", "Sensor Bomb", "Sniper", "Machine Gun", // index: 0 - 4
+                      "Missile-Launcher", "Predator Rocket", "Gatling Gun", "Demon Sniper", "Fireburst Pod", // index: 5 - 9
+                      "Reversal Weapon", "Booster Pack", "Barrier", "Stealth Suit", "Green Health pack", // index: 10 - 14
+                      "Silver Health pack", "Gold Health pack", "Instant Dual Hyper Lasers", "Smart Bombs", "Cluster Bombs", // index: 15 - 19
+                      "Silver Ring", "Gold Ring", "Silver Star", "??? Invisible Item", "??? Invisible Item 2", // index: 20 - 24
+                      "??? Unloaded Item", "??? Unloaded Vehicle item", "Laser Upgrade", "Silver ring no “supplies”", // index: 25 - 28
+                      "Random Weapon 1 (Homing and Missile Launcher, Sniper, Machine Gun, Sensor Bomb, Grenade)", // index: 29
+                      "Random Weapon 2 (Gatling Gun, Demon Sniper, Fireburst Pod, Reversal Weapon, Predator Rocket)", // index: 30
+                      "Random PowerUp (Booster Pack, All Health Packs, Barrier, Stealth Suit)", // index: 31
+                      "Random Vehicle PowerUp (Instant Dual Hyper Lasers, both bombs, both rings, and silver star)"]; // index: 32
+    const expectedOnFootWeapon = (index == 6);
+    const expectedOnFootPowerUp = (index == 8);
+    const expectedVehiclePowerUp = (index == 10);
     
     let select = document.createElement("select");
     select.name = "Item_ID_Select";
     for (let j = 0; j < allKnownIDs.length; j++) {
+      const isUnfinished = (allKnownIDs.indexOf("???") != -1 || j == 28);
+      const isWeapon = (j <= 10 || j == 29 || j == 30);
+      const isOnFootPowerUp = ((j >= 11 & j <= 16) || j == 31);
+      const isVehiclePowerUp = ((j >= 17 & j <= 22) || j == 32);
+
       let option = document.createElement("option");
       option.value = j;
       option.text = allKnownIDs[j];
+      if (isUnfinished || (expectedOnFootWeapon && !isWeapon) || (expectedOnFootPowerUp && !isOnFootPowerUp) || (expectedVehiclePowerUp && !isVehiclePowerUp)) {
+        option.className = "AdvancedOnly";
+      }
       if (spawnData[i].id == j) {
         option.selected = true;
       }
       select.appendChild(option);
     }
     select.onchange = function() {
+      this.blur();
       let selectedValue = parseInt(select.value);
       spawnData[i].id = selectedValue;
       refreshSpawnData(index);
@@ -586,6 +626,7 @@ function refreshSpawnData_VehicleSpawn(index) {
       select.appendChild(option);
     }
     select.onchange = function() {
+      this.blur();
       let selectedValue = parseInt(select.value);
       spawnData[i].id = selectedValue;
       refreshSpawnData(index);
@@ -745,6 +786,14 @@ function AddButtonAtBottom() {
 }
 
 function DisplayAllSpawnDataFromScratch() {
+  // since everything is removed and added again, we need to remember which spawn types were opened
+  let OpenedDetails = new Array(AllSpawnData.length).fill(false);
+  const allDetails = document.getElementById("SpawnInfoBox").getElementsByTagName("details");
+  for (let i = 0; i < Math.min(allDetails.length, AllSpawnData.length); i++) {
+    OpenedDetails[i] = allDetails[i].open;
+  }
+
+  // remove and add everything again
   WipeDisplayedSpawnData();
   AddButtonsAtTop();
   for (let i = 0; i < AllSpawnData.length; i++) {
@@ -753,6 +802,14 @@ function DisplayAllSpawnDataFromScratch() {
   }
   AddButtonAtBottom();
   recalculateFileContents();
+
+  // Reopen details the user already opened
+  const newDetails = document.getElementById("SpawnInfoBox").getElementsByTagName("details");
+  for (let i = 0; i < newDetails.length; i++) {
+    newDetails[i].open = OpenedDetails[i];
+  }
+
+  // For 3D viewer (if even present)
   if (document.getElementById("UnloadedThreeJSButton") == null) {
     document.getElementsByClassName("ThreeJSKey")[8].style.display = (AllSpawnData.length > 12) ? "" : "none";
     makeAllShapesFromScratch();
@@ -821,14 +878,14 @@ function parseFile(file) {
           switch (AllSpawnData[i].type) {
             case "Player Spawn":
             case "Vehicle Spawn":
-              addNewSpawn(i, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint16(neededOffset + 12), view.getUint16(neededOffset + 14), 1);
+              addNewSpawn(i, false, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint16(neededOffset + 12), view.getUint16(neededOffset + 14));
               break;
             case "Weapon Spawn":
             case "Crown Spawn":
-              addNewSpawn(i, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint32(neededOffset + 12));
+              addNewSpawn(i, false, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint32(neededOffset + 12));
               break;
             case "Spawn Limit":
-              addNewSpawn(i, view.getUint8(neededOffset));
+              addNewSpawn(i, false, view.getUint8(neededOffset));
               break;
             case "Custom 16 bytes":
             default:
@@ -854,7 +911,7 @@ function parseFile(file) {
       for (let j = 0; j < numberOfSpawns; j++) {
         switch (AllSpawnData[i].type) {
           case "Custom 16 bytes":
-            addNewSpawn(i, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint8(neededOffset + 12), view.getUint8(neededOffset + 13), view.getUint8(neededOffset + 14), view.getUint8(neededOffset + 15));
+            addNewSpawn(i, false, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint8(neededOffset + 12), view.getUint8(neededOffset + 13), view.getUint8(neededOffset + 14), view.getUint8(neededOffset + 15));
             break;
           case "Player Spawn":
           case "Vehicle Spawn":
@@ -1001,15 +1058,15 @@ function updateGeckoCodes() {
 
   if (GameVersion == 0) { // USA
     fourVeh.innerHTML = "282A2C9C FF000001<br>002A2E45 000000FF<br>E2000001 00000000";
-    rev.innerHTML = "002A658A 00000001<br>C2084D04 00000004<br>A0DE023A 38C60001<br>2C060003 41810008<br>38C00003 B0DE023A<br>887E01FA 00000000";
+    rev.innerHTML = "002A658A 00000001<br>C2084D04 00000004<br>A0DE023A 38C60001<br>2C060003 41800008<br>38C00003 B0DE023A<br>887E01FA 00000000";
   }
   if (GameVersion == 1) { // Japan
     fourVeh.innerHTML = "282A72DC FF000001<br>002A7485 000000FF<br>E2000001 00000000";
-    rev.innerHTML = "002AABCA 00000001<br>C2084604 00000004<br>A0DE023A 38C60001<br>2C060003 41810008<br>38C00003 B0DE023A<br>887E01FA 00000000";
+    rev.innerHTML = "002AABCA 00000001<br>C2084604 00000004<br>A0DE023A 38C60001<br>2C060003 41800008<br>38C00003 B0DE023A<br>887E01FA 00000000";
   }
   if (GameVersion == 2) { // PAL
     fourVeh.innerHTML = "282BD05C FF000001<br>002BD205 000000FF<br>E2000001 00000000";
-    rev.innerHTML = "002C094A 00000001<br>C2085768 00000004<br>A0DE023A 38C60001<br>2C060003 41810008<br>38C00003 B0DE023A<br>887E01FA 00000000";
+    rev.innerHTML = "002C094A 00000001<br>C2085768 00000004<br>A0DE023A 38C60001<br>2C060003 41800008<br>38C00003 B0DE023A<br>887E01FA 00000000";
   }
 
   updateFilePreview();

@@ -28,10 +28,33 @@ var renderer = null;
 var camera = null;
 var controls = null;
 var isLoadingMap = false;
+var resizeTimeout = resizeTimeout = setTimeout(() => {}, 10);
 
 function resetCamera() {
   camera.position.set(0, 75, 100);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
+}
+function setCamera(x, y, z, yaw) {
+  camera.position.set(x, y+2, z);
+  if (yaw >= 0) {
+    camera.rotation.order = "YXZ";
+    camera.rotation.y = Math.PI + (2*Math.PI - THREE.MathUtils.degToRad(yaw));
+    camera.rotation.x = 0;
+    camera.rotation.z = 0;
+  }
+}
+// Handle window resize. The ThreeJS window kept on messing with the website layout and this strange solution is what I got to work
+function resizeThreeJSHandler() {
+  renderer.setSize(0, 0, true);
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    const container = document.getElementById('ThreeJSRightBar');
+    const width = container.getBoundingClientRect().width;
+    const height = container.getBoundingClientRect().height;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height, true);
+  }, 250);
 }
 function makeThreeJSWindow() {
   const container = document.getElementById('ThreeJSRightBar');
@@ -70,6 +93,8 @@ function makeThreeJSWindow() {
     if (!firstFrameRendered) {
       firstFrameRendered = true;
       makeAllShapesFromScratch();
+      // refresh all displayed data so that the "goto" button can appear
+      DisplayAllSpawnDataFromScratch();
     }
 
     requestAnimationFrame(animate);
@@ -147,24 +172,15 @@ function makeThreeJSWindow() {
       container_pTag[2].innerText = "Looking at:" + allSpawnsTouched;
     }
   };
-
   animate();
 
-  // Handle window resize. The ThreeJS window kept on messing with the website layout and this strange solution is what I got to work
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    renderer.setSize(0, 0, true);
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      const width = container.getBoundingClientRect().width;
-      const height = container.getBoundingClientRect().height;
-
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(width, height, true);
-    }, 250);
+  // resize callers
+  window.addEventListener('resize', () => { resizeThreeJSHandler(); });
+  const element = document.getElementById("ThreeJsDisplay");
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (let _ of entries) { resizeThreeJSHandler(); }
   });
+  resizeObserver.observe(element);
 }
 
 function makeCylinder(meshColor, x, y, z, scale) {
@@ -300,7 +316,7 @@ function makeAllShapesFromScratch() {
         case 1: colorForShape = 0x0000FF; scale = [5, 5, 3]; break; // Player as Arwing/Wolfen
         case 2: colorForShape = 0x00FF00; scale = [5, 5, 2.5]; break; // Player as Landmaster
         case 4: colorForShape = 0xFFA500; scale = [5, 5, 2]; break; // Vehicle Spawn
-        case 6: colorForShape = 0xFF0000; scale = [1, 1, 1]; break; // On-foot weapon
+        case 6: colorForShape = 0xFF0000; scale = [1, 1.2, 1]; break; // On-foot weapon
         case 8: colorForShape = 0x00FF00; scale = [1.5, 1, 1.5]; break; // On-foot Power up
         case 10: colorForShape = 0x0000FF; scale = [5, 1, 5]; break; // Vehicle Power up
         case 11: colorForShape = 0xFFFF00; scale = [1, 0.5, 1]; break; // Crown Spawn
@@ -439,5 +455,29 @@ async function ChangeMapLoadedFile(file) {
   isLoadingMap = false;
 }
 
+/* -------------------- Other ------------------- */
+
+function quickAdd(index) {
+  let x = parseFloat(camera.position.x.toFixed(2));
+  let y = parseFloat((camera.position.y - 2).toFixed(2));
+  let z = parseFloat(camera.position.z.toFixed(2));
+    
+  const dir = new THREE.Vector3();
+  camera.getWorldDirection(dir);
+  let angle = Math.atan2(dir.x, dir.z) * 180 / Math.PI;
+  angle *= -1;
+  if (angle < 0) angle = 360 - (angle*-1);
+  angle = angle.toFixed(2);
+  if (!([0,1,2,4]).includes(index)) {
+    angle = 0;
+  }
+  angle = parseInt(angle);
+
+  // unused 2 bytes shouldn't get the value of the angle. Check index to see if we will add to angle or unused 2 bytes
+  addNewSpawn(index, false, x, y, z, (index == 4) ? angle : 0, (index == 4) ? 0 : angle);
+  refreshSpawnData(index);
+}
+
+/* -------------------- Run When file is loaded ------------------- */
+
 makeThreeJSWindow();
-// currentMap.rotation.y = Math.PI

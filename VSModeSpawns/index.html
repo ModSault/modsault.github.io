@@ -53,6 +53,7 @@
               <span>
                 <input id="Key00" name="Key00" type="checkbox" onchange="toggleRenderIndex(0, this.checked);" checked>
                 <label for="Key00" class="arrow keyColor-red"></label>
+                <button onclick="quickAdd(0)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -61,6 +62,7 @@
               <span>
                 <input id="Key01" name="Key01" type="checkbox" onchange="toggleRenderIndex(1, this.checked);" checked>
                 <label for="Key01" class="arrow keyColor-blue"></label>
+                <button onclick="quickAdd(1)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -69,6 +71,7 @@
               <span>
                 <input id="Key02" name="Key02" type="checkbox" onchange="toggleRenderIndex(2, this.checked);" checked>
                 <label for="Key02" class="arrow keyColor-green"></label>
+                <button onclick="quickAdd(2)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -77,6 +80,7 @@
               <span>
                 <input id="Key04" name="Key04" type="checkbox" onchange="toggleRenderIndex(4, this.checked);" checked>
                 <label for="Key04" class="arrow keyColor-orange"></label>
+                <button onclick="quickAdd(4)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -85,6 +89,7 @@
               <span>
                 <input id="Key06" name="Key06" type="checkbox" onchange="toggleRenderIndex(6, this.checked);" checked>
                 <label for="Key06" class="circle keyColor-red"></label>
+                <button onclick="quickAdd(6)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -93,6 +98,7 @@
               <span>
                 <input id="Key08" name="Key08" type="checkbox" onchange="toggleRenderIndex(8, this.checked);" checked>
                 <label for="Key08" class="circle keyColor-green"></label>
+                <button onclick="quickAdd(8)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -101,6 +107,7 @@
               <span>
                 <input id="Key10" name="Key10" type="checkbox" onchange="toggleRenderIndex(10, this.checked);" checked>
                 <label for="Key10" class="circle keyColor-blue"></label>
+                <button onclick="quickAdd(10)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -109,6 +116,7 @@
               <span>
                 <input id="Key11" name="Key11" type="checkbox" onchange="toggleRenderIndex(11, this.checked);" checked>
                 <label for="Key11" class="circle keyColor-yellow"></label>
+                <button onclick="quickAdd(11)">Quick Add</button>
               </span>
             </div>
             <br>
@@ -121,9 +129,10 @@
             </div>
           </div>
           <div id="ThreeJSRightBar" style="display: none;">
-            <p>Movement - WASDQE<br>Camera - Mouse</p>
+            <p>Movement - WASDQE and Shift<br>Camera - Mouse</p>
             <p>Loading Threejs...</p>
             <p>Looking at No Spawns</p>
+            <p></p>
           </div>
         </div>
       </div>
@@ -154,6 +163,7 @@
         <br>
         <h3>Exporting Options</h3>
         <p class="no-margin">This dropdown allows you to choose the map file to download and/or copy as a Gecko Code. Select "----" for the Gecko code to work on all maps.</p>
+        <p class="no-margin" style="color: var(--warning-text-color);">Be warned of large file sizes! It might causes problems if it exceeds the file's normal length and Gecko Codes can only support so many lines at once!!!</p>
         <select name="MapName" id="MapSelector" onchange="updateFileNum(this.value)">
             <option value="0">----&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(_vs_A00.bin)</option>
             <option value="1">Katina Outpost&emsp;&emsp;&emsp;&emsp;(_vs_A01.bin)&emsp;&emsp;&emsp;(MapID: 0x00)</option>

@@ -44,7 +44,7 @@ button, summary {cursor: pointer;}
 
 /* ------------- Each Spawn's content ------------- */
 
-#SpawnInfoBox { min-width: 1025px; flex-grow: 1; height: 1000px; overflow: auto; padding: unset; }
+#SpawnInfoBox { min-width: 1125px; flex-grow: 1; height: 1000px; overflow: auto; padding: unset; }
 #SpawnInfoBox > * { position: relative; }
 #SpawnInfoBox details { padding: 0 20px 0 20px; min-width: max-content; }
 #SpawnInfoBox details {
@@ -306,7 +306,7 @@ summary {
 }
 #MapSelector {
     font-size: 18px;
-    width: 600px;
+    width: 500px;
     height: 30px;
     font-family: Consolas, Monaco, "Courier New", monospace;
 }
@@ -349,7 +349,17 @@ summary {
 }
 #ThreeJSRightBar p:nth-child(1) { left: 5px; top: 5px; text-align: left; }
 #ThreeJSRightBar p:nth-child(2) { right: 5px; top: 5px; text-align: right; }
-#ThreeJSRightBar p:nth-child(3) { bottom: 5px; text-align: center; width: 95%; }
+#ThreeJSRightBar p:nth-child(3) { bottom: 5px; text-align: center; width: 95%; margin: 0 2.5%; }
+#ThreeJSRightBar p:nth-child(4) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px; 
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+}
 #LoadingMapText {
     margin: 0;
     text-align: center;
