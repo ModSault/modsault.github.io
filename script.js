@@ -96,8 +96,48 @@ function makeNavBar(pathToRoot) {
             ]
         },
         {
-            "text": "VsMode Spawns (Beta)",
-            "link": pathToRoot + "/VsModeSpawns/"
+            "text": "Vs Mode Files \u25BC",
+            "link": null,
+            "dropdownElements": [
+                {
+                    "text": "VsMode Spawns (_vs_Axx.bin)",
+                    "link": pathToRoot + "/VSModeSpawns/"
+                }
+            ]
+        },
+        {
+            "text": "External Resources \u25BC",
+            "link": null,
+            "dropdownElements": [
+                {
+                    "text": "All Assault Voice lines",
+                    "link": "https://starfox.org/games/star-fox-assault/audio/voice-acting/"
+                },
+                {
+                    "text": "Speedrun page",
+                    "link": "https://www.speedrun.com/sfassault"
+                },
+                {
+                    "text": "High Score Runs",
+                    "link": "https://cyberscore.me.uk/games/282"
+                },
+                {
+                    "text": "Gecko/AR Codes for Assault",
+                    "link": "https://gamehacking.org/game/54239"
+                },
+                {
+                    "text": "The Cutting Room Floor",
+                    "link": "https://tcrf.net/Star_Fox:_Assault"
+                },
+                {
+                    "text": "Models Resource",
+                    "link": "https://models.spriters-resource.com/gamecube/starfoxassault/"
+                },
+                {
+                    "text": "Sounds Resource",
+                    "link": "https://sounds.spriters-resource.com/gamecube/starfoxassault/"
+                }
+            ]
         }
     ]
 

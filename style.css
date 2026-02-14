@@ -137,7 +137,7 @@ body { margin: 0; }
   display: none;
   position: absolute;
   min-width: 350px;
-  z-index: 1;
+  z-index: 99;
 }
 .NavBar_dropdown div a {
   display: block;
