@@ -466,15 +466,19 @@ function quickAdd(index) {
   camera.getWorldDirection(dir);
   let angle = Math.atan2(dir.x, dir.z) * 180 / Math.PI;
   angle *= -1;
-  if (angle < 0) angle = 360 - (angle*-1);
-  angle = angle.toFixed(2);
-  if (!([0,1,2,4]).includes(index)) {
-    angle = 0;
-  }
-  angle = parseInt(angle);
+  if (angle < 0)
+    angle = 360 - (angle*-1);
+  angle = parseInt(angle.toFixed(2));
 
-  // unused 2 bytes shouldn't get the value of the angle. Check index to see if we will add to angle or unused 2 bytes
-  addNewSpawn(index, false, x, y, z, (index == 4) ? angle : 0, (index == 4) ? 0 : angle);
+  // add new spawn, change only whats needed and display it in grid
+  addNewSpawn_defaults(index);
+  const newSpawnIndex = AllSpawnData[index].spawns.length-1;
+  AllSpawnData[index].spawns[newSpawnIndex].x_pos = x;
+  AllSpawnData[index].spawns[newSpawnIndex].y_pos = y;
+  AllSpawnData[index].spawns[newSpawnIndex].z_pos = z;
+  if (AllSpawnData[index].spawns[newSpawnIndex].angle != undefined) {
+    AllSpawnData[index].spawns[newSpawnIndex].angle = angle;
+  }
   refreshSpawnData(index);
 }
 

@@ -28,7 +28,29 @@ var wasFileChanged = false;
 
 /* ------------ Modify above variable ------------ */
 
-function addNewSpawn(index, defaults = true, param1 = 0, param2 = 0, param3 = 0, param4 = 0, param5 = 0, param6 = 0, param7 = 0) {
+function addNewSpawn_defaults(index) {
+  let param1 = 0, param2 = 0, param3 = 0, param4 = 0, param5 = 0, param6 = 0, param7 = 0;
+  let spawnType = AllSpawnData[index].type;
+  switch (spawnType) {
+    case "Player Spawn":
+    case "Crown Spawn":
+    case "Spawn Limit":
+    case "Custom 16 bytes":
+      break;
+    case "Vehicle Spawn":
+      param5 = 1; // 0 in invalid vehicle spawn ID. So switch it to 1
+      break;
+    case "Weapon Spawn":
+      param4 = 0; // Homing Launcher for default On-foot Weapon
+      if (index == 8) param4 = 11; // Booster Pack default for On-foot power up
+      if (index == 10) param4 = 17; // Instant Dual Blue Hyper Lasers default for Vehicle power up
+      break;
+    default:
+      console.error("Unknown spawn type:", spawnType);
+  }
+  addNewSpawn(index, param1, param2, param3, param4, param5, param6, param7);
+}
+function addNewSpawn(index, param1 = 0, param2 = 0, param3 = 0, param4 = 0, param5 = 0, param6 = 0, param7 = 0) {
   let spawnType = AllSpawnData[index].type;
   switch (spawnType) {
     case "Player Spawn":
@@ -46,7 +68,7 @@ function addNewSpawn(index, defaults = true, param1 = 0, param2 = 0, param3 = 0,
         y_pos: param2,
         z_pos: param3,
         angle: param4,
-        id: (defaults) ? 1 : param5
+        id: param5
       });
       break;
     case "Weapon Spawn":
@@ -57,7 +79,7 @@ function addNewSpawn(index, defaults = true, param1 = 0, param2 = 0, param3 = 0,
         x_pos: param1,
         y_pos: param2,
         z_pos: param3,
-        id: (defaults) ? defSpawn : param4
+        id: param4
       });
       break;
     case "Crown Spawn":
@@ -113,11 +135,11 @@ function initializeSpawnData(addSpawns = true) {
       type: allTypes[i],
       spawns: []
     });
-    if (addSpawns) addNewSpawn(i);
+    if (addSpawns) addNewSpawn_defaults(i);
     if (addSpawns && allTypes[i].toLowerCase().indexOf("limit") != -1) {
-      addNewSpawn(i);
-      addNewSpawn(i);
-      addNewSpawn(i);
+      addNewSpawn_defaults(i);
+      addNewSpawn_defaults(i);
+      addNewSpawn_defaults(i);
     }
   }
 }
@@ -131,7 +153,7 @@ function addCustom16BytesToSpawnData(addSpawns = true) {
     type: "Custom 16 bytes",
     spawns: []
   });
-  if (addSpawns) addNewSpawn(AllSpawnData.length - 1);
+  if (addSpawns) addNewSpawn_defaults(AllSpawnData.length - 1);
 }
 
 /* ------------ Helper Functions to make certain html elements ------------ */
@@ -418,7 +440,7 @@ function DisplaySpawnDataFromScratch(index) {
   }
   addNewRowButton.onclick = function() {
     this.blur();
-    addNewSpawn(index);
+    addNewSpawn_defaults(index);
     refreshSpawnData(index);
   }
   gridInfoDiv.appendChild(addNewRowButton);
@@ -878,14 +900,14 @@ function parseFile(file) {
           switch (AllSpawnData[i].type) {
             case "Player Spawn":
             case "Vehicle Spawn":
-              addNewSpawn(i, false, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint16(neededOffset + 12), view.getUint16(neededOffset + 14));
+              addNewSpawn(i, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint16(neededOffset + 12), view.getUint16(neededOffset + 14));
               break;
             case "Weapon Spawn":
             case "Crown Spawn":
-              addNewSpawn(i, false, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint32(neededOffset + 12));
+              addNewSpawn(i, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint32(neededOffset + 12));
               break;
             case "Spawn Limit":
-              addNewSpawn(i, false, view.getUint8(neededOffset));
+              addNewSpawn(i, view.getUint8(neededOffset));
               break;
             case "Custom 16 bytes":
             default:
@@ -911,7 +933,7 @@ function parseFile(file) {
       for (let j = 0; j < numberOfSpawns; j++) {
         switch (AllSpawnData[i].type) {
           case "Custom 16 bytes":
-            addNewSpawn(i, false, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint8(neededOffset + 12), view.getUint8(neededOffset + 13), view.getUint8(neededOffset + 14), view.getUint8(neededOffset + 15));
+            addNewSpawn(i, view.getFloat32(neededOffset), view.getFloat32(neededOffset + 4), view.getFloat32(neededOffset + 8), view.getUint8(neededOffset + 12), view.getUint8(neededOffset + 13), view.getUint8(neededOffset + 14), view.getUint8(neededOffset + 15));
             break;
           case "Player Spawn":
           case "Vehicle Spawn":
