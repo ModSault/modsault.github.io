@@ -5251,36 +5251,10 @@
     "ParsableTool_Text": "",
     "ParsableTool_Link": ""
   },
-  "ts_boss_m10_data.bin.bak": {
-    "Isfile_USA": true,
-    "Isfile_Japan": false,
-    "Isfile_PAL": false,
-    "IsSameAllVersions": true,
-    "Description": "",
-    "Description_USA": "",
-    "Description_Japan": "",
-    "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
-  },
   "ts_boss_m1a.bin": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
-    "IsSameAllVersions": true,
-    "Description": "",
-    "Description_USA": "",
-    "Description_Japan": "",
-    "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
-  },
-  "ts_boss_m1a.bin.bak": {
-    "Isfile_USA": true,
-    "Isfile_Japan": false,
-    "Isfile_PAL": false,
     "IsSameAllVersions": true,
     "Description": "",
     "Description_USA": "",
@@ -5303,36 +5277,10 @@
     "ParsableTool_Text": "",
     "ParsableTool_Link": ""
   },
-  "ts_boss_m1b.bin.bak": {
-    "Isfile_USA": true,
-    "Isfile_Japan": false,
-    "Isfile_PAL": false,
-    "IsSameAllVersions": true,
-    "Description": "",
-    "Description_USA": "",
-    "Description_Japan": "",
-    "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
-  },
   "ts_boss_m5_data.bin": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
-    "IsSameAllVersions": true,
-    "Description": "",
-    "Description_USA": "",
-    "Description_Japan": "",
-    "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
-  },
-  "ts_boss_m5_data.bin.bak": {
-    "Isfile_USA": true,
-    "Isfile_Japan": false,
-    "Isfile_PAL": false,
     "IsSameAllVersions": true,
     "Description": "",
     "Description_USA": "",
