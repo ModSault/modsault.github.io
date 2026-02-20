@@ -96,7 +96,7 @@ function makeNavBar(pathToRoot) {
             ]
         },
         {
-            "text": "Vs Mode Files \u25BC",
+            "text": "Game File Parsers \u25BC",
             "link": null,
             "dropdownElements": [
                 {
@@ -104,6 +104,10 @@ function makeNavBar(pathToRoot) {
                     "link": pathToRoot + "/VSModeSpawns/"
                 }
             ]
+        },
+        {
+            "text": "Filenames",
+            "link": pathToRoot + "/Filenames/"
         },
         {
             "text": "External Resources \u25BC",
@@ -211,7 +215,7 @@ function makeGameModeSelector(funcToCall) {
     let scriptTag = document.currentScript;
     scriptTag.parentNode.replaceChild(topLevel, scriptTag);
 }
-function makeHeader(title, funcToCall = null) {
+function makeHeader(title, funcToCall = null, makeGameModeSelector = true, makeAdvancedModeButton = true) {
     // <div class = "flexContainer">
     let topLevel = document.createElement("div");
     topLevel.classList.add("flexContainer");
@@ -227,34 +231,38 @@ function makeHeader(title, funcToCall = null) {
     topRightDiv.id = "TopRightOfScreen";
     topLevel.appendChild(topRightDiv);
 
-    // --<script>makeGameModeSelector(funcToCall);</script>
-    let gameModeSelector = document.createElement("script");
-    gameModeSelector.textContent = "makeGameModeSelector("+funcToCall+");";
-    topRightDiv.appendChild(gameModeSelector);
-
-    // --<button id = "AdvancedModeButton" onmouseover = "hoverToolTipStart(this);" onmouseleave = "hoverToolTipEnd();" onclick = "toggleAdvanced();" style = "background-color: var(--red-button);"></button>
-    let advancedModeButton = document.createElement("button");
-    advancedModeButton.id = "AdvancedModeButton";
-    advancedModeButton.onmouseover = function () { hoverToolTipStart(this); };
-    advancedModeButton.onmouseleave = function () { hoverToolTipEnd(); };
-    advancedModeButton.onclick = function () { toggleAdvanced(); };
-    if (advancedMode === true) {
-        advancedModeButton.style.backgroundColor = "var(--green-button)";
-        document.getElementById("AdvancedModeCheckMark").checked = advancedMode;
-    } else {
-        advancedModeButton.style.backgroundColor = "var(--red-button)";
+    if (makeGameModeSelector) {
+        // --<script>makeGameModeSelector(funcToCall);</script>
+        let gameModeSelector = document.createElement("script");
+        gameModeSelector.textContent = "makeGameModeSelector("+funcToCall+");";
+        topRightDiv.appendChild(gameModeSelector);
     }
-    topRightDiv.appendChild(advancedModeButton);
 
-    // ---<span>Advanced Mode</span>
-    let advancedModeText_1 = document.createElement("span");
-    advancedModeText_1.textContent = "Advanced Mode";
-    advancedModeButton.appendChild(advancedModeText_1);
+    if (makeAdvancedModeButton) {
+        // --<button id = "AdvancedModeButton" onmouseover = "hoverToolTipStart(this);" onmouseleave = "hoverToolTipEnd();" onclick = "toggleAdvanced();" style = "background-color: var(--red-button);"></button>
+        let advancedModeButton = document.createElement("button");
+        advancedModeButton.id = "AdvancedModeButton";
+        advancedModeButton.onmouseover = function () { hoverToolTipStart(this); };
+        advancedModeButton.onmouseleave = function () { hoverToolTipEnd(); };
+        advancedModeButton.onclick = function () { toggleAdvanced(); };
+        if (advancedMode === true) {
+            advancedModeButton.style.backgroundColor = "var(--green-button)";
+            document.getElementById("AdvancedModeCheckMark").checked = advancedMode;
+        } else {
+            advancedModeButton.style.backgroundColor = "var(--red-button)";
+        }
+        topRightDiv.appendChild(advancedModeButton);
 
-    // ---<span>(currently on/off)</span>
-    let advancedModeText_2 = document.createElement("span");
-    advancedModeText_2.textContent = "(currently " + (advancedMode ? "on" : "off") + ")";
-    advancedModeButton.appendChild(advancedModeText_2);
+        // ---<span>Advanced Mode</span>
+        let advancedModeText_1 = document.createElement("span");
+        advancedModeText_1.textContent = "Advanced Mode";
+        advancedModeButton.appendChild(advancedModeText_1);
+
+        // ---<span>(currently on/off)</span>
+        let advancedModeText_2 = document.createElement("span");
+        advancedModeText_2.textContent = "(currently " + (advancedMode ? "on" : "off") + ")";
+        advancedModeButton.appendChild(advancedModeText_2);
+    }
 
     // add header to page
     let scriptTag = document.currentScript;
