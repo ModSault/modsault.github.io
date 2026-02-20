@@ -11,8 +11,10 @@
   --navbar-extra-elements-background-color-hover: #7b7b7b;
 
   --red-button: #c23f37;
+  --red-button-inverse: #c62828;
   --red-button-darker: #842a25;
   --green-button: #8ef48b;
+  --green-button-inverse: #2e7d32;
   --blue-button: #1485f0;
 
   --input-file-grey: grey;
