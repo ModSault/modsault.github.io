@@ -31,7 +31,7 @@ function changeGameVersion(object) {
     localStorage.setItem("GameMode", object.value);
 
     // update all game mode selectors to the new value
-    for (i = 0; i < allGameModeSelectors.length; i++) {
+    for (let i = 0; i < allGameModeSelectors.length; i++) {
         allGameModeSelectors[i].value = GameVersion;
     }
 }
@@ -39,8 +39,8 @@ function changeGameVersion(object) {
 // ---------------------------- Advanced Mode --------------------------
 
 function toggleAdvanced() {
-    button = document.getElementById("AdvancedModeButton");
-    text = button.childNodes[1];
+    const button = document.getElementById("AdvancedModeButton");
+    let text = button.childNodes[1];
     if (advancedMode === true) {
         button.style.backgroundColor = "var(--red-button)";
         text.textContent = "(currently off)";
@@ -80,7 +80,7 @@ function hoverToolTipEnd() {
 
 function makeNavBar(pathToRoot) {
     // JSON with Navbar contents. Makes it easier to update
-    let AllElements = [
+    const AllElements = [
         {
             "text": "Home",
             "link": pathToRoot + "/"
@@ -146,10 +146,10 @@ function makeNavBar(pathToRoot) {
     ]
 
     // <div id="NavBar">
-    let navBar = document.createElement("div");
+    const navBar = document.createElement("div");
     navBar.id = "NavBar";
 
-    for (i = 0; i < AllElements.length; i++) {
+    for (let i = 0; i < AllElements.length; i++) {
         if (AllElements[i]["link"] != null) { // for non-dropdown links
             // <a href="./">Text</a>
             let curLink = document.createElement("a");
@@ -189,7 +189,7 @@ function makeNavBar(pathToRoot) {
 
 function makeGameModeSelector(funcToCall) {
     // <select name="GameVersion" id="GameVersionSelector" onChange="changeGameVersion(this); funcToCall();">
-    let topLevel = document.createElement("select");
+    const topLevel = document.createElement("select");
     topLevel.name = "GameVersion";
     topLevel.className = "GameVersionSelector";
     if (funcToCall != null) {
@@ -201,7 +201,7 @@ function makeGameModeSelector(funcToCall) {
     // -<option value=all_values[i]> all_text[i] </option>
     let all_values = [0, 1, 2];
     let all_text = ["NTSC-U (USA)", "NTSC-J (Japan)", "PAL (Europe)"];
-    for (i = 0; i < all_values.length; i++) {
+    for (let i = 0; i < all_values.length; i++) {
         let curOption = document.createElement("option");
         curOption.value = all_values[i];
         curOption.textContent = all_text[i];
@@ -217,30 +217,30 @@ function makeGameModeSelector(funcToCall) {
 }
 function makeHeader(title, funcToCall = null, makeGameModeSelector = true, makeAdvancedModeButton = true) {
     // <div class = "flexContainer">
-    let topLevel = document.createElement("div");
+    const topLevel = document.createElement("div");
     topLevel.classList.add("flexContainer");
 
     // -<h1 id = "Title"> title </h1>
-    let header = document.createElement("h1");
+    const header = document.createElement("h1");
     header.id = "Title";
     header.textContent = title;
     topLevel.appendChild(header);
 
     // -<div id="TopRightOfScreen">
-    let topRightDiv = document.createElement("div");
+    const topRightDiv = document.createElement("div");
     topRightDiv.id = "TopRightOfScreen";
     topLevel.appendChild(topRightDiv);
 
     if (makeGameModeSelector) {
         // --<script>makeGameModeSelector(funcToCall);</script>
-        let gameModeSelector = document.createElement("script");
+        const gameModeSelector = document.createElement("script");
         gameModeSelector.textContent = "makeGameModeSelector("+funcToCall+");";
         topRightDiv.appendChild(gameModeSelector);
     }
 
     if (makeAdvancedModeButton) {
         // --<button id = "AdvancedModeButton" onmouseover = "hoverToolTipStart(this);" onmouseleave = "hoverToolTipEnd();" onclick = "toggleAdvanced();" style = "background-color: var(--red-button);"></button>
-        let advancedModeButton = document.createElement("button");
+        const advancedModeButton = document.createElement("button");
         advancedModeButton.id = "AdvancedModeButton";
         advancedModeButton.onmouseover = function () { hoverToolTipStart(this); };
         advancedModeButton.onmouseleave = function () { hoverToolTipEnd(); };
@@ -254,12 +254,12 @@ function makeHeader(title, funcToCall = null, makeGameModeSelector = true, makeA
         topRightDiv.appendChild(advancedModeButton);
 
         // ---<span>Advanced Mode</span>
-        let advancedModeText_1 = document.createElement("span");
+        const advancedModeText_1 = document.createElement("span");
         advancedModeText_1.textContent = "Advanced Mode";
         advancedModeButton.appendChild(advancedModeText_1);
 
         // ---<span>(currently on/off)</span>
-        let advancedModeText_2 = document.createElement("span");
+        const advancedModeText_2 = document.createElement("span");
         advancedModeText_2.textContent = "(currently " + (advancedMode ? "on" : "off") + ")";
         advancedModeButton.appendChild(advancedModeText_2);
     }
