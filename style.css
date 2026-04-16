@@ -24,6 +24,8 @@
 
   --table-border-color: #dbdbdb;
   --warning-text-color: orange;
+  --warning-background-color: rgb(125, 90, 24);
+  --error-text-color: red;
   --button-background-color: #F0F0F0;
   --button-background-color-2: #03dac6;
   --button-background-color-3: #ee3800;
@@ -32,21 +34,21 @@
 
   --code-block-bg: #f5f5f5;
 
-  --highlightColor-01: #2e2020;
-  --highlightColor-02: #362222;
+  --highlightColor-01: #521818;
+  --highlightColor-02: #825151;
   --highlightColor-03: #3b2d21;
   --highlightColor-04: #40211a;
   --highlightColor-05: #334363;
   --highlightColor-06: #1b223a;
-  --highlightColor-07: #1f2a36;
+  --highlightColor-07: #173f6a;
   --highlightColor-08: #232a44;
-  --highlightColor-09: #162b22;
-  --highlightColor-10: #1a2f2a;
-  --highlightColor-11: #2a2f1a;
+  --highlightColor-09: #003c22;
+  --highlightColor-10: #00755a;
+  --highlightColor-11: #3f4f0a;
   --highlightColor-12: #1c3326;
-  --highlightColor-13: #25162b;
-  --highlightColor-14: #331c3a;
-  --highlightColor-15: #1e1a33;
+  --highlightColor-13: #430e58;
+  --highlightColor-14: #5f1177;
+  --highlightColor-15: #3a298e;
   --highlightColor-16: #361a2f;
   --highlightColor-17: #58504b;
   --highlightColor-18: #6685a1;
@@ -67,6 +69,7 @@ a:hover { color: var(--link-color-hover) }
 a:visited { color: var(--link-color-visited) }
 
 body { margin: 0; }
+button, summary { cursor: pointer; }
 #ContainerForAll { width: 97%; margin: auto; }
 #Title {
   display: inline-block;
@@ -161,6 +164,11 @@ body { margin: 0; }
 .box h2 {
   font-size: 20px;
   margin: 0;
+}
+.box h3 {
+  font-size: 18px;
+  margin: 15px 0 5px 0;
+  text-decoration: underline;
 }
 .box p, .box code {
   font-size: 16px;
