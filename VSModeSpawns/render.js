@@ -72,10 +72,15 @@ function makeThreeJSWindow() {
   controls = new PointerLockControls(camera, document.body);
   renderer.domElement.addEventListener('click', () => { controls.lock(); });
   const keys = {};
-  document.addEventListener('keydown', (event) => { keys[event.code] = true; });
+  document.addEventListener('keydown', (event) => {
+    if (controls.isLocked) {
+      event.preventDefault();
+      keys[event.code] = true;
+    }
+  });
   document.addEventListener('keyup', (event) => { keys[event.code] = false; });
 
-  const light = new THREE.AmbientLight( 0xffffffff, 10 ); // soft white light
+  const light = new THREE.PointLight( 0xffffffff, 3, 0, 0.1 );
   scene.add( light );
 
   // Have basic map of just a grid
@@ -99,10 +104,14 @@ function makeThreeJSWindow() {
 
     requestAnimationFrame(animate);
 
+    // move light with you
+    light.position.copy(camera.position);
+
     // WASD movement (thanks chatGPT)
     let moveSpeed = 1;
     const direction = new THREE.Vector3();
     if (keys['ShiftLeft'] || keys['ShiftRight']) moveSpeed = 3;
+    if (keys['KeyV']) moveSpeed = 20;
     if (keys['KeyW']) direction.z += moveSpeed;
     if (keys['KeyS']) direction.z -= moveSpeed;
     if (keys['KeyA']) direction.x -= moveSpeed;
