@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./fancy.css">
+    <script src="../script.js"></script>
+    <script type="importmap"> { "imports": { "three": "../Resources/three.js/build/three.module.min.js" } } </script>
+    <script src="./logic.js"></script>
+    <link rel="icon" type="image/x-icon" href="../favicon.png">
+    <title>Collision Files | ModSault </title>
+  </head>
+
+  <body>
+    <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark" hidden>
+    <input type="checkbox" id="ThreeJSRenderedCheckMark" name="ThreeJSRenderedCheckMark" hidden>
+    <input type="file" id="JSONLoadFile" name="JSONLoadFile" accept=".json" onchange="LoadJSONFile(this.files[0]);" hidden>
+    <script>makeNavBar("..");</script>
+    <script>makeHeader("Star Fox Assault Collision File Manipulation", gameVersionUpdater);</script>
+    
+    <div id = "ContainerForAll">
+      <!-- Commonly Asked questions and relevant game files -->
+      <div class = "box" id="RelevantFilesBox">
+        <h2>Information About The Tool</h2>
+        <h3>How to use the Tool</h3>
+        <p>
+          I assume you already dumped your game copy to your computer and extracted its files. If not you can find lots of guides on the internet. Using the big box below you can upload 'hit_pack_xx.pac' files from the root of the game's disc.
+          You will then be able to view and edit all its information within this tool. I would suggest downloading the files and editing them in blender but you do you. Using the section of the screen
+          directly below to the left of the file upload area you can also import your own '.stl' files to get custom collision files. Otherwise select a file name to export as and download with the blue button
+          at the bottom.
+        </p>
+        <h3>It's not working!</h3>
+        <p>It won't work in singleplayer. They load what they need inside of I think .fpc files, not these files. The change will reflect in Vs mode though. </p>
+        <h3>Why is there a "fix" button when I imported a file from the game?</h3>
+        <p>The way I calculate values is different from the game. While they usually agree they won't always. If all you did was load a file from the game it's best to just ignore it. Especially if its about the grids or any collision range.</p>
+        <h3>I only see half the map / Where is Arwing Only Collision?</h3>
+        <p>Honestly I'm not sure how, but there is no evidence to say this information is within this file. I think the game creates objects and those objects contain information like its rotation, position, and what can/can't collide with it.</p>
+        <h3>The website Froze</h3>
+        <p>This website isn't super optimized so just give it some time. If you think there is a bigger problem open devtools (right click + inspect) and find the console tab. If something red appears report it.</p>
+        <h3>Can I modify collision files in this tool</h3>
+        <p>Yes if you're in advanced mode (top right button) but I would never recommend that. Use the download buttons to get something to work in blender, change it in blender and export as an .stl, and load it in this tool.</p>
+        <h3>How to report bugs</h3>
+        <p>I have a small audience so doing anything would get my attention. Using GitHub issues would be best but even a Reddit DM would work if you really wanted to (assuming I get an email).</p>
+        <h3>The Active Collision Range for files doesn't match with the game.</h3>
+        <p>I'm aware of this but am unsure on why.</p>
+        <h3>Why is the Active Collision Range on a Triangle 0?</h3>
+        <p>That just means that given 1 byte (a range of 0 to 255) the collision range is too large. The game auto calculates the range if its value is 0 (or just pretends like the player is inside its range I don't actually know)</p>
+        <h3>All Relevant Filenames</h3>
+        <p>These are files that this tool is meant to read and modify.</p>
+        <details>
+          <summary>Dropdown button</summary>
+          <div id="FileNameGrid"><p>Loading...</p></div>
+        </details>
+      </div>
+
+      <!-- Import Game File -->
+      <div id = "InputFileContainer" class = "box">
+        <input type="file" id="Assault_file" name="Assault_file" accept=".pac" onchange="Assault_FileChange(this.files[0]);" hidden>
+        <div class = "GreyOutline">
+          <label id = "AssaultLabelFile" for="Assault_file" ondrop="Assault_DropHandler(event);" ondragover="event.preventDefault();">
+            <svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--font-color)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+            No file selected. Choose a "hit_pack_xx.pac" file in the root of the game's disc. "xx" can be any decimal number.
+          </label>
+        </div>
+      </div>
+    
+      <!-- Container for viewing and editing file's info -->
+      <div id="EditorAnd3DBox">
+        <!-- Editing Game File -->
+        <div class = "box" ondrop="Blender_DropHandler(event);" ondragover="event.preventDefault();">
+          <div id="Editor_TopBar">
+            <button onclick="removeAll()">Remove All</button>
+            <button onclick="collapseAll()">Collapse All</button>
+            <button onclick="fixAll()">Fix All</button>
+            <span class="AdvancedOnly">
+              <input type="checkbox" id="VertexChangesAll" name="VertexChangesAll" checked>
+              <label for="VertexChangesAll">Changing vertex updates<br>all triangles with it.</label>
+            </span>
+            <span class="AdvancedOnly">
+              <input type="checkbox" id="VertexCausesAutoFix" name="VertexCausesAutoFix" checked>
+              <label for="VertexCausesAutoFix">Changing vertex<br>fixes all triangle values.</label>
+            </span>
+          </div>
+
+          <div id="Editor_Contents"></div>
+
+          <div id="Editor_AddObjFile">
+            <span>
+              <button class="AdvancedOnly" onclick="AddNewCollisionFromScratch();">Add New File</button>
+              <input type="file" id="Blender_file" name="Blender_file" accept=".stl" onchange="Blender_FileChange(this.files[0]);" hidden>
+              <button onClick="document.getElementById('Blender_file').click()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-inverse)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"></path></svg>
+                Upload .stl File
+              </button>
+              <button style="display:none;" onclick="alert(copyrightAlertMessage); downloadSTLBinary(generateSTLBinary(-1), getFileName('.stl'));">Download All As 1 File</button>
+              <button style="display:none;" onclick="alert(copyrightAlertMessage); downloadAllIndividual();">Download All Individually</button>
+            </span>
+            <p>When importing or exporting from blender ensure the forward axis is X+, and up axis is Y+</p>
+            <p>The file can only be exported/imported in its binary version (no ASCII support)</p>
+          </div>
+        </div>
+
+        <!-- Three JS Display -->
+        <div class = "box" id = "ThreeJsDisplay">
+          <p class="ThreeJSOnly ThreeJSHud"></p>
+          <p class="ThreeJSOnly ThreeJSHud">Movement - WASDQE<br>Speed - Shift and V<br>Camera - Mouse</p>
+          <p class="ThreeJSOnly ThreeJSHud">
+            Position: <input name="Camera3DPosition" type="text" onchange="CameraPositionChange(this.value);"/>
+            <br>
+            <input type="checkbox" id="GridHelperSee" onchange="gridHelper.visible = this.checked;" checked> <label for="GridHelperSee"> Show Grid </label>
+            <br>
+            <input type="checkbox" id="TriangleInfoViewer" onchange="ShowOrHideTriInfo(this.checked);" checked> <label for="TriangleInfoViewer"> Show Triangle Info </label> <input type="color" onchange="infoNeedsReset = true;" id="TriangleInfoColor" value="#ff0000" />
+            <br>
+            <input type="checkbox" id="TriangleInfoBoundsViewer" onchange="infoNeedsReset = true;"> <label for="TriangleInfoBoundsViewer"> Show Triangle Collision Range </label>
+          </p>
+          <div class="ThreeJSOnly ThreeJSHud" id="ThreeJSHud_TriangleInfo">
+            <p>File Name</p>
+            <p>Triangle Index</p>
+              Normal:
+              <span class="NotAdvancedOnly"></span>
+              <input name="Normal3DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'normal');" />
+              <button onclick="fixTriangleInfo3JS('normal')"> Fix </button>
+            <br>
+              v2-v1:
+              <span class="NotAdvancedOnly"></span>
+              <input name="Edge13DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'Edge1');" />
+              <button onclick="fixTriangleInfo3JS('Edge1')"> Fix </button>
+            <br>
+              v3-v2:
+              <span class="NotAdvancedOnly">w</span>
+              <input name="Edge23DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'Edge2');" />
+              <button onclick="fixTriangleInfo3JS('Edge2')"> Fix </button>
+            <br>
+              v1-v3:
+              <span class="NotAdvancedOnly"></span>
+              <input name="Edge33DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'Edge3');" />
+              <button onclick="fixTriangleInfo3JS('Edge3')"> Fix </button>
+            <br>
+              Surface Type:
+              <span class="NotAdvancedOnly"></span>
+              <select name="unknown13DSelect" class="AdvancedOnly" id="ThreeJSHUD_unknown1Select" onchange="updateTriangleInfo(this.value, 'unknownByte1');"><script>makeAllOptionsSurfaceTypeSelector()</script></select>
+              <input name="unknown13DInput" class="AdvancedOnly" id="ThreeJSHUD_unknown1Input" type="text" onchange="updateTriangleInfo(this.value, 'unknownByte1');" />
+              <button onclick="fixTriangleInfo3JS('unknownByte1')"> Fix </button>
+            <br>
+              Collision Range:
+              <span class="NotAdvancedOnly"></span>
+              <input name="unknown23DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'unknownByte2');" />
+              <button onclick="fixTriangleInfo3JS('unknownByte2')"> Fix </button>
+            <br>
+              v1:
+              <span class="NotAdvancedOnly"></span>
+              <input name="v13DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'v1');" />
+              <button onclick="fixTriangleInfo3JS('v1')"> Fix </button>
+            <br>
+              v2:
+              <span class="NotAdvancedOnly"></span>
+              <input name="v23DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'v2');" />
+              <button onclick="fixTriangleInfo3JS('v2')"> Fix </button>
+            <br>
+              v3:
+              <span class="NotAdvancedOnly"></span>
+              <input name="v33DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'v3');" />
+              <button onclick="fixTriangleInfo3JS('v3')"> Fix </button>
+            <br>
+              In Grids:
+              <span class="NotAdvancedOnly"></span>
+              <input name="Grids3DInput" class="AdvancedOnly" type="text" onchange="updateTriangleInfo(this.value, 'inGrid');" />
+              <button onclick="fixTriangleInfo3JS('inGrid')"> Fix </button>
+            <br>
+            <button style="background-color: var(--red-button);" onclick="ThreeJSDeleteTri();">Delete Triangle</button>
+            <button onclick="ThreeJSHideFile();">Hide This File</button>
+            <button onclick="ThreeJSHideAllButFile();">Hide All but This File</button>
+          </div>
+          <p class="ThreeJSOnly ThreeJSHud">v1</p>
+          <p class="ThreeJSOnly ThreeJSHud">v2</p>
+          <p class="ThreeJSOnly ThreeJSHud">v3</p>
+          <p class="ThreeJSOnly ThreeJSHud">Powered By <a href="https://threejs.org/">ThreeJS</a>!</p>
+          <p class="ThreeJSOnly ThreeJSHud">
+            <button onclick="ChangeAllRender(0b0001, 0b1110, true);">Show All Files</button>
+            <button onclick="ChangeAllRender(0b0000, 0b0000, true);">Hide All Files</button>
+            <br>
+            Triangle Color Render:
+            <input type="color" value="#C8C8C8" onchange="ChangeAllRender_color(0b0001, this.value)" />
+            <button onclick="ChangeAllRender_tri(true, false, false, false)">Surface Type</button>
+            <button class="AdvancedOnly" onclick="ChangeAllRender_tri(false, true, false, false)">Collision Range</button>
+            <button class="AdvancedOnly" onclick="ChangeAllRender_tri(false, false, true, false)">Grid</button>
+            <button onclick="ChangeAllRender_tri(false, false, false, true)">Random</button>
+            <button onclick="ChangeAllRender_color(0b0001, -1)">File id</button>
+            <br>
+            Grid:
+            <input type="color" value="#00ff00" onchange="ChangeAllRender_color(0b0010, this.value)" />
+            <button onclick="ChangeAllRender(0b0010, 0b1101);">Show All</button>
+            <button onclick="ChangeAllRender(0b0000, 0b1101);">Hide All</button>
+            <br>
+            Active Collision Range:
+            <input type="color" value="#0000ff" onchange="ChangeAllRender_color(0b0100, this.value)" />
+            <button onclick="ChangeAllRender(0b0100, 0b1011);">Show All</button>
+            <button onclick="ChangeAllRender(0b0000, 0b1011);">Hide All</button>
+            <br>
+            Bounding Box:
+            <input type="color" value="#00FFFF" onchange="ChangeAllRender_color(0b1000, this.value)" />
+            <button onclick="ChangeAllRender(0b1000, 0b0111);">Show All</button>
+            <button onclick="ChangeAllRender(0b0000, 0b0111);">Hide All</button>
+          </p>
+          <button id="UnloadedThreeJSButton" onclick="initialize3DDisplay()">Load 3D Display (website will download more and run slower)</button>
+        </div>
+      </div>
+
+      <!-- Export Info Box -->
+      <div class = "box" id = "ExportBox">
+        <h2>Export Options And Information</h2>
+        <p>Select the filename name you want to export as.</p>
+        <select name="FileNameExport" id="FileNameExport" onchange="updateFileNum(this.value)">
+          <script>makeAllOptionTags()</script>
+        </select>
+        <br>
+        <p>No matter what you see here the file can still be downloaded. Preferably you still want less warnings and errors.</p>
+        <p id="WarningsText"></p>
+        <p id="ErrorText"></p>
+      </div>
+
+      <!-- Download Buttons -->
+      <div id="ButtonsAtBottomOfScreen">
+        <button onclick="downloadPAC()"></button>
+        <button onclick="downloadJSON()" class="AdvancedOnly">Download as JSON (Advanced Mode only, type `AdvConLoad()` into the devtools console to load)</button>
+      </div>
+
+      <!-- File Preview -->
+      <div id="FilePreviewContainer" class = "box AdvancedOnly">
+        <h2> File Preview </h2>
+        <script>makeGameModeSelector(gameVersionUpdater);</script>
+        <p>
+          This is the file you will download upon clicking the button above. This is shown to you to make debugging easier and document the file structure.
+          <br>
+          A * means that the offset is changed to a memory address automatically when in game. The purpose of value at the offset is still the same.
+          <br>
+          Also note that the file is reconstructed using my own math and may not match the game file you just imported. It should be nearly similar but keep that in mind.
+          <br>
+          <br>
+          <span id="OffsetAmtsForFiles"></span>
+          <br>
+          <br>
+          Offsets to display (in hex):
+          <input type="text" id="OffsetLowerBound" value="0" onchange="updateOffsetBound(false);" />
+          -
+          <input type="text" id="OffsetHigherBound" value="F0" onchange="updateOffsetBound(true);" />
+          <button id="ShowOffsetButton" onclick="UpdateFilePreview(parseInt(document.getElementById('OffsetLowerBound').value, 16), parseInt(document.getElementById('OffsetHigherBound').value, 16));">Show offsets</button>
+        </p>
+        <div class = "flexRow flexContainer">
+          <div id="OffsetTable"></div>
+          <div id="FileAddresses"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

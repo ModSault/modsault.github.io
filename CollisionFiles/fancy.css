@@ -1,0 +1,475 @@
+#ThreeJSRenderedCheckMark { display: none; }
+#ThreeJSRenderedCheckMark:not(:checked) ~ #ContainerForAll .ThreeJSOnly { display: none; }
+#ThreeJSRenderedCheckMark:checked ~ #ContainerForAll .NotThreeJSOnly { display: none; }
+.box p { margin: 0; }
+
+/* ------------ General Classes ------------- */
+
+.red-x { /* chatGPT helped a lot with the red X */
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background-color: unset;
+    border: 0;
+    margin: 3px;
+    cursor: pointer;
+}
+.red-x::before, .red-x::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 30px;
+    background-color: var(--red-button);
+    transform-origin: center;
+}
+.red-x::before { transform: translate(-50%, -50%) rotate(45deg); }
+.red-x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.FileQuickOptions {
+    display: flex;
+    cursor: pointer;
+    position: absolute;
+    height: 15px;
+    right: 10px;
+    top: 12px;
+    gap: 5px;
+}
+.FileQuickOptions > * {
+    transform: translate(0, -15%)
+}
+.removeFileReddX {
+    margin: 0;
+}
+.removeTriangleReddX {
+    display: block;
+    width: 15px;
+    height: 15px;
+}
+.removeTriangleReddX::before, .removeTriangleReddX::after {
+    height: 15px;
+}
+
+.addNewTriangle {
+    background-color: var(--green-button);
+    width: 250px;
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    position: relative;
+}
+.removeAllTriangles {
+    background-color: var(--red-button);
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 45px;
+    position: relative;
+}
+
+/* ------------ Box for Relevant Files ------------ */
+
+#RelevantFilesBox { margin-bottom: 10px; }
+#RelevantFilesBox summary {
+    font-size: 18px;
+    margin: 10px;
+}
+
+#FileNameGrid {
+    display: grid;
+    margin: 10px;
+    grid-template-columns: max-content 3fr;
+}
+#FileNameGrid * {
+    margin: 0;
+    padding: 5px;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+}
+#FileNameGrid > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+#FileNameGrid > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+
+/* ---------------- Input File Box ----------------- */
+
+#InputFileContainer {
+    width: 100%;
+    min-height: 100px;
+    height: max-content;
+    padding: 0;
+}
+.GreyOutline {
+    width: calc(100% - 10px);
+    margin: 5px auto;
+}
+#AssaultLabelFile {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    border: 3px dashed var(--input-file-grey);
+    border-radius: 50px;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* ---------------- EditorAnd3DBox ---------------- */
+
+#EditorAnd3DBox {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#EditorAnd3DBox button { font-size: 20px; }
+
+#EditorAnd3DBox > *:nth-child(1) {
+    min-width: 1100px;
+    width: max-content;
+    flex-grow: 1;
+    padding: 0;
+    overflow: auto;
+    height: 1000px;
+}
+#EditorAnd3DBox > *:nth-child(1) > p { text-align: center; margin: 2px; }
+#EditorAnd3DBox > *:nth-child(2) {
+    flex-grow: 99;
+    padding: 0;
+    height: 1000px;
+    min-width: 850px;
+}
+
+#Editor_TopBar {
+    position: sticky;
+    box-sizing: border-box;
+    width: 100%;
+    gap: 30px;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0 10px 0;
+    background-color: var(--background-color-tooltip);
+    border-bottom: var(--navbar-background-color-hover) 4px solid;
+}
+#Editor_TopBar *:nth-child(1) { background-color: var(--red-button); }
+
+#Editor_Contents input[type="number"], #Editor_Contents .triangleTable input {
+    width: 100px;
+}
+#Editor_Contents > div {
+    position: relative;
+}
+#Editor_Contents > div > details {
+    padding: 0 20px 0 20px;
+    min-width: max-content;
+    padding-bottom: 10px;
+    border-bottom: var(--navbar-background-color-hover) 4px solid;
+    padding-top: 10px;
+}
+#Editor_Contents details summary {
+    font-size: 20px;
+}
+#Editor_Contents details p, #Editor_Contents details h4 {
+    margin: 0;
+}
+#Editor_Contents details h4 {
+    margin-top: 15px;
+}
+#Editor_Contents .threejsTable {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+}
+#Editor_Contents .threejsTable button, #Editor_Contents .triangleTable button, #Editor_Contents .fixAllContainer button { font-size: 17px; }
+#Editor_Contents .threejsTable > *, #Editor_Contents .metadataTable > *, #Editor_Contents .triangleTable > * {
+    padding: 5px;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+}
+#Editor_Contents .threejsTable > *:nth-child(-n+3), #Editor_Contents .metadataTable > *:nth-child(-n+2), #Editor_Contents .triangleTable > *:nth-child(-n+12) { border-top: var(--table-border-color) 1px solid; }
+#Editor_Contents .threejsTable > *:nth-child(3n+1), #Editor_Contents .metadataTable > *:nth-child(2n+1), #Editor_Contents .triangleTable > *:nth-child(12n+1) { border-left: var(--table-border-color) 1px solid; }
+#Editor_Contents .triangleTable > *:nth-child(12n+12) {
+    display: inline-flex;
+    flex-direction: row;
+}
+#Editor_Contents .triangleTable > *:nth-child(12n+12) button {
+    height: max-content;
+}
+.triangleTable svg { cursor: pointer; }
+#Editor_Contents .fixAllContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2px;
+    width: max-content;
+    background-color: var(--warning-background-color);
+}
+#Editor_Contents .fixAllContainer:not(:empty) {
+    margin-bottom: 10px;
+}
+.renderOptionsBox {
+    display: flex;
+    flex-direction: column;
+}
+.renderOptionsBox div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.renderOptionsBox input {
+    width: 200px
+}
+#Editor_Contents .threejsTable input[type="checkbox"] {
+    transform: scale(1.5);
+    width: 100%;
+    margin: auto;
+}
+#Editor_Contents .threejsTable > *:nth-child(3n) input[type="checkbox"] {
+    margin: 0 10px;
+    width: unset;
+}
+#Editor_Contents .metadataTable {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+}
+#Editor_Contents .metadataTable input {
+    font-size: 16px;
+}
+#Editor_Contents .triangleTable {
+    display: grid;
+    grid-template-columns: repeat(12, max-content);
+}
+
+
+#Editor_AddObjFile {
+    position: sticky;
+    bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-direction: column;
+    padding: 10px 0 10px 0;
+    background-color: var(--background-color-tooltip);
+    border-top: var(--navbar-background-color-hover) 4px solid;
+    margin-top: auto;
+}
+#Editor_AddObjFile > span > button:nth-child(-n+4) { margin-right: 20px; }
+#Editor_AddObjFile > span > button:nth-child(-n+3) {
+    background-color: var(--green-button);
+}
+#Editor_AddObjFile > span > button:nth-child(3) {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+    gap: 4px;
+}
+#Editor_AddObjFile > span button svg {
+    margin: auto 2px;
+    height: 100%;
+}
+#Editor_AddObjFile p {
+    text-align: center;
+}
+
+/* --------------- File Preview ------------ */
+
+#ShowOffsetButton {
+    font-size: 16px;
+}
+
+#FilePreviewContainer {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+#OffsetTable {
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content max-content minmax(300px, 750px);
+    grid-auto-rows: max-content;
+    margin: 10px 30px 0 0;
+}
+#OffsetTable > *:nth-child(-n+6) { border-top: var(--table-border-color) 1px solid; }
+#OffsetTable > *:nth-child(6n+1) { border-left: var(--table-border-color) 1px solid; }
+#OffsetTable > *:nth-child(6n+12) { text-align: left; }
+
+#FileAddresses {
+    display: grid;
+    grid-template-columns: max-content max-content max-content max-content repeat(16, 34px);
+    grid-auto-rows: 35px;
+    margin: 10px 0 0 0;
+}
+#FileAddresses > *:nth-child(-n+20) { border-top: var(--table-border-color) 1px solid; }
+#FileAddresses > *:nth-child(20n+1) { border-left: var(--table-border-color) 1px solid; }
+#FileAddresses > *:nth-child(20n+4) { border-right: var(--table-border-color) 19px solid; }
+
+#FileAddresses > p, #OffsetTable p {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    font-size: 18px;
+    margin: 0;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+    text-align: center;
+    padding: 6px;
+}
+
+/* ------------ Export Info Box ------------- */
+
+#ExportBox {
+    margin-top: 30px;
+}
+#WarningsText {
+    color: var(--warning-text-color);
+}
+#ErrorText {
+    color: var(--error-text-color);
+}
+#FileNameExport {
+    font-size: 18px;
+    width: 800px;
+    height: 30px;
+    font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+/* ------------- Export Buttons ------------- */
+
+#ButtonsAtBottomOfScreen {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    height: max-content;
+    margin: 30px 0 30px 0;
+}
+#AdvancedModeCheckMark:checked ~ #ContainerForAll #ButtonsAtBottomOfScreen { grid-template-columns: repeat(2, 1fr); }
+
+#ButtonsAtBottomOfScreen > button {
+    width: 100%;
+    min-height: 50px;
+    font-size: 20px;
+    color: var(--font-color-invert);
+    background-color: var(--blue-button);
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+    padding: 10px;
+}
+#ButtonsAtBottomOfScreen > button:hover { transform: translateY(-2px); }
+#ButtonsAtBottomOfScreen > button:active { transform: translateY(0); }
+
+/* ------------- ThreeJS window ------------- */
+
+#ThreeJsDisplay {
+    overflow: hidden;
+    position: relative;
+}
+#ThreeJsDisplay > * {
+    position: absolute;
+    /* inset: 0; */
+}
+#UnloadedThreeJSButton {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    height: 10%;
+    width: 96%;
+    min-height: 50px;
+    font-size: 20px;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+#ThreeJsDisplay .ThreeJSHud {
+    width: max-content;
+    height: max-content;
+    z-index: 2;
+    color: white;
+    text-shadow: 
+        -1px -1px 0 black,
+         1px -1px 0 black,
+        -1px  1px 0 black,
+         1px  1px 0 black;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(2) { /* reticle */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px; 
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(3) { /* top left */
+    position: absolute;
+    text-align: left;
+    left: 15px;
+    top: 15px;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(4) { /* camera position */
+    position: absolute;
+    text-align: right;
+    right: 15px;
+    top: 15px;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(5) { /* triangle looking at info */
+    position: absolute;
+    text-align: right;
+    right: 15px;
+    bottom: 15px;
+    font-size: 16px;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(5) button {
+    font-size: 16px;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(6), #ThreeJsDisplay .ThreeJSHud:nth-child(7), #ThreeJsDisplay .ThreeJSHud:nth-child(8) { /* v1, v2, and v3 */
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(9) { /* Powered by ThreeJS text */
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(10) { /* Change all file rendering */
+    position: absolute;
+    text-align: left;
+    left: 15px;
+    bottom: 15px;
+}
+#ThreeJsDisplay .ThreeJSHud:nth-child(10) input[type="color"] {
+    height: 21px;
+    margin: 4px 0;
+}
+.ThreeJSHud input[type="text"] {
+    width: 175px;
+}
+#ThreeJSHUD_unknown1Select {
+    width: 140px;
+}
+#ThreeJSHUD_unknown1Input {
+    width: 30px;
+}
+#EditorAnd3DBox .ThreeJSHud button {
+    font-size: 14px;
+}
+#ThreeJSHud_TriangleInfo span {
+    min-width: 175px;
+    width: max-content;
+    display: inline-block;
+    text-align: left;
+}
