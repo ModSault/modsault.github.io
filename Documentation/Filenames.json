@@ -43,13 +43,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_01.pac": {
     "Isfile_USA": true,
@@ -61,8 +61,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_02.pac": {
     "Isfile_USA": true,
@@ -74,8 +74,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_03.pac": {
     "Isfile_USA": true,
@@ -87,8 +87,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_04.pac": {
     "Isfile_USA": true,
@@ -100,8 +100,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_05.pac": {
     "Isfile_USA": true,
@@ -113,8 +113,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_06.pac": {
     "Isfile_USA": true,
@@ -126,8 +126,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_07.pac": {
     "Isfile_USA": true,
@@ -139,8 +139,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_08.pac": {
     "Isfile_USA": true,
@@ -152,8 +152,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_09.pac": {
     "Isfile_USA": true,
@@ -165,8 +165,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_10.pac": {
     "Isfile_USA": true,
@@ -178,8 +178,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_11.pac": {
     "Isfile_USA": true,
@@ -191,8 +191,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_12.pac": {
     "Isfile_USA": true,
@@ -204,8 +204,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_13.pac": {
     "Isfile_USA": true,
@@ -217,8 +217,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_14.pac": {
     "Isfile_USA": true,
@@ -230,8 +230,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_15.pac": {
     "Isfile_USA": true,
@@ -243,8 +243,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_16.pac": {
     "Isfile_USA": true,
@@ -256,8 +256,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_17.pac": {
     "Isfile_USA": true,
@@ -269,8 +269,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_18.pac": {
     "Isfile_USA": true,
@@ -282,8 +282,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_19.pac": {
     "Isfile_USA": true,
@@ -295,8 +295,8 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_20.pac": {
     "Isfile_USA": true,
@@ -308,21 +308,21 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_21.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "????? Unused Massive Ship collisions",
+    "Description": "Unused Massive Ship Collision",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_22.pac": {
     "Isfile_USA": true,
@@ -334,736 +334,736 @@
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_23.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_24.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_25.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_26.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_27.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_28.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_29.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_30.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "All Vehicle Collision",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_31.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 1 Space Ship Collisions?",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_32.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 2 Collisions?",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_33.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "All collisions for Mission 3 (I think?)",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_34.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "All Collisions for Mission 4 (I think?)",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_35.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_36.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "All Vehicle Collisions again I guess",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_37.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "All Collisions for Mission 7?",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_38.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "All Collisions for Mission 8",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_39.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "???",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_40.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 10 Boss Fight Collisions???",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_41.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_42.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_43.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_44.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_45.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_46.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_47.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_48.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_49.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_50.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_51.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_52.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_53.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_54.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_55.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_56.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_57.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_58.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_59.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_60.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_61.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_62.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_63.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_64.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_65.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_66.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_67.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_68.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_69.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_70.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_71.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_72.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_73.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_74.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_75.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_76.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_77.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "hit_pack_78.pac": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Nothing",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
     "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "ParsableTool_Text": "Website Tool",
+    "ParsableTool_Link": "https://modsault.github.io/CollisionFiles/"
   },
   "m0.rel": {
     "Isfile_USA": true,
