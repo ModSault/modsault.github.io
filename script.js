@@ -268,3 +268,25 @@ function makeHeader(title, funcToCall = null, makeGameModeSelector = true, makeA
     let scriptTag = document.currentScript;
     scriptTag.parentNode.replaceChild(topLevel, scriptTag);
 }
+
+// --------------- Security related things ------------------
+
+// claude written filename sanitizer
+const sanitizeFilename = (name) => name
+  .replaceAll(/[<>:"/\\|?*\x00-\x1F]/g, '')  // Remove illegal chars
+  .replaceAll(/[\s.]+$/g, '')                  // Strip trailing spaces/dots
+  .trim()                                       // Strip leading/trailing whitespace
+  || 'download';                                // Fallback if name is empty
+
+// got ASCII art from Claude. Made this cause I am not looking at security of my tools that much
+function printWarningToConsole() {
+    const warning = `
+██╗    ██╗ █████╗ ██████╗ ███╗   ██╗██╗███╗   ██╗ ██████╗ ██╗
+██║    ██║██╔══██╗██╔══██╗████╗  ██║██║████╗  ██║██╔════╝ ██║
+██║ █╗ ██║███████║██████╔╝██╔██╗ ██║██║██╔██╗ ██║██║  ███╗██║
+██║███╗██║██╔══██║██╔══██╗██║╚██╗██║██║██║╚██╗██║██║   ██║╚═╝
+╚███╔███╔╝██║  ██║██║  ██║██║ ╚████║██║██║ ╚████║╚██████╔╝██╗
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝`
+    console.log(warning, "\nBE AWARE OF WHAT YOU COPY AND PASTE IF YOU GOT IT FROM SOMEONE ELSE. SECURITY PROBLEMS CAN OCCUR!!!")
+}
+printWarningToConsole();
