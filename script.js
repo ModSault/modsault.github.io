@@ -86,6 +86,10 @@ function makeNavBar(pathToRoot) {
             "link": pathToRoot + "/"
         },
         {
+            "text": "Filenames",
+            "link": pathToRoot + "/Filenames/"
+        },
+        {
             "text": "ID Documentation \u25BC",
             "link": null,
             "dropdownElements": [
@@ -102,12 +106,12 @@ function makeNavBar(pathToRoot) {
                 {
                     "text": "VsMode Spawns (_vs_Axx.bin)",
                     "link": pathToRoot + "/VSModeSpawns/"
+                },
+                {
+                    "text": "Collision Files (hit_pack_xx.pac)",
+                    "link": pathToRoot + "/CollisionFiles/"
                 }
             ]
-        },
-        {
-            "text": "Filenames",
-            "link": pathToRoot + "/Filenames/"
         },
         {
             "text": "External Resources \u25BC",
