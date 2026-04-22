@@ -146,7 +146,8 @@ function makeThreeJSWindow() {
     if (!moved && !rotated) { return; }
 
     // update text with camera position and angle.
-    container_pTag[1].innerHTML = "Position: (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " +  camera.position.z.toFixed(2) + ")<br>";
+    container_pTag[1].textContent = "Position: (" + camera.position.x.toFixed(2) + ", " + camera.position.y.toFixed(2) + ", " +  camera.position.z.toFixed(2) + ")";
+    container_pTag[1].appendChild(document.createElement("br"));
     
     
     const dir = new THREE.Vector3();
@@ -154,7 +155,7 @@ function makeThreeJSWindow() {
     let yaw = Math.atan2(dir.x, dir.z) * 180 / Math.PI;
     yaw *= -1;
     if (yaw < 0) yaw = 360 - (yaw*-1);
-    container_pTag[1].innerHTML += "Angle: " + (yaw).toFixed(2) + "<br><br>";
+    container_pTag[1].appendChild(document.createTextNode("Angle: " + (yaw).toFixed(2)));
 
     // there is definitely a better way to tell you what you looked at but I want to get this done already
     const raycaster = new THREE.Raycaster();

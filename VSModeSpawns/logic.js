@@ -253,7 +253,9 @@ function makeOtherBox(haveUpArrow, haveDownArrow, index_SpawnType, index_SpawnNu
 
   if (totalNumSpawns == 1) {
     let pWarning = document.createElement("p");
-    pWarning.innerHTML = "X removed<br>for safety"
+    pWarning.textContent = "X removed";
+    pWarning.appendChild(document.createElement("br"));
+    pWarning.appendChild(document.createTextNode("for safety"));
     pWarning.className = "NotAdvancedOnly";
     divForOtherBox.appendChild(pWarning);
   }
@@ -407,19 +409,29 @@ function DisplaySpawnDataFromScratch(index) {
 
   let pWarning = document.createElement("p");
   if (AllSpawnData[index].name == "Vehicle Spawns") {
-    pWarning.innerHTML = "Vehicles won't spawn within 10 or so units from each other even when below the spawn limit.";
+    pWarning.textContent = "Vehicles won't spawn within 10 or so units from each other even when below the spawn limit.";
   }
   if (spawnType == "Spawn Limit") {
-    pWarning.innerHTML = "Values above 127 have inconsistent behavior depending on the map<br>(due to this value being read as an unsigned value sometimes and signed other times)";
+    pWarning.textContent = "Values above 127 have inconsistent behavior depending on the map";
+    pWarning.appendChild(document.createElement("br"));
+    pWarning.appendChild(document.createTextNode("(due to this value being read as an unsigned value sometimes and signed other times)"));
   }
   if (spawnType == "Weapon Spawn") {
-    pWarning.innerHTML = "Items/PowerUps for the Pilot will spawn on the closest floor<br><span class='AdvancedOnly'>Spawn Limit is ignored when mixing items not suited for this section (i.e. powerup in weapon)</span>";
+    pWarning.textContent = "Items/PowerUps for the Pilot will spawn on the closest floor";
+    pWarning.appendChild(document.createElement("br"));
+
+    const pWarning_span = document.createElement("span");
+    pWarning_span.className = "AdvancedOnly";
+    pWarning_span.textContent = "Spawn Limit is ignored when mixing items not suited for this section (i.e. powerup in weapon)";
+    pWarning.appendChild(pWarning_span);
   }
   if (spawnType == "Crown Spawn") {
-    pWarning.innerHTML = "This will spawn on the closest floor regardless of position";
+    pWarning.textContent = "This will spawn on the closest floor regardless of position";
   }
   if (spawnType == "Custom 16 bytes") {
-    pWarning.innerHTML = "This is a spawn that has no effect on the game<br>This only exists in case someone wants a new category for their own mod";
+    pWarning.textContent = "This is a spawn that has no effect on the game";
+    pWarning.appendChild(document.createElement("br"));
+    pWarning.appendChild(document.createTextNode("This only exists in case someone wants a new category for their own mod"));
   }
   details.appendChild(pWarning);
   
@@ -451,7 +463,7 @@ function DisplaySpawnDataFromScratch(index) {
 }
 function refreshSpawnData(index, recalculate = true) {
   const RelevantSummaryElement = document.getElementsByClassName("SpawnSummaryTitle")[index];
-  RelevantSummaryElement.innerHTML = AllSpawnData[index].name + " (" + AllSpawnData[index].spawns.length + ")"
+  RelevantSummaryElement.textContent = AllSpawnData[index].name + " (" + AllSpawnData[index].spawns.length + ")"
 
   let spawnType = AllSpawnData[index].type;
   switch (spawnType) {
@@ -796,7 +808,7 @@ function AddButtonAtBottom() {
 
   let buttonAddCustom = document.createElement("button");
   buttonAddCustom.className = "CustomAddSpawnButton AdvancedOnly";
-  buttonAddCustom.innerHTML = "Add Custom Spawn Type";
+  buttonAddCustom.textContent = "Add Custom Spawn Type";
   buttonAddCustom.onclick = function() {
     this.blur();
     addCustom16BytesToSpawnData();
@@ -869,7 +881,7 @@ function fileChange(file) {
   mapName = mapName.substring(0, mapName.indexOf("(")-1).trim();
   
   document.getElementById('labelFile').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--font-color)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>'
-  document.getElementById('labelFile').innerHTML += filename + " (Detected Map: " + mapName + ")";
+  document.getElementById('labelFile').appendChild(document.createTextNode(filename + " (Detected Map: " + mapName + ")"));
   parseFile(file);
   document.getElementById("file").value = "";
 }
@@ -1077,18 +1089,31 @@ function clampValue(initial, min, max) {
 function updateGeckoCodes() {
   const fourVeh = document.getElementById("4VehCode");
   const rev = document.getElementById("ReversalCode");
-
+  fourVeh.replaceChildren();
+  rev.replaceChildren();
+  
+  let fourVeh_text = [];
+  let rev_text = [];
   if (GameVersion == 0) { // USA
-    fourVeh.innerHTML = "282A2C9C FF000001<br>002A2E45 000000FF<br>E2000001 00000000";
-    rev.innerHTML = "002A658A 00000001<br>C2084D04 00000004<br>A0DE023A 38C60001<br>2C060003 41800008<br>38C00003 B0DE023A<br>887E01FA 00000000";
+    fourVeh_text = ["282A2C9C FF000001", "002A2E45 000000FF", "E2000001 00000000"];
+    rev_text = ["002A658A 00000001", "C2084D04 00000004", "A0DE023A 38C60001", "2C060003 41800008", "38C00003 B0DE023A", "887E01FA 00000000"];
   }
   if (GameVersion == 1) { // Japan
-    fourVeh.innerHTML = "282A72DC FF000001<br>002A7485 000000FF<br>E2000001 00000000";
-    rev.innerHTML = "002AABCA 00000001<br>C2084604 00000004<br>A0DE023A 38C60001<br>2C060003 41800008<br>38C00003 B0DE023A<br>887E01FA 00000000";
+    fourVeh_text = ["282A72DC FF000001", "002A7485 000000FF", "E2000001 00000000"];
+    rev_text = ["002AABCA 00000001", "C2084604 00000004", "A0DE023A 38C60001", "2C060003 41800008", "38C00003 B0DE023A", "887E01FA 00000000"];
   }
   if (GameVersion == 2) { // PAL
-    fourVeh.innerHTML = "282BD05C FF000001<br>002BD205 000000FF<br>E2000001 00000000";
-    rev.innerHTML = "002C094A 00000001<br>C2085768 00000004<br>A0DE023A 38C60001<br>2C060003 41800008<br>38C00003 B0DE023A<br>887E01FA 00000000";
+    fourVeh_text = ["282BD05C FF000001", "002BD205 000000FF", "E2000001 00000000"];
+    rev_text = ["002C094A 00000001", "C2085768 00000004", "A0DE023A 38C60001", "2C060003 41800008", "38C00003 B0DE023A", "887E01FA 00000000"];
+  }
+
+  for (let i = 0; i < fourVeh_text.length; i++) {
+    if (i !== 0) fourVeh.appendChild(document.createElement("br"));
+    fourVeh.appendChild(document.createTextNode(fourVeh_text[i]));
+  }
+  for (let i = 0; i < rev_text.length; i++) {
+    if (i !== 0) rev.appendChild(document.createElement("br"));
+    rev.appendChild(document.createTextNode(rev_text[i]));
   }
 
   updateFilePreview();

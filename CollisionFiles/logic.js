@@ -1084,7 +1084,7 @@ function Assault_FileChange(file) {
   updateFileNum(newFileNum);
 
   document.getElementById("AssaultLabelFile").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--font-color)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>'
-  document.getElementById("AssaultLabelFile").innerHTML += filename;
+  document.getElementById("AssaultLabelFile").appendChild(document.createTextNode(filename));
   // add description after filename so its purpose is easier to understand
   const actualFileNameInTable = "hit_pack_" + ((""+newFileNum).padStart(2, "0")) + ".pac";
   if (JSON_filenames != null && JSON_filenames[actualFileNameInTable] != undefined) {
@@ -1098,7 +1098,7 @@ function Assault_FileChange(file) {
 
     let textToAdd = relevant["Description"+ext];
     if (textToAdd == "" || textToAdd.indexOf("<") != -1) textToAdd = "Unknown / Undocumented File";
-    document.getElementById("AssaultLabelFile").innerHTML += " (" + textToAdd + ")";
+    document.getElementById("AssaultLabelFile").appendChild(document.createTextNode(" (" + textToAdd + ")"));
   }
   document.getElementById("Assault_file").value = "";
   Assault_parseFile(file);
