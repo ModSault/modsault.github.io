@@ -79,6 +79,9 @@ function hoverToolTipEnd() {
 // ----------------------------- Making Content between pages consistent -------------------------
 
 function makeNavBar(pathToRoot) {
+    // Redirect all network calls (for security to block requests outside the github site)
+    makeServiceWorkers(pathToRoot);
+
     // JSON with Navbar contents. Makes it easier to update
     const AllElements = [
         {
@@ -274,6 +277,50 @@ function makeHeader(title, funcToCall = null, makeGameModeSelector = true, makeA
 }
 
 // --------------- Security related things ------------------
+
+// all network calls go through a service worker to block those from outside the github site
+async function makeServiceWorkers(pathToRoot) {
+    if ('serviceWorker' in navigator) {
+        const reg = await navigator.serviceWorker.register(pathToRoot + '/sw.js');
+        
+        // If there's a new SW waiting, activate it immediately
+        if (reg.waiting) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+
+        // Wait until SW is active and controlling the page
+        await navigator.serviceWorker.ready;
+
+        // If page isn't already controlled, reload so SW takes over
+        if (!navigator.serviceWorker.controller) {
+            window.location.reload();
+        }
+
+        navigator.serviceWorker.register = function() { return Promise.reject(new Error('serviceWorker disabled')); };
+    }
+}
+
+// Block anything and everything network related that I don't use (thanks Claude)
+navigator.sendBeacon = () => false;
+window.WebSocket = function() { throw new Error('WebSocket disabled'); };
+window.EventSource = function() { throw new Error('EventSource disabled'); };
+window.RTCPeerConnection = function() { throw new Error('WebRTC disabled'); };
+window.SharedWorker = function() { throw new Error('SharedWorker disabled'); };
+window.RTCPeerConnection = function() { throw new Error('RTCPeerConnection disabled'); };
+window.RTCDataChannel = function() { throw new Error('RTCDataChannel disabled'); };
+window.Worker = function() { throw new Error('Worker disabled'); };
+window.SharedWorker = function() { throw new Error('SharedWorker disabled'); };
+window.BroadcastChannel = function() { throw new Error('BroadcastChannel disabled'); };
+window.XMLHttpRequest.prototype.open = function(method, url, ...rest) { throw new Error('XMLHttpRequest disabled'); };
+
+// fetch blocks all but those that I want (so usually loading JSON files for data and information)
+const originalFetch = window.fetch;
+window.fetch = function(url, options) {
+  if (url[0] == '/' || /^(blob:|data:|\/\/|https?:\/\/)/i.test(url.toString())) {
+    return Promise.reject(new Error(`Promise blocked: ${url}`));
+  }
+  return originalFetch(url, options);
+};
 
 // claude written filename sanitizer
 const sanitizeFilename = (name) => name
