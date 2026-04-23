@@ -301,26 +301,28 @@ async function makeServiceWorkers(pathToRoot) {
 }
 
 // Block anything and everything network related that I don't use (thanks Claude)
-navigator.sendBeacon = () => false;
-window.WebSocket = function() { throw new Error('WebSocket disabled'); };
-window.EventSource = function() { throw new Error('EventSource disabled'); };
-window.RTCPeerConnection = function() { throw new Error('WebRTC disabled'); };
-window.SharedWorker = function() { throw new Error('SharedWorker disabled'); };
-window.RTCPeerConnection = function() { throw new Error('RTCPeerConnection disabled'); };
-window.RTCDataChannel = function() { throw new Error('RTCDataChannel disabled'); };
-window.Worker = function() { throw new Error('Worker disabled'); };
-window.SharedWorker = function() { throw new Error('SharedWorker disabled'); };
-window.BroadcastChannel = function() { throw new Error('BroadcastChannel disabled'); };
-window.XMLHttpRequest.prototype.open = function(method, url, ...rest) { throw new Error('XMLHttpRequest disabled'); };
+function removeNetworkFeatures() {
+    navigator.sendBeacon = () => false;
+    window.WebSocket = function() { throw new Error('WebSocket disabled'); };
+    window.EventSource = function() { throw new Error('EventSource disabled'); };
+    window.RTCPeerConnection = function() { throw new Error('WebRTC disabled'); };
+    window.SharedWorker = function() { throw new Error('SharedWorker disabled'); };
+    window.RTCPeerConnection = function() { throw new Error('RTCPeerConnection disabled'); };
+    window.RTCDataChannel = function() { throw new Error('RTCDataChannel disabled'); };
+    window.Worker = function() { throw new Error('Worker disabled'); };
+    window.SharedWorker = function() { throw new Error('SharedWorker disabled'); };
+    window.BroadcastChannel = function() { throw new Error('BroadcastChannel disabled'); };
+    window.XMLHttpRequest.prototype.open = function(method, url, ...rest) { throw new Error('XMLHttpRequest disabled'); };
 
-// fetch blocks all but those that I want (so usually loading JSON files for data and information)
-const originalFetch = window.fetch;
-window.fetch = function(url, options) {
-  if (url[0] == '/' || /^(blob:|data:|\/\/|https?:\/\/)/i.test(url.toString())) {
-    return Promise.reject(new Error(`Promise blocked: ${url}`));
-  }
-  return originalFetch(url, options);
-};
+    // fetch blocks all requests outside of the current url origin
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+        if (url[0] == '/' || /^(blob:|data:|\/\/|https?:\/\/)/i.test(url.toString())) {
+            return Promise.reject(new Error(`Promise blocked: ${url}`));
+        }
+        return originalFetch(url, options);
+    };
+}
 
 // claude written filename sanitizer
 const sanitizeFilename = (name) => name
@@ -341,3 +343,4 @@ function printWarningToConsole() {
     console.log(warning, "\nBE AWARE OF WHAT YOU COPY AND PASTE IF YOU GOT IT FROM SOMEONE ELSE. SECURITY PROBLEMS CAN OCCUR!!!")
 }
 printWarningToConsole();
+removeNetworkFeatures();
