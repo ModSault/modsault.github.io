@@ -1111,6 +1111,12 @@ function createHighlightFromGoTo(CollisionIndex, triangleIndex) {
   return outline;
 }
 
+/* -------------------- Export Scene ------------ */
+
+async function exportScene(ext = ".glb") {
+  const { General3JS_Exporter } = await import('../Resources/threejs_importer_exporter.js');
+  await General3JS_Exporter(scene, getFileName(ext));
+}
 
 // -------------- call on load ------------------------
 
