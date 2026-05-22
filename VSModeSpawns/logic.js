@@ -25,6 +25,7 @@ var fileDownloadContents = new Uint8Array([0x00]);
 var fileDownloadSegmentColor = new Uint8Array([0x00]); // only used to get colors in file preview to match that of its spawn type index
 var fileNum = 0;
 var wasFileChanged = false;
+var JSON_filenames = null; // contains info for filenames and what map they are for. Only used in relevant files grid at the top of the page.
 
 /* ------------ Modify above variable ------------ */
 
@@ -1427,6 +1428,70 @@ function initialize3DDisplay() {
   }, { once: true });
 }
 
+/* --------------- update filename grid ---------- */
+
+function updateFilenameGrid() {
+  if (JSON_filenames == null) return;
+
+  // remove all elements in grid
+  const grid = document.getElementById("FileNameGrid");
+  grid.replaceChildren();
+
+  // get all filenames needed and sort alphabetically
+  const allNames = Object.keys(JSON_filenames);
+  const filteredNames = allNames.filter(key => /^_vs_A\d\d\.bin$/.test(key) );
+  const sortedNames = filteredNames.sort((a, b) => { return a.toLowerCase().localeCompare(b.toLowerCase()) });
+
+  // Make top row of grid
+  const topRowElements = ["Name", "Description"];
+  for (let i = 0; i < topRowElements.length; i++) {
+    grid.appendChild(makePTagOfText(topRowElements[i]));
+  }
+
+  // make All other rows
+  for (let i = 0; i < sortedNames.length; i++) {
+    const relevant = JSON_filenames[sortedNames[i]];
+
+    // check if in this version
+    let ext = "USA";
+    if (GameVersion == 1) ext = "Japan";
+    if (GameVersion == 2) ext = "PAL";
+    if (!relevant["Isfile_"+ext]) continue;
+
+    // add to grid if in this game version
+    grid.appendChild(makePTagOfText(sortedNames[i]));
+    if (relevant["IsSameAllVersions"]) {
+      grid.appendChild(makePTagOfText(relevant["Description"]));
+    } else {
+      if (GameVersion == 0) grid.appendChild(makePTagOfText(relevant["Description_USA"]));
+      if (GameVersion == 1) grid.appendChild(makePTagOfText(relevant["Description_Japan"]));
+      if (GameVersion == 2) grid.appendChild(makePTagOfText(relevant["Description_PAL"]));
+    }
+  }
+}
+
+/* -------------- Handle loading js file (advanced mode only, input isn't checked to be valid) ----------- */
+
+function AdvConLoad() {
+  alert("The file is assumed to be correct on load. So no security or sanity checks are done.")
+  document.getElementById("JSONLoadFile").click();
+}
+function LoadJSONFile(file) {
+  if (file == undefined) { return; }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      AllSpawnData = JSON.parse(e.target.result);
+      DisplayAllSpawnDataFromScratch();
+      wasFileChanged = false;
+    } catch (err) {
+      alert("Invalid JSON:", err);
+    }
+  };
+  reader.readAsText(file);
+}
+
 /* ------------ Run on startup ------------ */
 
 // wait for full html load
@@ -1436,6 +1501,16 @@ window.addEventListener("load", function() {
   updateGeckoCodes();
   updateFileNum(0);
   wasFileChanged = false;
+
+  fetch('../Documentation/Filenames.json')
+  .then(response => response.json())
+  .then(data => {
+    JSON_filenames = data;
+    updateFilenameGrid();
+  })
+  .catch(error => {
+    alert("Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: " + error)
+  });
 });
 window.addEventListener("beforeunload", (event) => {
   if (wasFileChanged) {

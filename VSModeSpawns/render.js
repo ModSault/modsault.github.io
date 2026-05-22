@@ -350,22 +350,6 @@ function makeAllShapesFromScratch() {
 
 /* ------------------------------- Loading user files (thanks chatGPT) ------------------------- */
 
-const loaderImports = {
-  gltf: () => import('../Resources/three.js/examples/jsm/loaders/GLTFLoader.js').then(m => m.GLTFLoader),
-  glb: () => import('../Resources/three.js/examples/jsm/loaders/GLTFLoader.js').then(m => m.GLTFLoader),
-  obj: () => import('../Resources/three.js/examples/jsm/loaders/OBJLoader.js').then(m => m.OBJLoader),
-  mtl: () => import('../Resources/three.js/examples/jsm/loaders/MTLLoader.js').then(m => m.MTLLoader),
-  fbx: () => import('../Resources/three.js/examples/jsm/loaders/FBXLoader.js').then(m => m.FBXLoader),
-  dae: () => import('../Resources/three.js/examples/jsm/loaders/ColladaLoader.js').then(m => m.ColladaLoader),
-  stl: () => import('../Resources/three.js/examples/jsm/loaders/STLLoader.js').then(m => m.STLLoader),
-  ply: () => import('../Resources/three.js/examples/jsm/loaders/PLYLoader.js').then(m => m.PLYLoader),
-  "3mf": () => import('../Resources/three.js/examples/jsm/loaders/3MFLoader.js').then(m => m.ThreeMFLoader),
-  amf: () => import('../Resources/three.js/examples/jsm/loaders/AMFLoader.js').then(m => m.AMFLoader),
-  vtk: () => import('../Resources/three.js/examples/jsm/loaders/VTKLoader.js').then(m => m.VTKLoader),
-  vtp: () => import('../Resources/three.js/examples/jsm/loaders/VTKLoader.js').then(m => m.VTKLoader),
-  usdz: () => import('../Resources/three.js/examples/jsm/loaders/USDZLoader.js').then(m => m.USDZLoader),
-};
-
 async function mapDraggedIn(ev) {
   ev.preventDefault();
   ChangeMapLoadedFile(ev.dataTransfer.items[0].getAsFile());
@@ -376,91 +360,17 @@ async function ChangeMapLoadedFile(file) {
   document.getElementById("LoadingMapText").innerText = "Loading...";
   isLoadingMap = true;
 
-  const filename = file.name;
-  const ext = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+  const { General3JS_Importer } = await import('../Resources/threejs_importer_exporter.js');
+  const result = await General3JS_Importer(file);
 
-  const importLoader = loaderImports[ext];
-  if (!importLoader) {
-    document.getElementById("LoadingMapText").innerText = "Unsupported file extension: " + ext;
-    isLoadingMap = false;
-    return;
+  if (result.type == "error") {
+    document.getElementById("LoadingMapText").innerText = result.message;
   }
-
-  try {
-    // Dynamically import the loader
-    const LoaderClass = await importLoader();
-    const loader = new LoaderClass();
-
-    // Read the file
-    const textFormats = ["obj", "mtl", "dae", "amf", "gltf"];
-    const reader = new FileReader();
-    const isText = textFormats.includes(ext);
-
-    const fileContent = await new Promise((resolve, reject) => {
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => {
-        isLoadingMap = false;
-        document.getElementById("LoadingMapText").innerText = "Failed to read file";
-        reject(reader.error);
-      };
-      reader.onabort = () => {
-        isLoadingMap = false;
-        document.getElementById("LoadingMapText").innerText = "Aborted read file";
-        reject(new Error("File read aborted"));
-      };
-      if (isText) reader.readAsText(file);
-      else reader.readAsArrayBuffer(file);
-    });
-
-    // Parse the model depending on loader
-    let object;
-    switch (ext) {
-      case "gltf":
-      case "glb":
-        object = await new Promise((resolve, reject) => {
-          loader.parse(fileContent, "", gltf => resolve(gltf.scene), err => reject(err));
-        });
-        break;
-
-      case "obj":
-      case "mtl":
-      case "fbx":
-      case "amf":
-        object = loader.parse(fileContent);
-        break;
-
-      case "dae":
-      case "3mf":
-        object = loader.parse(fileContent).scene;
-        break;
-
-      case "stl":
-        const geometry = loader.parse(fileContent);
-        object = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0x7777ff }));
-        break;
-
-      case "ply":
-        const plyGeometry = loader.parse(fileContent);
-        object = new THREE.Mesh(plyGeometry, new THREE.MeshStandardMaterial({ color: 0x7777ff }));
-        break;
-
-      case "vtk":
-      case "vtp":
-      case "usdz":
-        object = loader.parse(fileContent);
-        break;
-
-      default:
-        throw new Error("Unsupported loader logic for extension: " + ext);
-    }
-
+  if (result.type == "model") {
     if (currentMap) scene.remove(currentMap);
-    currentMap = object;
+    currentMap = result.message;
     scene.add(currentMap);
     document.getElementById("LoadingMapText").innerText = "";
-  } catch (err) {
-    console.error("Error loading model:", err);
-    document.getElementById("LoadingMapText").innerText = "Failed to load model: " + err.message
   }
   isLoadingMap = false;
 }
@@ -490,6 +400,13 @@ function quickAdd(index) {
     AllSpawnData[index].spawns[newSpawnIndex].angle = angle;
   }
   refreshSpawnData(index);
+}
+
+/* -------------------- Export Scene ------------ */
+
+async function exportScene(ext = ".glb") {
+  const { General3JS_Exporter } = await import('../Resources/threejs_importer_exporter.js');
+  await General3JS_Exporter(scene, fileNumToStr()+ext);
 }
 
 /* -------------------- Run When file is loaded ------------------- */

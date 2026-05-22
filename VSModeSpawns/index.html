@@ -17,10 +17,29 @@
 
   <body>
     <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark">
+    <input type="file" id="JSONLoadFile" name="JSONLoadFile" accept=".json" onchange="LoadJSONFile(this.files[0]);" hidden>
     <script>makeNavBar("..");</script>
-    <script>makeHeader("Star Fox Assault Vs Mode Spawn Manipulation", null);</script>
+    <script>makeHeader("Star Fox Assault Vs Mode Spawn Manipulation", updateFilenameGrid);</script>
     
     <div id = "ContainerForAll">
+      <!-- Commonly Asked questions and relevant game files -->
+      <div class = "box" id="RelevantFilesBox">
+        <h2>Information About The Tool</h2>
+        <h3>How to use the Tool</h3>
+        <p>
+          I assume you already dumped your game copy to your computer and extracted its files. If not you can find lots of guides on the internet. Using the big box below you can upload '_vs_Axx.bin' files from the root of the game's disc.
+          You will then be able to view and edit all its information within this tool. Once happy with the changes select the map you want it for and click the blue button to download it.
+        </p>
+        <h3>How to report bugs</h3>
+        <p>I have a small audience so doing anything would get my attention. Using GitHub issues would be best but even a Reddit DM would work if you really wanted to (assuming I get an email).</p>
+        <h3>All Relevant Filenames</h3>
+        <p>These are files that this tool is meant to read and modify.</p>
+        <details>
+          <summary>Dropdown button</summary>
+          <div id="FileNameGrid"><p>Loading...</p></div>
+        </details>
+      </div>
+
       <div id = "InputFileContainer" class = "box">
         <input type="file" id="file" name="file" accept=".bin" onchange="fileChange(this.files[0]);" hidden>
         <div class = "GreyOutline">
@@ -134,6 +153,7 @@
             <p>Loading Threejs...</p>
             <p>Looking at No Spawns</p>
             <p></p>
+            <button onclick="exportScene()">export scene as .glb</button>
           </div>
         </div>
       </div>
@@ -191,7 +211,7 @@
       <div id="ButtonsAtBottomOfScreen">
         <button onclick="downloadBin()"></button>
         <button onclick="geckoCodeCopy()"></button>
-        <button onclick="downloadJSON()" class="AdvancedOnly">Download as JSON (Advanced Mode only, replace 'AllSpawnData' in dev tools and call 'DisplayAllSpawnDataFromScratch()' to load)</button>
+        <button onclick="downloadJSON()" class="AdvancedOnly">Download as JSON (Advanced Mode only, type `AdvConLoad()` into the devtools console to load)</button>
       </div>
 
       <br class="box AdvancedOnly">

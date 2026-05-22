@@ -1,5 +1,36 @@
 button, summary {cursor: pointer;}
 
+/* ------------- Commonly Asked questions and relevant game files box ------------- */
+
+#RelevantFilesBox h3 {
+    font-size: 18px;
+    margin: 15px 0 5px 0;
+    text-decoration: underline;
+}
+#RelevantFilesBox p {
+    margin: 0;
+}
+#RelevantFilesBox { margin-bottom: 10px; }
+#RelevantFilesBox summary {
+    font-size: 18px;
+    margin: 10px;
+}
+
+#FileNameGrid {
+    display: grid;
+    margin: 10px;
+    grid-template-columns: max-content 3fr;
+}
+#FileNameGrid * {
+    margin: 0;
+    padding: 5px;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+}
+#FileNameGrid > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+#FileNameGrid > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+
+
 /* ------------- Setup for seeing spawn info and map at same time ------------- */
 
 #ContentSplitter {
@@ -291,7 +322,8 @@ summary {
 /* --------------- Three JS Segment ------------------------ */
 
 #ThreeJsDisplay {
-    min-width: 700px;
+    min-width: 900px;
+    min-height: 800px;
     display: flex;
     flex-direction: row;
     flex-grow: 99;
@@ -359,6 +391,13 @@ summary {
     height: 5px;
     background: white;
     border-radius: 50%;
+}
+#ThreeJSRightBar button {
+    position: absolute;
+    font-size: 16px;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 #LoadingMapText {
     margin: 0;
