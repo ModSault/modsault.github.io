@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./fancy.css">
+
+    <script src="../script.js"></script>
+    <script type="importmap"> { "imports": { "three": "../Resources/three.js/build/three.module.min.js" } } </script>
+    <script src="./logic.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="../favicon.png">
+    <title>Vs Mode Intro Camera Cinematic Files | Modsault </title>
+  </head>
+
+  <body>
+    <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark" hidden>
+    <input type="checkbox" id="ThreeJSRenderedCheckMark" name="ThreeJSRenderedCheckMark" hidden>
+    <input type="file" id="JSONLoadFile" name="JSONLoadFile" accept=".json" onchange="LoadJSONFile(this.files[0]);" hidden>
+    <script>makeNavBar("..");</script>
+    <script>makeHeader("Star Fox Assault Vs Mode Intro Camera Cinematic Files", gameVersionUpdater);</script>
+    
+    <div id = "ContainerForAll">
+      <!-- Commonly Asked questions and relevant game files -->
+      <div class = "box" id="RelevantFilesBox">
+        <h2>Information About The Tool</h2>
+        <h3>How to use the Tool</h3>
+        <p>
+          I assume you already dumped your game copy to your computer and extracted its files. If not you can find lots of guides on the internet. Using the big box below you can upload 'ts_cammotxxy.bin' files from the root of the game's disc.
+          You will then be able to view and edit all information regarding the camera introduction at the start of Vs Mode matches. Once happy with the changes select the map you want it for and click the blue button to download it. Or copy it as 
+          a Gecko Code for more convenience.
+        </p>
+        <h3>How does the file work?</h3>
+        <p>The file contains positions and angles for the camera to go to called keyframes. It takes roughly half a second to reach the next keyframe. The first and last keyframe may not be reached because of the fade in and out. The filename ending with 'a' is used when on-foot is selected. The filename ending with 'b' is used when on-foot isn't selected and the Arwing/Wolfen is. And the filename ending with 'c' is used if only the Landmaster is selected.</p>
+        <h3>Why are there 2 inputs in Advanced Mode</h3>
+        <p>One of which, the one shown when not in advanced mode, is easier for us as humans to understand. The other is the raw data the game will see. Change whichever you prefer.</p>
+        <h3>How to report bugs</h3>
+        <p>I have a small audience so doing anything would get my attention. Using GitHub issues would be best but even a Reddit DM would work if you really wanted to (assuming I get an email).</p>
+        <h3>All Relevant Filenames</h3>
+        <p>These are files that this tool is meant to read and modify.</p>
+        <details>
+          <summary>Dropdown button</summary>
+          <div id="FileNameGrid"><p>Loading...</p></div>
+        </details>
+      </div>
+      <br>
+
+      <!-- Place to Upload file from SFA -->
+      <div id = "InputFileContainer" class = "box">
+        <input type="file" id="Assault_file" name="Assault_file" accept=".bin" onchange="Assault_FileChange(this.files[0]);" hidden>
+        <div class = "GreyOutline">
+          <label id = "AssaultLabelFile" for="Assault_file" ondrop="Assault_DropHandler(event);" ondragover="event.preventDefault();">
+            <svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--font-color)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+            No file selected. Choose a "ts_cammotxxy.bin" file in the root of the game's disc. "xx" can be any decimal number. "y" can be "a", "b", or "c".
+          </label>
+        </div>
+      </div>
+      <br>
+
+      <!-- Content Splitter for Contents of file and 3JS viewer -->
+      <div id="ContentSplitter">
+        <!-- File contents editor and preview -->
+        <div id="FileContents" class = "box"></div>
+
+        <!-- ThreeJS viewer -->
+        <div id="ThreeJSViewer" class = "box">
+          <button id="UnloadedThreeJSButton" onclick="initialize3DDisplay()">Load 3D Display (website will download more and run slower)</button>
+          <p class="ThreeJSHud ThreeJSOnly"></p>
+          <p class="ThreeJSHud ThreeJSOnly">Movement - WASDQE<br>Speed - Shift and V<br>Camera - Mouse and R and T</p>
+          <p class="ThreeJSOnly ThreeJSHud">
+            Powered By <a href="https://threejs.org/">ThreeJS</a>!
+            <br>
+            <button onclick="exportScene()">export scene as .glb</button>
+          </p>
+          <div class="ThreeJSOnly ThreeJSHud">
+            Position: <input name="Camera3DPosition" type="text" onchange="CameraPositionChange(this.value);">
+            <br>
+            Angle: <input name="Camera3DAngle" type="text" onchange="CameraAngleChange(this.value);">
+            <br>
+            <input type="checkbox" id="GridHelperSee" onchange="gridHelper.visible = this.checked;" checked> <label for="GridHelperSee"> Show Grid </label>
+            <br>
+            <div class="flexRow">
+              <p>Keyframe Color:</p>
+              <input type="color" name="KeyFrameColor" id="KeyFrameColor" value="#FF0000" onchange="rerenderAllThreeJS();"/>
+            </div>
+            <div class="flexRow">
+              <input type="checkbox" id="ShowStepsCheckbox" onchange="rerenderAllThreeJS();" checked />
+              <p>Step Color:</p>
+              <input type="color" name="StepColor" id="StepColor" value="#FFA500" onchange="rerenderAllThreeJS();"/>
+            </div>
+            <div class="flexRow">
+              <input type="checkbox" id="ShowFOVCheckbox" onchange="rerenderAllThreeJS();" checked />
+              <p>FOV Visualizer:</p>
+              <input type="color" name="FOVColor" id="FOVColor" value="#00FF00" onchange="rerenderAllThreeJS();"/>
+            </div>
+          </div>
+          <div class="ThreeJSOnly ThreeJSHud">
+            <p id="LoadingMapText"></p>
+            <input type="file" id="fileMap" name="fileMap" accept=".gltf,.glb,.obj,.mtl,.fbx,.dae,.stl,.ply,.3mf,.amf,.vtk,.vtp,.usdz" onchange="ChangeMapLoadedFile(this.files[0]);" hidden>
+            <button onclick="document.getElementById('fileMap').click();">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-invert)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+              Load Map
+            </button>
+          </div>
+          <div class="ThreeJSOnly ThreeJSHud" id="ThreeJSHud_TriangleInfo" style="display: none;">
+            <p>Keyframe - 0</p>
+            <div class="flexRow">
+              <p>X: </p>
+              <input name="HUD_X_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'x', this.value/10);"/>
+              <input class="AdvancedOnly" name="HUD_X_2" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'x', hexToFloat32(this.value.replace(/[^0-9a-fA-F]/g, '')));"/>
+            </div>
+            <div class="flexRow">
+              <p>Y: </p>
+              <input name="HUD_Y_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'y', this.value/10);"/>
+              <input class="AdvancedOnly" name="HUD_Y_2" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'y', hexToFloat32(this.value.replace(/[^0-9a-fA-F]/g, '')));"/>
+            </div>
+            <div class="flexRow">
+              <p>Z: </p>
+              <input name="HUD_Z_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'z', this.value/10);"/>
+              <input class="AdvancedOnly" name="HUD_Z_2" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'z', hexToFloat32(this.value.replace(/[^0-9a-fA-F]/g, '')));"/>
+            </div>
+            <div class="flexRow">
+              <p>Yaw: </p>
+              <input name="HUD_rx_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'rot_x', DegreeToAngle(this.value));"/>
+              <input class="AdvancedOnly" name="HUD_rx_2" type="number" step="1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'rot_x', this.value);"/>
+            </div>
+            <div class="flexRow">
+              <p>Pitch: </p>
+              <input name="HUD_ry_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'rot_y', DegreeToAngle(this.value));"/>
+              <input class="AdvancedOnly" name="HUD_ry_2" type="number" step="1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'rot_y', this.value);"/>
+            </div>
+            <div class="flexRow">
+              <p>Roll: </p>
+              <input name="HUD_rz_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'rot_z', DegreeToAngle(this.value));"/>
+              <input class="AdvancedOnly" name="HUD_rz_2" type="number" step="1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'rot_z', this.value);"/>
+            </div>
+            <div class="flexRow">
+              <p>FOV: </p>
+              <input name="HUD_rz_1" type="number" step="0.1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'fov', this.value*100);"/>
+              <input class="AdvancedOnly" name="HUD_rz_2" type="number" step="1" onchange="data_updateKeyFrame(currentSetIndex, currentKeyframeIndex, 'fov', this.value);"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <!-- Export Info Box -->
+      <div class = "box" id = "ExportBox">
+        <h2>Export Options And Information</h2>
+        <script>makeGameModeSelector(gameVersionUpdater);</script>
+        <p>Select the filename name you want to export as. Select the "Template" for the Gecko Code to work for all maps and every context.</p>
+        <select name="FileNameExport" id="FileNameExport" onchange="this.value == -1 ? updateFileNumAndLetter(-1,'y') : updateFileNumAndLetter(Math.floor(this.value/3), (['a','b','c'])[this.value%3])">
+          <script>makeAllOptionTags()</script>
+        </select>
+        <br>
+        <p>No matter what you see here the file can still be downloaded. Preferably you still want less warnings and errors.</p>
+        <p id="WarningsText"></p>
+        <p id="ErrorText"></p>
+      </div>
+      <br>
+
+      <!-- Export and Download buttons -->
+      <div id="ButtonsAtBottomOfScreen">
+        <button onclick="downloadBin();">Download (ts_cammotxxy.bin)</button>
+        <button onclick="geckoCodeCopy();">Copy as Gecko Code into Clipboard (All maps - All types)</button>
+        <button onclick="downloadJSON();">Download as JSON (Advanced Mode only, type `AdvConLoad()` into the devtools console to load)</button>
+      </div>
+      <br>
+
+      <!-- File and Offset Preview -->
+      <div class = "box AdvancedOnly" id="FilePreviewContainer">
+        <h2> File Preview </h2>
+        <script>makeGameModeSelector(gameVersionUpdater);</script>
+        <p>
+          This is the file you will download upon clicking the button above. This is shown to you to make debugging easier and document the file structure.
+        </p>
+        <div class="flexContainer flexRow">
+          <div id="OffsetDescriptionGrid"></div>
+          <div id="FilePreviewGrid"></div>
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+  </body>
+</html>

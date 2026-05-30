@@ -1,0 +1,285 @@
+.box p { margin: 0; }
+
+/* ----------------- Information about the tool at the top of the page ------------ */
+
+#RelevantFilesBox summary {
+  font-size: 18px;
+  margin: 10px;
+}
+#RelevantFilesBox p { margin: 0; }
+
+#FileNameGrid {
+  display: grid;
+  margin: 10px;
+  grid-template-columns: max-content max-content;
+}
+#FileNameGrid * {
+  margin: 0;
+  padding: 5px;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+#FileNameGrid > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+#FileNameGrid > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+
+
+/* ---------------- Input File Box ----------------- */
+
+#InputFileContainer {
+  width: 100%;
+  min-height: 100px;
+  height: max-content;
+  padding: 0;
+}
+.GreyOutline {
+  width: calc(100% - 10px);
+  margin: 5px auto;
+}
+#AssaultLabelFile {
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+  border: 3px dashed var(--input-file-grey);
+  border-radius: 50px;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* ---------- Content Splitter for Contents of file and 3JS viewer ----------- */
+
+#ContentSplitter {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---------------- File Contents Preview ------------------ */
+
+#FileContents {
+  min-width: 1050px;
+  width: max-content;
+  height: 900px;
+  overflow: auto;
+  flex-grow: 1;
+}
+
+#ContentSplitter h2 {
+  margin: 0 auto;
+  width: max-content;
+}
+.keyframeTable {
+  display: grid;
+  grid-template-columns: repeat(9, max-content);
+  width: max-content;
+  margin: 0 auto;
+}
+.keyframeTable svg {
+  cursor: pointer;
+}
+.keyframeTable input {
+  width: 100px;
+}
+.keyframeTable input, .keyframeTable button {
+  height: 22px;
+  font-size: 16px;
+}
+.keyframeTable > * {
+  padding: 5px;
+  position: relative;
+  text-align: center;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+.keyframeTable > *:nth-child(-n+9) { border-top: var(--table-border-color) 1px solid; }
+.keyframeTable > *:nth-child(9n+1) { border-left: var(--table-border-color) 1px solid; }
+.keyframeTable > *:nth-child(9n+18), .keyframeTable > *:nth-child(9n+10) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addButtonContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 10px auto;
+  gap: 10px;
+}
+.addButtonContainer button {
+  font-size: 18px;
+  padding: 4px 6px;
+  background-color: var(--green-button);
+}
+.addButtonContainer button:last-child {
+  background-color: var(--red-button);
+}
+
+.addKeyframeSet {
+  font-size: 18px;
+  padding: 4px 6px;
+  margin: 0 auto;
+  background-color: var(--green-button);
+}
+
+/* --------------- ThreeJS viewer ---------------- */
+
+#ThreeJSViewer {
+  position: relative;
+  min-width: 800px;
+  min-height: 900px;
+  flex-grow: 999;
+  padding: 0;
+  overflow: hidden;
+}
+#UnloadedThreeJSButton {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 10%;
+  width: 96%;
+  font-size: 20px;
+  margin: auto;
+}
+
+#ThreeJSViewer > * {
+  position: absolute;
+}
+
+#ThreeJSViewer .ThreeJSHud {
+  width: max-content;
+  height: max-content;
+  z-index: 2;
+  color: white;
+  text-shadow: 
+    -1px -1px 0 black,
+      1px -1px 0 black,
+    -1px  1px 0 black,
+      1px  1px 0 black;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(2) { /* reticle */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px; 
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(3) { /* top left */
+  position: absolute;
+  text-align: left;
+  left: 15px;
+  top: 15px;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(4) { /* top */
+  position: absolute;
+  text-align: center;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(5) { /* top right */
+  position: absolute;
+  text-align: right;
+  top: 15px;
+  right: 15px;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(6) { /* bottom left */
+  position: absolute;
+  text-align: left;
+  bottom: 15px;
+  left: 15px;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(6) button {
+  font-size: 18px;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(7) { /* bottom right */
+  position: absolute;
+  text-align: right;
+  bottom: 15px;
+  right: 15px;
+}
+#ThreeJSViewer .ThreeJSHud .flexRow {
+  justify-content: right;
+  align-items: center;
+  gap: 5px;
+}
+#ThreeJSViewer .ThreeJSHud:nth-child(7) input {
+  width: 105px;
+}
+
+/* -------------- Export Box ----------------- */
+
+#FileNameExport {
+  font-size: 18px;
+  width: 800px;
+  height: 30px;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+}
+#WarningsText {
+  color: var(--warning-text-color);
+}
+#ErrorText {
+  color: var(--error-text-color);
+}
+
+/* --------------- Blue Buttons for Download/Exporting ------------- */
+
+#ButtonsAtBottomOfScreen {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+#ButtonsAtBottomOfScreen > button {
+  width: 100%;
+  min-height: 50px;
+  font-size: 20px;
+  color: var(--font-color-invert);
+  background-color: var(--blue-button);
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+  padding: 10px;
+}
+
+
+/* ------------- File Preview Grids ------------------ */
+
+#OffsetDescriptionGrid {
+  display: grid;
+  grid-template-columns: max-content max-content minmax(300px, 750px);
+  grid-auto-rows: max-content;
+  margin: 10px 30px 0 0;
+}
+#OffsetDescriptionGrid > *:nth-child(-n+3) { border-top: var(--table-border-color) 1px solid; }
+#OffsetDescriptionGrid > *:nth-child(3n+1) { border-left: var(--table-border-color) 1px solid; }
+#OffsetDescriptionGrid > *:nth-child(3n+6) { text-align: left; }
+
+#FilePreviewGrid {
+  display: grid;
+  grid-template-columns: repeat(17, max-content);
+  grid-auto-rows: max-content;
+  margin: 10px 0 0 0;
+}
+#FilePreviewGrid > p, #OffsetDescriptionGrid p {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  margin: 0;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+  text-align: center;
+  padding: 6px;
+}
+#FilePreviewGrid > *:nth-child(-n+17) { border-top: var(--table-border-color) 1px solid; }
+#FilePreviewGrid > *:nth-child(17n+1) { border-left: var(--table-border-color) 1px solid; }
+#FilePreviewGrid > *:nth-child(17n+1) { border-right: var(--table-border-color) 19px solid; }
