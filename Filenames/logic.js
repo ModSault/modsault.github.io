@@ -47,8 +47,8 @@ function resetTable() {
       if (GameVersion == 2) grid.appendChild(makeText(relevant["Description_PAL"]));
     }
 
-    if (relevant["IsParsable"]) {
-      grid.appendChild(makeText("None"));
+    if (!relevant["IsParsable"]) {
+      grid.appendChild(makeText(""));
     } else {
       grid.appendChild(makeText(relevant["ParsableTool_Text"], relevant["ParsableTool_Link"]));
     }
