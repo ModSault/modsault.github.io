@@ -8363,26 +8363,26 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 6 Prerendered Cutscene where Star Fox Learns of Problem on Sauria. In Japanese; probably a placeholder.",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/loop_demo.sfd": {
     "Isfile_USA": true,
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Prerendered Cutscene Played on Game Boot",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m0111.fpc": {
     "Isfile_USA": true,
@@ -8402,13 +8402,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 1: Showing War Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m0121.fpc": {
     "Isfile_USA": true,
@@ -8428,13 +8428,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 1: Star Fox Enters the Arwings Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m0541.fpc": {
     "Isfile_USA": true,
@@ -8454,13 +8454,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 6: Star Fox Learns of Problems on Sauria Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m0641.fpc": {
     "Isfile_USA": true,
@@ -8480,13 +8480,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 6: Fox, Krystal, and Tricky Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m1041.fpc": {
     "Isfile_USA": true,
@@ -8506,13 +8506,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 10: Aparoid Queen is Killed Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m2300.fpc": {
     "Isfile_USA": true,
@@ -8532,13 +8532,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 10: Aparoid Planet is Destoryed Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m3100.fpc": {
     "Isfile_USA": true,
@@ -8558,13 +8558,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 9: Star Fox Goes to the Aparoid Homeworld Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "movie/m3200.fpc": {
     "Isfile_USA": true,
@@ -8584,13 +8584,13 @@
     "Isfile_Japan": true,
     "Isfile_PAL": true,
     "IsSameAllVersions": true,
-    "Description": "",
+    "Description": "Mission 10: Peppy's Sacrifice Prerendered Cutscene",
     "Description_USA": "",
     "Description_Japan": "",
     "Description_PAL": "",
-    "IsParsable": false,
-    "ParsableTool_Text": "",
-    "ParsableTool_Link": ""
+    "IsParsable": true,
+    "ParsableTool_Text": "RE4 Google Doc Guide (found by Rush)",
+    "ParsableTool_Link": "https://docs.google.com/document/d/14j8hRKtQvYNaY-sd7rsnxT85m9n1t6RTOCSKceTdqFE/edit?tab=t.0"
   },
   "se/a0131.c3d": {
     "Isfile_USA": true,
