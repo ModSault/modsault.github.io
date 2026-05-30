@@ -282,7 +282,6 @@ summary {
 }
 #FilePreviewGrid > p, #OffsetDescriptionGrid p {
     font-family: Consolas, Monaco, "Courier New", monospace;
-    font-size: 19px;
     margin: 0;
     border-bottom: var(--table-border-color) 1px solid;
     border-right: var(--table-border-color) 1px solid;
