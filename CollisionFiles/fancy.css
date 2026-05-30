@@ -1,6 +1,3 @@
-#ThreeJSRenderedCheckMark { display: none; }
-#ThreeJSRenderedCheckMark:not(:checked) ~ #ContainerForAll .ThreeJSOnly { display: none; }
-#ThreeJSRenderedCheckMark:checked ~ #ContainerForAll .NotThreeJSOnly { display: none; }
 .box p { margin: 0; }
 
 /* ------------ General Classes ------------- */
