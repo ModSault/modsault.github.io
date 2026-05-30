@@ -58,12 +58,16 @@
   color: var(--font-color);
 }
 
+.rotate180 { transform: rotate(180deg); }
 .flexContainer { display: flex; flex-wrap: wrap;}
 .flexRow { display: flex; flex-direction: row; }
 .flexColumn { display: flex; flex-direction: column; }
 #AdvancedModeCheckMark { display: none; }
 #AdvancedModeCheckMark:not(:checked) ~ #ContainerForAll .AdvancedOnly { display: none; }
 #AdvancedModeCheckMark:checked ~ #ContainerForAll .NotAdvancedOnly { display: none; }
+#ThreeJSRenderedCheckMark { display: none; }
+#ThreeJSRenderedCheckMark:not(:checked) ~ #ContainerForAll .ThreeJSOnly { display: none; }
+#ThreeJSRenderedCheckMark:checked ~ #ContainerForAll .NotThreeJSOnly { display: none; }
 a { color: var(--link-color) }
 a:hover { color: var(--link-color-hover) }
 a:visited { color: var(--link-color-visited) }
