@@ -129,6 +129,7 @@ const exporterImports = {
 };
 
 export async function General3JS_Exporter(object, filename = "export.glb") {
+  alert("I don't know what you're exporting but keep in mind it might still be copyrighted if you imported a game file. DO NOT DISTRIBUTE IF THAT IS THE CASE!")
   if (!object) return { type: "error", message: "No object provided" };
 
   const ext = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
