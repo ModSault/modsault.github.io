@@ -58,7 +58,9 @@
   color: var(--font-color);
 }
 
+.rotate90 { transform: rotate(90deg); }
 .rotate180 { transform: rotate(180deg); }
+.rotate270 { transform: rotate(270deg); }
 .flexContainer { display: flex; flex-wrap: wrap;}
 .flexRow { display: flex; flex-direction: row; }
 .flexColumn { display: flex; flex-direction: column; }
@@ -72,7 +74,7 @@ a { color: var(--link-color) }
 a:hover { color: var(--link-color-hover) }
 a:visited { color: var(--link-color-visited) }
 
-body { margin: 0; }
+body { margin: 0; min-width: 1280px; }
 button, summary { cursor: pointer; }
 #ContainerForAll { width: 97%; margin: auto; }
 #Title {
