@@ -126,6 +126,10 @@ function makeNavBar(pathToRoot) {
                 {
                     "text": "VsMode Intro Camera Files (ts_cammotxxy.bin)",
                     "link": pathToRoot + "/VSModeIntro/"
+                },
+                {
+                    "text": "Level Boundary Files (ts_mapdataxx.bin)",
+                    "link": pathToRoot + "/LevelBoundaryFiles/"
                 }
             ]
         },
