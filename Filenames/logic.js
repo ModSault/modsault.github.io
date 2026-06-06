@@ -72,5 +72,5 @@ fetch('../Documentation/Filenames.json')
   resetTable();
 })
 .catch(error => {
-  alert("Failed to load file. No information on this page will be presented to you. I recommend a page refresh. Error: " + error)
+  alert(`Failed to load file. No information on this page will be presented to you. I recommend a page refresh. Error: ${error}`)
 });

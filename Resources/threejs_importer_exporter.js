@@ -23,10 +23,10 @@ export async function General3JS_Importer(file) {
 
   const importLoader = loaderImports[ext];
   if (!importLoader) {
-    alert("Unsupported file extension: " + ext);
+    alert(`Unsupported file extension: ${ext}`);
     return {
         "type": "error",
-        "message": "Unsupported file extension: " + ext
+        "message": `Unsupported file extension: ${ext}`
     };
   }
 
@@ -107,10 +107,10 @@ export async function General3JS_Importer(file) {
         "message": object
     };
   } catch (err) {
-    alert("Failed to load model: " + err.message);
+    alert(`Failed to load model: ${err.message}`);
     return {
         "type": "error",
-        "message": "Failed to load model: " + err.message
+        "message": `Failed to load model: ${err.message}`
     };
   }
 }
@@ -136,7 +136,7 @@ export async function General3JS_Exporter(object, filename = "export.glb") {
 
   const importExporter = exporterImports[ext];
   if (!importExporter) {
-    alert("Unsupported export format: " + ext);
+    alert(`Unsupported export format: ${ext}`);
     return { type: "error", message: "Unsupported export format: " + ext };
   }
 
@@ -199,8 +199,8 @@ export async function General3JS_Exporter(object, filename = "export.glb") {
     return { type: "success", message: "Exported " + filename };
 
   } catch (err) {
-    alert("Failed to export model: " + err.message);
-    return { type: "error", message: "Failed to export model: " + err.message };
+    alert(`Failed to export model: ${err}`);
+    return { type: "error", message: `Failed to export model: ${err}` };
   }
 }
 

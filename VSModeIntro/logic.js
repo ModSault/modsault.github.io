@@ -26,7 +26,6 @@ var fileNum = 0; // used for getting correct filename on an export
 var fileLetter = 'a'; // used to know if file is type 'a', 'b', or 'c'
 var wasFileChanged = false; // used for popup to prevent closing browser
 var JSON_filenames = null; // used to determine what filenames are for what. Loaded on page load
-var lastFocusedPath = "html"; // used to put focus on right element if it was removed and re-added
 
 /* ------------- general purpose function ------------ */
 
@@ -128,6 +127,7 @@ function data_updateName(index, nameToSet) {
 }
 function data_updateKeyFrame(index, keyframeIndex, jsonName, newValue, do3D = true) {
   // ensure data is a valid number
+  if (newValue === "") newValue = 0;
   if (!isFinite(newValue)) newValue = 0;
   if ((["x", "y", "z"]).includes(jsonName)) {
     // ensure its a real float
@@ -247,7 +247,7 @@ function Assault_parseFile(file) {
       wasFileChanged = false;
       refreshAllFilePreview();
     } catch (err) {
-      alert("Invalid Star Fox Assault File:", err);
+      alert(`Invalid Star Fox Assault File. Error: ${err}`);
       allKeyframeData = allKeyframeData_backup;
     }
     
@@ -372,6 +372,7 @@ function downloadBin() {
 
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  wasFileChanged = false;
 }
 function geckoCodeCopy() {
   const MapIDstr = (""+((fileNum) & 0xFF).toString(16).toUpperCase()).padStart(2, "0");
@@ -440,7 +441,7 @@ function geckoCodeCopy() {
     else                  alert("Success! It will work for all maps in a situations." + advancedModeText);
   })
   .catch(err => {
-    alert("Failed to copy to clipboard. Error:", err);
+    alert(`Failed to copy to clipboard. Error: ${err}`);
   });
 }
 function downloadJSON() {
@@ -456,6 +457,7 @@ function downloadJSON() {
 
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  wasFileChanged = false;
 }
 
 /* -------------- Handle loading js file (advanced mode only, input isn't checked to be valid) ----------- */
@@ -474,7 +476,7 @@ function LoadJSONFile(file) {
       refreshAllFilePreview();
       wasFileChanged = false;
     } catch (err) {
-      alert("Invalid JSON:", err);
+      alert(`Invalid JSON: ${err}`);
     }
   };
   reader.readAsText(file);
@@ -827,7 +829,7 @@ window.addEventListener("load", function() {
     makeAllOptionTags();
   })
   .catch(error => {
-    alert("Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: " + error)
+    alert(`Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: ${error}`);
   });
 });
 
@@ -837,8 +839,4 @@ window.addEventListener("beforeunload", (event) => {
     event.preventDefault();
     event.returnValue = "";
   }
-});
-
-document.addEventListener("focusin", (e) => {
-  lastFocusedPath = getFocusedElementPath();
 });

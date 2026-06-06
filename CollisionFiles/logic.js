@@ -868,7 +868,7 @@ function LoadJSONFile(file) {
       updateEntireDownloadFile();
       wasFileChanged = false;
     } catch (err) {
-      alert("Invalid JSON:", err);
+      alert(`Invalid JSON: ${err}`);
     }
   };
   reader.readAsText(file);
@@ -939,7 +939,7 @@ function Blender_parseFile(file) {
         if (!response) { return; }
       }
     } catch (err) {
-      alert(`Error reading file '${file.name}. Error: ` + err);
+      alert(`Error reading file '${file.name}. Error: ${err}`);
       return;
     }
 
@@ -1019,7 +1019,7 @@ function Blender_parseFile(file) {
       }
       AllCollisionData.push(toReturn);
     } catch (err) {
-      alert(`Error reading file '${file.name}. Error: ` + err);
+      alert(`Error reading file '${file.name}. Error: ${err}`);
       return;
     }
     
@@ -1274,7 +1274,7 @@ function Assault_parseFile(file) {
       if (document.getElementById("ThreeJSRenderedCheckMark").checked)
         gridHelper.visible = false;
     } catch (err) {
-      alert(`Error reading file '${file.name}'. ` + err);
+      alert(`Error reading file '${file.name}': ${err}`);
       AllCollisionData = AllCollisionData_backup;
     }
     collapseAll();
@@ -3076,7 +3076,7 @@ window.addEventListener("load", function() {
     makeAllOptionTags();
   })
   .catch(error => {
-    alert("Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: " + error)
+    alert(`Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: ${error}`);
   });
 });
 window.addEventListener("beforeunload", (event) => {

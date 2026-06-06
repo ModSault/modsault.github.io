@@ -988,6 +988,7 @@ function downloadBin() {
 
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  wasFileChanged = false;
 }
 function geckoCodeCopy() {
   const MapIDstr = (""+((fileNum-1) & 0xFF).toString(16).toUpperCase()).padStart(2, "0")
@@ -1035,7 +1036,7 @@ function geckoCodeCopy() {
     else                  alert("Success! It will work for all maps." + advancedModeText);
   })
   .catch(err => {
-    alert("Failed to copy to clipboard. Error:", err);
+    alert(`Failed to copy to clipboard. Error: ${err}`);
   });
 }
 function downloadJSON() {
@@ -1051,6 +1052,7 @@ function downloadJSON() {
 
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  wasFileChanged = false;
 }
 
 /* ------------ General Purpose Functions ------------ */
@@ -1486,7 +1488,7 @@ function LoadJSONFile(file) {
       DisplayAllSpawnDataFromScratch();
       wasFileChanged = false;
     } catch (err) {
-      alert("Invalid JSON:", err);
+      alert(`Invalid JSON: ${err}`);
     }
   };
   reader.readAsText(file);
@@ -1509,7 +1511,7 @@ window.addEventListener("load", function() {
     updateFilenameGrid();
   })
   .catch(error => {
-    alert("Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: " + error)
+    alert(`Failed to load file for filenames. Filenames and what they are will not be presented to you. I recommend a page refresh to fix it. Error: ${error}`);
   });
 });
 window.addEventListener("beforeunload", (event) => {
