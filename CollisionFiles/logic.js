@@ -526,7 +526,7 @@ const allSurfaceTypes = [
   "Unused Nothing 1", // index 12
   "Unused Nothing 2", // index 13
   "Simple Map Ramps", // index 14
-  "Supporting Structure", // index 15
+  "Supporting Structure / Mission 2 Boss Surface", // index 15
   "Metal (Aparoid Exclusive)", // index 16
   "Aparoid Filled Hexagon", // index 17
   "Unused Generic", // index 18
