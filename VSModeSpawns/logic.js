@@ -562,8 +562,8 @@ function refreshSpawnData_WeaponSpawn(index) {
                       "Missile-Launcher", "Predator Rocket", "Gatling Gun", "Demon Sniper", "Fireburst Pod", // index: 5 - 9
                       "Reversal Weapon", "Booster Pack", "Barrier", "Stealth Suit", "Green Health pack", // index: 10 - 14
                       "Silver Health pack", "Gold Health pack", "Instant Dual Hyper Lasers", "Smart Bombs", "Cluster Bombs", // index: 15 - 19
-                      "Silver Ring", "Gold Ring", "Silver Star", "??? Invisible Item", "??? Invisible Item 2", // index: 20 - 24
-                      "??? Unloaded Item", "??? Unloaded Vehicle item", "Laser Upgrade", "Silver ring no “supplies”", // index: 25 - 28
+                      "Silver Ring", "Gold Ring", "Silver Star", "S-Flag Pilot Sized (unloaded in Vs. Mode)", "S-Flag Arwing Sized (unloaded in Vs. Mode)", // index: 20 - 24
+                      "One Up Pilot Sized (unloaded in Vs. Mode)", "One Up Arwing Sized (unloaded in Vs. Mode)", "Laser Upgrade", "Silver ring no “supplies”", // index: 25 - 28
                       "Random Weapon 1 (Homing and Missile Launcher, Sniper, Machine Gun, Sensor Bomb, Grenade)", // index: 29
                       "Random Weapon 2 (Gatling Gun, Demon Sniper, Fireburst Pod, Reversal Weapon, Predator Rocket)", // index: 30
                       "Random PowerUp (Booster Pack, All Health Packs, Barrier, Stealth Suit)", // index: 31
