@@ -2,3 +2,7 @@
 	path = Resources/three.js
 	url = https://github.com/ModSault/three.min.js.git
 	shallow = true
+[submodule "Resources/jszip"]
+	path = Resources/jszip
+	url = https://github.com/Stuk/jszip.git
+	shallow = true
