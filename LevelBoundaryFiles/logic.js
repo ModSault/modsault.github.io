@@ -462,7 +462,7 @@ function refreshAllFilePreview() {
       }
     }));
     toReturn.appendChild(DOM_addAny("label", {
-      "innerText": "Disable Wingtip Contrails",
+      "innerText": "Is Space Level Flag",
       "htmlFor": `checkbox_bounds_${index}`,
       "className": "NotAdvancedOnly"
     }));
@@ -480,7 +480,7 @@ function refreshAllFilePreview() {
       }
     }));
     toReturn.appendChild(DOM_addAny("p", {
-      "innerText": "Disable Wingtip Contrails",
+      "innerText": "Disables Wingtip Contrails and Arwing doesn't fall downwards",
       "className": "AdvancedOnly"
     }));
 
