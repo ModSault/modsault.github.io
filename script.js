@@ -194,7 +194,7 @@ function makeNavBar(pathToRoot) {
             curHeader.textContent = AllElements[i]["text"];
             curDiv.appendChild(curHeader);
             let divContainer = document.createElement("div");
-            for (j = 0; j < AllElements[i]["dropdownElements"].length; j++) {
+            for (let j = 0; j < AllElements[i]["dropdownElements"].length; j++) {
                 let curLink = document.createElement("a");
                 curLink.href = AllElements[i]["dropdownElements"][j]["link"];
                 curLink.text = AllElements[i]["dropdownElements"][j]["text"];
