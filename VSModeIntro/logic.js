@@ -684,6 +684,12 @@ function recalculateFileContents() {
     ErrorsText_frag.appendChild(DOM_addAny("p", { "innerText": `The number of Keyframe Sets is 0. The game might behave really weirdly.` }));
   }
   for (let i = 0; i < allKeyframeData.length; i++) {
+    if (allKeyframeData[i].keyframes.length < 42) {
+      WarningsText_frag.appendChild(DOM_addAny("p", { "innerText": `The number of Keyframes (${allKeyframeData[i].keyframes.length}) in Keyframe Set (${i}) is less than 42 (the amount of keyframes the game always has). Due to faulty math in the game, it might read more keyframes then what you actually have.` }));
+    }
+    if (allKeyframeData[i].keyframes.length > 42) {
+      WarningsText_frag.appendChild(DOM_addAny("p", { "innerText": `The number of Keyframes (${allKeyframeData[i].keyframes.length}) in Keyframe Set (${i}) is larger than 42 (the amount of keyframes the game always has). Due to faulty math in the game, it might read less keyframes then what you actually have.` }));
+    }
     if (allKeyframeData[i].keyframes.length > 0xFFFFFFFF) {
       ErrorsText_frag.appendChild(DOM_addAny("p", { "innerText": `The number of Keyframes (${allKeyframeData[i].keyframes.length}) in set '${allKeyframeData[i].name}' exceeds the 4 byte unsigned integer limit (${0xFFFFFFFF}). Don't expect the file to work.` }));
     } else if (allKeyframeData[i].keyframes.length > 0x7FFFFFFF) {
