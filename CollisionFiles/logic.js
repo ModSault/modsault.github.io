@@ -1101,7 +1101,7 @@ function Assault_FileChange(file) {
 function Assault_parseFile(file) {
   const reader = new FileReader();
   reader.onload = function(e) {
-    let AllCollisionData_backup = JSON.parse(JSON.stringify(AllCollisionData));
+    let AllCollisionData_backup = AllCollisionData;
     AllCollisionData = [];
     try {
       const view = new DataView(e.target.result);
