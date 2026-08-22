@@ -61,18 +61,34 @@ var allDescriptions = []; // array in array to describe purpose of all offsets a
 var fileNum = 0; // used for getting correct filename on an export
 var wasFileChanged = false; // used for popup to prevent closing browser
 var JSON_filenames = null; // used to determine what filenames are for what. Loaded on page load
+var currentlyDownloadingAll = false; // used so two downloads can't happen at once
 
 const copyrightAlertMessage = 'Ensure you have Forward as "X+" and Up as "Y+" in blender when importing/exporting.\n\nTHIS IS STILL COPYRIGHTED MATERIAL!!! DO NOT DISTRIBUTE!!';
+const g_JSZipCreditMessage = "Thanks to JSZip for making zipping possible.\nhttps://github.com/Stuk/jszip\nhttps://stuk.github.io/jszip/";
 
 /* ----------------- General Purpose Functions ------------ */
 
-function downloadAllIndividual() {
+async function downloadAllIndividual() {
+  if (currentlyDownloadingAll) return;
+  currentlyDownloadingAll = true;
+
+  const zip = new JSZip();
   for (let k = 0; k < AllCollisionData.length; k++) {
-    // need to wait cause browsers prevent multiple downloads at once
-    setTimeout(() => {
-      downloadSTLBinary(generateSTLBinary(k), sanitizeFilename(AllCollisionData[k].name) + ".stl");
-    }, k * 750);
+    const name = sanitizeFilename(AllCollisionData[k].name) + ".stl";
+    const blob = generateSTLBinary(k);
+    zip.file(name, blob);
   }
+  zip.file("credit.txt", g_JSZipCreditMessage);
+
+  const content = await zip.generateAsync({ type: "blob" });
+  const url = URL.createObjectURL(content);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = getFileName(".zip");
+  a.click();
+  URL.revokeObjectURL(url);
+
+  currentlyDownloadingAll = false;
 }
 
 // given a file, all metadata is calculated to what the website thinks everything should be
