@@ -2615,7 +2615,7 @@ function getIndexDownloadFile(index) {
   // error and warning checking
   if (trianglesShouldDelete.length !== 0) {
     warnings.push({
-      "type": "error",
+      "type": "warning",
       "message": `There are ${trianglesShouldDelete.length} bad triangles in this file (like Triangle ID ${trianglesShouldDelete[0]}). These should be deleted as they can sometimes have unusual side effects.`
     });
   }
@@ -2627,7 +2627,7 @@ function getIndexDownloadFile(index) {
   }
   if (trianglesOutsideBoundingBox.length !== 0) {
     warnings.push({
-      "type": "error",
+      "type": "warning",
       "message": `There are ${trianglesOutsideBoundingBox.length} triangles outside the bounding box (like Triangle ID ${trianglesOutsideBoundingBox[0]}). Update the bounding boxes, grid sizes, and triangles that are inside of certain grids to fix this problem. The file can still be downloaded but it may not act as you expect.`
     });
   }
