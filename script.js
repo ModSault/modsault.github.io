@@ -389,8 +389,17 @@ const sanitizeFilename = (name) => name
   .trim()                                       // Strip leading/trailing whitespace
   || 'download';                                // Fallback if name is empty
 
+// claude written localhost tester
+const isLocalhost = 
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "[::1]" || // IPv6 localhost
+  window.location.hostname === "";        // sometimes empty for file:// URLs
+
 // got ASCII art from Claude. Made this cause I am not looking at security of my tools that much
 function printWarningToConsole() {
+    if (isLocalhost) return; // hide in localhost cause its big and annoying
+
     const warning = `
 ██╗    ██╗ █████╗ ██████╗ ███╗   ██╗██╗███╗   ██╗ ██████╗ ██╗
 ██║    ██║██╔══██╗██╔══██╗████╗  ██║██║████╗  ██║██╔════╝ ██║
