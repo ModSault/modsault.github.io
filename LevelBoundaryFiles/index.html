@@ -114,6 +114,10 @@
         <select name="FileNameExport" id="FileNameExport" onchange="updateFileNum(this.value)">
           <script>makeAllOptionTags()</script>
         </select>
+        <div class="flexRow">
+          <input type="checkbox" id="GeckoCodeMakeVsModeCheck" name="GeckoCodeMakeVsModeCheck" checked>
+          <label for="GeckoCodeMakeVsModeCheck">Make sure Gecko Code only works in Vs Mode</label>
+        </div>
         <br>
         <p>No matter what you see here the file can still be downloaded. Preferably you still want less warnings and errors.</p>
         <p id="WarningsText"></p>

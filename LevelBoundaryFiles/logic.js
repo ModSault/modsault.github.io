@@ -848,19 +848,23 @@ function downloadBin() {
 }
 function geckoCodeCopy() {
   const MapIDstr = (""+((fileNum) & 0xFF).toString(16).toUpperCase()).padStart(2, "0");
+  const checkVsMode = document.getElementById("GeckoCodeMakeVsModeCheck").checked;
   let toSetClipboard = "";
 
   // add if statements at top
   if (GameVersion == 0) { // USA
-    toSetClipboard = "282A2C9C FF000001\n20D40974 0000000D\n48000000 80385D70\nDE000000 8000817F\n";
+    toSetClipboard = "20D40974 0000000D\n48000000 80385D70\nDE000000 8000817F\n";
+    if (checkVsMode) { toSetClipboard += "282A2C9C FF000001\n"; }
     if (MapIDstr != "FF") { toSetClipboard += "282A2C9E 00FF" + MapIDstr + "00\n"; }
   }
   if (GameVersion == 1) { // Japan
-    toSetClipboard = "282A72DC FF000001\n20D44F54 0000000D\n48000000 8038A3B0\nDE000000 8000817F\n";
+    toSetClipboard = "20D44F54 0000000D\n48000000 8038A3B0\nDE000000 8000817F\n";
+    if (checkVsMode) { toSetClipboard += "282A72DC FF000001\n"; }
     if (MapIDstr != "FF") { toSetClipboard += "282A72DE 00FF" + MapIDstr + "00\n"; }
   } 
   if (GameVersion == 2) { // PAL
-    toSetClipboard = "282BD05C FF000001\n20D796D4 0000000D\n48000000 803A0970\nDE000000 8000817F\n";
+    toSetClipboard = "20D796D4 0000000D\n48000000 803A0970\nDE000000 8000817F\n";
+    if (checkVsMode) { toSetClipboard += "282BD05C FF000001\n"; }
     if (MapIDstr != "FF") { toSetClipboard += "282BD05E 00FF" + MapIDstr + "00\n"; }
   }
 
@@ -874,15 +878,18 @@ function geckoCodeCopy() {
   }
   
   // add end ifs
-  if (MapIDstr != "FF") toSetClipboard += "\nE2000004 00000000"
-  else                  toSetClipboard += "\nE2000003 00000000"
+  if (checkVsMode && MapIDstr != "FF")       toSetClipboard += "\nE2000004 00000000"
+  else if (checkVsMode || MapIDstr != "FF")  toSetClipboard += "\nE2000003 00000000"
+  else                                       toSetClipboard += "\nE2000002 00000000"
 
   // return result to user's clipboard
   let advancedModeText = "";
   if (advancedMode) {
-    advancedModeText  = "\n\nCode Explanation: First line check if in Vs mode, second line checks if on the loading screen menu,";
-    advancedModeText += "third is for loading into the pointer for where the file is, the fourth line ensures the pointer is a valid address,";
-    if (MapIDstr != "FF") advancedModeText += " the fifth line checks if map id is the map you wanted,";
+    advancedModeText  = "\n\nCode Explanation: First line checks if on the loading screen menu,";
+    advancedModeText += " second is for loading into the pointer for where the file is, the third line ensures the pointer is a valid address,";
+    if (checkVsMode) advancedModeText += " the fourth line checks if it is Vs. mode,"
+    if (!checkVsMode && MapIDstr != "FF") advancedModeText += " the fourth line checks if map id is the map you wanted,";
+    if (checkVsMode && MapIDstr != "FF") advancedModeText += " the fifth line checks if map id is the map you wanted,";
     advancedModeText += " the last line is to end all if statements, and everything in between is for setting the proper memory addresses to the values they need to be to load this file.";
   }
 
