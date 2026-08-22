@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./fancy.css">
+    <script src="../../script.js"></script>
+    <script src="./logic.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../favicon.png">
+    <title>Texture IDs | Star Fox Assault Modding </title>
+  </head>
+
+  <body>
+    <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark">
+    <script>makeNavBar("..");</script>
+    <script>makeHeader("Star Fox Assault Texture ID Documentation (Unfinished!!!)", resetTable, false, false);</script>
+    
+    <div id = "ContainerForAll">
+      <div class = "box">
+        <h2> All Texture IDs </h2>
+        <p>
+          This is the documentation for all Texture IDs within Star Fox Assault. Currently they aren't named as they're are far too many for any one person to manually go through and name,
+          so instead you'll see which files they are present in. This was made shorter after the texture file parser was made so people can know what IDs are and aren't used. If an ID is missing then
+          it is unused.
+          <br>
+          <br>
+          As for the IDs themselves you'll notice I put two in the table below (assuming the table loaded). The IDs are technically only 2 bytes in length (0-65535). However presumably because
+          textures and models are stored in very similar ways, the texture IDs are increased by a fixed value of 0x10000000 (268435456) before being searched for. That way if a Texture ID is used
+          when searching for models by accident (or vice versa) there is a 0% chance garbage data will be read.
+        </p>
+        <div id="GridWithAllInfo"></div>
+      </div>
+    </div>
+  </body>
+</html>

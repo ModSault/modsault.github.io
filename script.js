@@ -108,6 +108,10 @@ function makeNavBar(pathToRoot) {
                 {
                     "text": "Projectile IDs",
                     "link": pathToRoot + "/ProjectileID/Legacy/"
+                },
+                {
+                    "text": "Texture IDs",
+                    "link": pathToRoot + "/TextureID/"
                 }
             ]
         },

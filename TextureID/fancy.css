@@ -1,0 +1,13 @@
+#GridWithAllInfo {
+    display: grid;
+    margin: 10px;
+    grid-template-columns: max-content max-content 1fr; /* ID (4 bytes), ID (2 bytes), Description */
+}
+#GridWithAllInfo * {
+    margin: 0;
+    padding: 5px 10px;
+    border-bottom: var(--table-border-color) 1px solid;
+    border-right: var(--table-border-color) 1px solid;
+}
+#GridWithAllInfo > *:nth-child(-n+3) { border-top: var(--table-border-color) 1px solid; }
+#GridWithAllInfo > *:nth-child(3n+1) { border-left: var(--table-border-color) 1px solid; }
