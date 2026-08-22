@@ -2671,22 +2671,37 @@ function getIndexDownloadFile(index) {
       "message": `There are ${normalMap.size} precalculated vectors. This is larger than what the file can handle (${0x7FFE}) meaning the file cannot be constructed correctly. Simplify the model, remove triangles, or split the file into many smaller files to fix.`
     });
   }
-  if (curFileData.gridAmt.x > 0x7FFF) {
+  if (curFileData.gridAmt.x > 0xFFFF) {
+    warnings.push({
+      "type": "error",
+      "message": `There are ${curFileData.gridAmt.x} amount of grids in the X direction. This is larger than the 2 byte limit (${0xFFFF}) meaning the file cannot be constructed correctly. Reduce the number of grids in the x direction.`
+    });
+  } else if (curFileData.gridAmt.x > 0x7FFF) {
     warnings.push({
       "type": "warning",
       "message": `There are ${curFileData.gridAmt.x} amount of grids in the X direction. This is larger than the signed 2 byte limit (${0x7FFF}). The file was still made but the results may not be what you expect.`
     });
   }
-  if (curFileData.gridAmt.y > 0x7FFF) {
+  if (curFileData.gridAmt.y > 0xFFFF) {
+    warnings.push({
+      "type": "error",
+      "message": `There are ${curFileData.gridAmt.y} amount of grids in the X direction. This is larger than the 2 byte limit (${0xFFFF}) meaning the file cannot be constructed correctly. Reduce the number of grids in the y direction.`
+    });
+  } else if (curFileData.gridAmt.y > 0x7FFF) {
     warnings.push({
       "type": "warning",
-      "message": `There are ${curFileData.gridAmt.z} amount of grids in the Y direction. This is larger than the signed 2 byte limit (${0x7FFF}). The file was still made but the results may not be what you expect.`
+      "message": `There are ${curFileData.gridAmt.y} amount of grids in the Y direction. This is larger than the signed 2 byte limit (${0x7FFF}). The file was still made but the results may not be what you expect.`
     });
   }
-  if (curFileData.gridAmt.z > 0x7FFF) {
+  if (curFileData.gridAmt.z > 0xFFFF) {
+    warnings.push({
+      "type": "error",
+      "message": `There are ${curFileData.gridAmt.z} amount of grids in the X direction. This is larger than the 2 byte limit (${0xFFFF}) meaning the file cannot be constructed correctly. Reduce the number of grids in the z direction.`
+    });
+  } else if (curFileData.gridAmt.z > 0x7FFF) {
     warnings.push({
       "type": "warning",
-      "message": `There are ${curFileData.gridAmt.y} amount of grids in the Z direction. This is larger than the signed 2 byte limit (${0x7FFF}). The file was still made but the results may not be what you expect.`
+      "message": `There are ${curFileData.gridAmt.z} amount of grids in the Z direction. This is larger than the signed 2 byte limit (${0x7FFF}). The file was still made but the results may not be what you expect.`
     });
   }
 
