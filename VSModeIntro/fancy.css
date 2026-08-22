@@ -252,6 +252,8 @@
   transition: transform 0.2s ease;
   padding: 10px;
 }
+#ButtonsAtBottomOfScreen > button:hover { transform: translateY(-2px); }
+#ButtonsAtBottomOfScreen > button:active { transform: translateY(0); }
 
 
 /* ------------- File Preview Grids ------------------ */
