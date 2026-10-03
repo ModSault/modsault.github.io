@@ -307,6 +307,15 @@ function DOM_addAny(domtype, jsonExtras) {
     return toReturn;
 }
 
+
+async function waitForPaint() {
+  return new Promise(resolve => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(resolve);
+    });
+  });
+}
+
 // ---------------- If I remove and add elements (like what I usually do) these can be used to refocus on the right element ------------ */
 
 // thanks Claude for both
