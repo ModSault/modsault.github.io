@@ -1,0 +1,511 @@
+.box p { margin: 0; }
+.flexRow { align-items: center; }
+svg { cursor: pointer; }
+
+/* ------------ Box for Relevant Files ------------ */
+
+#RelevantFilesBox { margin-bottom: 10px; }
+#RelevantFilesBox summary {
+  font-size: 18px;
+  margin: 10px;
+}
+
+#FileNameGrid {
+  display: grid;
+  margin: 10px;
+  grid-template-columns: max-content 3fr;
+}
+#FileNameGrid * {
+  margin: 0;
+  padding: 5px;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+#FileNameGrid > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+#FileNameGrid > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+
+/* ---------------- Input File Box ----------------- */
+
+#InputFileContainer {
+  width: 100%;
+  min-height: 100px;
+  height: max-content;
+  padding: 0;
+}
+.GreyOutline {
+  width: calc(100% - 10px);
+  margin: 5px auto;
+}
+#AssaultLabelFile {
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+  border: 3px dashed var(--input-file-grey);
+  border-radius: 50px;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* ---------------- EditorAndImageBox ---------------- */
+
+#EditorAndImageBox {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+#EditorAndImageBox button { font-size: 20px; }
+
+#EditorAndImageBox > *:nth-child(1) {
+  min-width: 860px;
+  width: max-content;
+  padding: 0;
+  overflow: auto;
+  height: 1000px;
+  margin: 0 auto;
+}
+#EditorAndImageBox > *:nth-child(1) > p { text-align: center; margin: 2px; }
+
+/* ---------------- Left Side of Screen ---------------- */
+
+#Editor_TopBar {
+  position: sticky;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 30px;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 10px 0;
+  background-color: var(--background-color-tooltip);
+  border-bottom: var(--navbar-background-color-hover) 4px solid;
+}
+#Editor_TopBar *:nth-child(1) { background-color: var(--red-button); }
+#Editor_TopBar .flexRow {
+  gap: 5px;
+}
+
+#Editor_Contents input[type="number"], #Editor_Contents .triangleTable input {
+  width: 100px;
+  font-size: 16px;
+}
+#Editor_Contents > div {
+  position: relative;
+}
+#Editor_Contents > div > details {
+  padding: 0 20px 0 20px;
+  min-width: max-content;
+  padding-bottom: 10px;
+  border-bottom: var(--navbar-background-color-hover) 4px solid;
+  padding-top: 10px;
+}
+#Editor_Contents details summary {
+  font-size: 20px;
+}
+#Editor_Contents details p, #Editor_Contents details h4 {
+  margin: 0;
+  max-width: 760px;
+}
+#Editor_Contents details h4 {
+  margin-top: 15px;
+  font-size: 18px;
+}
+#Editor_Contents .FileQuickOptions {
+  display: flex;
+  cursor: pointer;
+  position: absolute;
+  height: 15px;
+  right: 10px;
+  top: 12px;
+  gap: 5px;
+}
+#Editor_Contents .FileQuickOptions {
+  transform: translate(0, -25%)
+}
+#Editor_Contents .fileHeaderTable {
+  display: grid;
+  grid-template-columns: 200px 600px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+#Editor_Contents .fileHeaderTable > *, #Editor_Contents .PixelsTable > *, #Editor_Contents .ColorsTable > * {
+  padding: 5px;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+#Editor_Contents .fileHeaderTable input, #Editor_Contents .fileHeaderTable select, #Editor_Contents .PixelsTable input, #Editor_Contents .PixelsTable select, #flexRowForFilePreview select, #flexRowForFilePreview input {
+  font-size: 16px;
+}
+#Editor_Contents .fileHeaderTable > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+#Editor_Contents .fileHeaderTable > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+#Editor_Contents .PixelsTable {
+  display: grid;
+  grid-template-columns: max-content repeat(4, 165px);
+  margin: 0 auto;
+  font-size: 16px;
+  margin-top: 5px;
+}
+#Editor_Contents .PixelsTable input {
+  width: 100px;
+}
+#Editor_Contents .PixelsTable > *:nth-child(5n+1) { border-left: var(--table-border-color) 1px solid; }
+#Editor_Contents .PixelsTable > *:nth-child(-n+5) { border-top: var(--table-border-color) 1px solid; }
+
+#Editor_Contents .ColorsTable {
+  display: grid;
+  grid-template-columns: repeat(6, max-content);
+  margin: 0 auto;
+  font-size: 16px;
+  margin-top: 5px;
+}
+#Editor_Contents .ColorsTable input[type="number"], #Editor_Contents .ColorsTable select {
+  width: 110px;
+}
+#Editor_Contents .ColorsTable > *:nth-child(6n+1) { border-left: var(--table-border-color) 1px solid; }
+#Editor_Contents .ColorsTable > *:nth-child(-n+6) { border-top: var(--table-border-color) 1px solid; }
+#Editor_Contents .addColorButton {
+  background-color: var(--green-button);
+}
+#Editor_Contents .makeColorsReplaceable, #Editor_Contents .makeColorsNotReplaceable {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.uploadPNGButton {
+  background-color: var(--green-button);
+}
+
+#Editor_BottomBar {
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-direction: column;
+  padding: 10px 0 10px 0;
+  background-color: var(--background-color-tooltip);
+  border-top: var(--navbar-background-color-hover) 4px solid;
+  margin-top: auto;
+}
+#Editor_BottomBar > span > button:nth-child(1) {
+  background-color: var(--green-button);
+}
+
+/* ---------- Right half of screen ---------- */
+
+#EditorAndImageBox > *:nth-child(2) {
+  overflow: hidden;
+  padding: 30px;
+  flex-grow: 99;
+  height: 1000px;
+  min-width: 1280px;
+  box-sizing: border-box;
+}
+#EditorAndImageBox > *:nth-child(2) > h2 {
+  text-align: center;
+  font-size: 30px;
+}
+#flexRowForFilePreview {
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  height: 100%;
+  width: 99%;
+  gap: 5px;
+}
+#flexRowForFilePreview > .box {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  filter: drop-shadow(0 0 3px var(--table-border-color));
+}
+.ImageDisplay_Options {
+  display: grid;
+  grid-template-columns: 2fr 4fr; /* 240px 500px; */
+  margin: 0 auto;
+}
+.ImageDisplay_Options input {
+  width: 100px;
+}
+#ImageDisplay_Width, #ImageDisplay_Height {
+  width: 60px;
+}
+#AdvancedModeCheckMark:checked ~ #ContainerForAll .ImageDisplay_Options select {
+  width: 200px;
+}
+.ImageDisplay_Options input[type="radio"], .ImageDisplay_Options input[type="checkbox"] {
+  width: unset;
+}
+.ImageDisplay_Options > * {
+  padding: 5px;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+.ImageDisplay_Options > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+.ImageDisplay_Options > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+
+.ImageDisplay_Settings {
+  display: grid;
+  grid-template-columns: 2fr 2fr 3fr;
+  margin: 2px auto;
+}
+#ImageDisplay_gridToSee {
+  width: 50px;
+}
+.ImageDisplay_Settings > * {
+  padding: 5px;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+.ImageDisplay_Settings > *:nth-child(3n+1) { border-left: var(--table-border-color) 1px solid; }
+.ImageDisplay_Settings > *:nth-child(-n+3) { border-top: var(--table-border-color) 1px solid; }
+
+
+
+#flexRowForBothCanvas {
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 30px 1fr 1fr 30px;
+  height: 100%;
+  width: 100%;
+  gap: 15px;
+}
+#ImageCanvasContainer1, #ImageCanvasContainer2 {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.flexColumn {
+  display: grid;
+  width: 100%;
+  grid-template-rows: 40px 1fr 90px 30px;
+}
+.flexColumn h3 {
+  text-align: center;
+  text-decoration: none;
+}
+#ImageCanvas1, #ImageCanvas2 {
+  image-rendering: pixelated;
+  margin: auto;
+  width: 0;
+  height: 0;
+}
+.ImageCanvasBackground_generic {
+  background-image:
+    linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%),
+    linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+  background-color: #fff;
+}
+:root {
+  --TextureFiles-GridColor: #00FF00;
+  --TextureFiles-MouseOverColor: #00FFFF;
+  --TextureFiles-SelectedColor: #0000FF;
+}
+#GridBackground1, #GridBackground2 {
+  position: absolute;
+  background-image:
+    linear-gradient(to right, var(--TextureFiles-GridColor) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--TextureFiles-GridColor) 1px, transparent 1px);
+  background-position: 0 0, 0 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  background-size: 8px 8px;
+  pointer-events: none;
+}
+#MouseOverOutline1, #MouseOverOutline2 {
+  pointer-events: none;
+  position: absolute;
+  border-color: var(--TextureFiles-MouseOverColor);
+  border-style: solid;
+}
+#SelectedOutline1, #SelectedOutline2 {
+  pointer-events: none;
+  position: absolute;
+  border-color: var(--TextureFiles-SelectedColor);
+  border-style: solid;
+}
+
+
+.PixelPreviewGrid {
+  display: grid;
+  grid-template-columns: 100px repeat(4, 1fr);
+  grid-template-rows: max-content 1fr;
+}
+.PixelPreviewGrid input {
+  width: 45px;
+}
+.PixelPreviewGrid > * {
+  padding: 5px;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+}
+.PixelPreviewGrid > *:nth-child(5n+1) { border-left: var(--table-border-color) 1px solid; }
+.PixelPreviewGrid > *:nth-child(-n+5) { border-top: var(--table-border-color) 1px solid; }
+
+.ButtonConvenient {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.ButtonConvenient > *:nth-child(2) {
+  background-color: var(--green-button);
+}
+.ButtonConvenient > *:nth-child(3) {
+  background-color: var(--red-button);
+}
+.ButtonConvenient button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+/* .ButtonConvenient   */
+
+/* ------------ Export Info Box ------------- */
+
+#ExportBox {
+  margin-top: 30px;
+}
+#WarningsText {
+  color: var(--warning-text-color);
+}
+#ErrorText {
+  color: var(--error-text-color);
+}
+#GeckoCode_Input_Container {
+  margin: 10px 0;
+  gap: 30px;
+}
+#FileNameExport {
+  font-size: 18px;
+  width: 800px;
+  height: 30px;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+/* --------------- Blue Buttons for Download/Exporting ------------- */
+
+#ButtonsAtBottomOfScreen {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+#ButtonsAtBottomOfScreen > button {
+  width: 100%;
+  min-height: 50px;
+  font-size: 20px;
+  color: var(--font-color-invert);
+  background-color: var(--blue-button);
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+  padding: 10px;
+}
+#ButtonsAtBottomOfScreen > button:hover { transform: translateY(-2px); }
+#ButtonsAtBottomOfScreen > button:active { transform: translateY(0); }
+
+/* --------------- Overlay if downloading all ------------- */
+
+#OverlayForDownloading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  cursor: wait;
+  display: flex;
+}
+#OverlayForDownloading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--background-color);
+  opacity: 0.6;
+  z-index: -1;
+}
+#OverlayForDownloading > div {
+  min-width: 200px;
+  max-width: 400px;
+  height: 50px;
+  color: var(--font-color);
+  font-size: 18px;
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+}
+
+/* --------------- File Preview at bottom of page ------------- */
+
+.gap5 {
+  gap: 5px;
+}
+#FilePreviewContainer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+#FilePreviewContainer .flexRow {
+  align-items: unset;
+}
+
+#OffsetAmtsForFiles {
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+}
+#OffsetAmtsForFiles > *:nth-child(-n+5) { border-top: var(--table-border-color) 1px solid; }
+#OffsetAmtsForFiles > *:nth-child(5n+1) { border-left: var(--table-border-color) 1px solid; }
+#OffsetAmtsForFiles > *:nth-child(5n+1) { text-align: left; }
+#OffsetAmtsForFiles > *:nth-child(5n+2) { text-align: right; }
+
+#OffsetDescriptionGrid {
+  display: grid;
+  grid-template-columns: max-content max-content max-content max-content minmax(300px, 750px);
+  grid-auto-rows: max-content;
+  margin: 10px 30px 0 0;
+}
+#OffsetDescriptionGrid > *:nth-child(-n+5) { border-top: var(--table-border-color) 1px solid; }
+#OffsetDescriptionGrid > *:nth-child(5n+1) { border-left: var(--table-border-color) 1px solid; }
+#OffsetDescriptionGrid > *:nth-child(5n+10) { text-align: left; }
+
+#FilePreviewGrid {
+  display: grid;
+  grid-template-columns: max-content max-content max-content repeat(16, 34px);
+  grid-auto-rows: 35px;
+  margin: 10px 0 0 0;
+}
+#FilePreviewGrid > *:nth-child(-n+19) { border-top: var(--table-border-color) 1px solid; }
+#FilePreviewGrid > *:nth-child(19n+1) { border-left: var(--table-border-color) 1px solid; }
+#FilePreviewGrid > *:nth-child(19n+3) { border-right: var(--table-border-color) 19px solid; }
+
+#FilePreviewGrid > p, #OffsetDescriptionGrid p, #OffsetAmtsForFiles p {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  font-size: 16px;
+  margin: 0;
+  border-bottom: var(--table-border-color) 1px solid;
+  border-right: var(--table-border-color) 1px solid;
+  text-align: center;
+  padding: 6px;
+}

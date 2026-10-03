@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./fancy.css">
+    <script src="../Resources/jszip/dist/jszip.min.js"></script> <!-- Used to download all files as zips -->
+    <script src="../script.js"></script>
+    <script src="./AssaultEncoder.js"></script>
+    <script src="./AssaultParser.js"></script>
+    <script src="./data.js"></script>
+    <script src="./filePreview.js"></script>
+    <script src="./gameVersion.js"></script>
+    <script src="./globals.js"></script>
+    <script src="./leftSide.js"></script>
+    <script src="./misc.js"></script>
+    <script src="./pngUpload.js"></script>
+    <script src="./rightSide.js"></script>
+    <link rel="icon" type="image/x-icon" href="../favicon.png">
+    <title>Texture Files | Star Fox Assault Modding </title>
+  </head>
+
+  <body>
+    <!-- Used to prevent user interaction during long downloads -->
+    <div id="OverlayForDownloading" style="display:none;">
+      <div class="box">
+        Downloading...
+      </div>
+    </div>
+
+    <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark" hidden>
+    <input type="file" id="JSONLoadFile" name="JSONLoadFile" accept=".json" onchange="LoadJSONFile(this.files[0]);" hidden>
+    <script>makeNavBar("..");</script>
+    <script>makeHeader("Star Fox Assault Texture File Manipulation", gameVersionUpdater);</script>
+    
+    <div id = "ContainerForAll">
+      <!-- Commonly Asked questions and relevant game files -->
+      <div class = "box" id="RelevantFilesBox">
+        <h2>Information About The Tool</h2>
+        <h3>How to use the Tool</h3>
+        <p>I assume you already dumped your game copy to your computer and extracted its files. If not you can find lots of guides on the internet. Using the big box below you can upload any '.nut' file from the the game's disc. You will then be able to view and edit all the textures within those files. If something doesn't make sense expand the information of the left half of the screen and explanations for each aspect of the file will be given. As far as editing the actual image goes I'd recommend not using this tool. You technically can but its inferior to MS Paint from the 1900s. And that's fine. Download the image as a PNG and edit the image in whatever you want (ensure the image size is the same), then upload it. Whenever you are satisfied with all the textures, scroll down, click the blue button and replace the game file to have your changes in game.</p>
+        <h3>What games does this tool work on?</h3>
+        <p>This is meant for Star Fox Assault. If it happens to work for another game then that's a coincidence. This tool was made by observing how the '.nut' files are used in Star Fox Assault and designing it around that. If it turns out there is a feature/value in the these files that is supported by Star Fox Assault and I missed it, let me know. If implementing it isn't too difficult I'd be down for its addition.</p>
+        <h3>Alternative Tools</h3>
+        <p>There is a tool called <a href="https://github.com/marco-calautti/Rainbow">Rainbow</a> (<a href="https://github.com/marco-calautti/Rainbow/releases/download/1.2.2-8/rainbow_win32_bin_1.2.2-8.zip">Download</a>). It can't export '.nut' files and doesn't read all of them perfectly, but is 99% functional for viewing them and could be useful in case this tool and the game disagree somewhere.</p>
+        <h3>How do I edit the images.</h3>
+        <p>You could manually write the red, green, blue, and alpha channels for all pixels you want to change in this tool. But let's be real here, don't do that. Download the image as a PNG, and use your preferred tool (like <a href="https://www.photopea.com/">Photopea</a>) to modify the image. Use whatever you want, as long as it exports PNGs then you're good. Just upload it to the site and it'll take care of the rest.</p>
+        <h3>I changed a file but nothing happened in game</h3>
+        <p>Not all of these files are read by the game so its possible you changed a file thats never used by the game. If your playing singleplayer than thats also a problem. They load everything they need inside of the '.fpc' files and not the '.nut' files.</p>
+        <h3>What do half of these settings mean?</h3>
+        <p>Expand a file's information on the left half of the screen and explanations will appear for everything. I hope they help you understand what's happening.</p>
+        <h3>What is this grid thing?</h3>
+        <p>Due to either how the game is coded or how the GameCube's GPU works, it expects the data for a texture to written in a certain way. Part of this is rendering rectangular parts of the image at a time. So these rectangular segments of the image are rendered in order from the top left, then to the right, and then down until it reaches the bottom right. Each grid represents one of these rectangles that the game renders at a time. The only exceptions is the blend compression algorithm which does it in larger 8x8 rectangles, but also does the same thing for the 4 smaller 4x4 rectangles inside of the 8x8 rectangles. You cannot change the image size to not be divisible by the grid size of the current compression algorithm.</p>
+        <h3>The website froze/feels slow</h3>
+        <p>Can't say I'm surprised. This isn't optimized. For example changing one pixel recompresses the entire thing which is slow (duh). If you think there is a bigger problem open devtools (right click + inspect) and find the console tab. If something red appears report it. </p>
+        <h3>Blend Compression is Flawed</h3>
+        <p>I'm aware of this. Encoding a file with the blend compression type will make the image differ from what the game file had by some slight amount. Unfortunately I'm not an expert on image compression and I barely understand how the encoding works in the first place. The current encoding algorithm only exists because of AI and because the problem is hard to see with the naked eye I dismissed it.</p>
+        <h3>Why Can't I have mipmaps and different Palettes?</h3>
+        <p>I didn't know that different palettes in the same texture could exist until I was like 99% done with this tool. So instead of redesigning all the systems for it I just did a half fix where if a compression type supports different palettes it doesn't support mip maps. The game never uses both at once so I didn't think it was too important to account for and I want to move onto other projects.</p>
+        <h3>How to report bugs</h3>
+        <p>I have a small audience so doing anything would get my attention. Using GitHub issues would be best but even a Reddit DM would work if you really wanted to (assuming I get an email).</p>
+        <h3>All Relevant Filenames</h3>
+        <p>These are files that this tool is meant to read and modify.</p>
+        <details>
+          <summary>Dropdown button</summary>
+          <div id="FileNameGrid"><p>Loading...</p></div>
+        </details>
+      </div>
+
+      <!-- Import Game File -->
+      <div id = "InputFileContainer" class = "box">
+        <input type="file" id="Assault_file" name="Assault_file" accept=".nut" onchange="Assault_FileChange(this.files[0]);" hidden>
+        <div class = "GreyOutline">
+          <label id = "AssaultLabelFile" for="Assault_file" ondrop="Assault_DropHandler(event);" ondragover="event.preventDefault();">
+            <svg xmlns="http://www.w3.org/2000/svg" height="80px" viewBox="0 -960 960 960" width="80px" fill="var(--font-color)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+            No file selected. Choose a ".nut" file in the game's disc.
+          </label>
+        </div>
+      </div>
+      <br>
+
+      <!-- Container for viewing and editing file's info -->
+      <div id="EditorAndImageBox">
+        <!-- Editing Game File -->
+        <div class = "box">
+          <div id="Editor_TopBar">
+            <button onclick="removeAll()">Remove All</button>
+            <button onclick="collapseAll()">Collapse All</button>
+            <span class="flexRow">
+              <input type="checkbox" id="PNGUpload_MipMapCheckbox" name="PNGUpload_MipMapCheckbox" checked>
+              <label for="PNGUpload_MipMapCheckbox">Replace lower resolution<br>mip maps on PNG upload</label>
+            </span>
+          </div>
+
+          <div id="Editor_Contents"></div>
+
+          <div id="Editor_BottomBar">
+            <span>
+              <button onclick="data_addNewTextureFromScratch();">Add New Texture</button>
+              <button style="display:none;" onclick="downloadAllTextures();">Download All Individually (.png)</button>
+            </span>
+            <p>To import an image you need to make a new texture first.</p>
+            <p>Then upload it by clicking on it and scrolling to the pixel data.</p>
+            <p>This is to prevent me from having to worry about validating images sizes.</p>
+          </div>
+        </div>
+
+        <!-- Image Canvas Container -->
+        <div class = "box" ondrop="replacePixelsWithPNG_DropHandler(event);" ondragover="event.preventDefault();">
+          <h2 id="CurrentFileOnDisplayH2">No File Selected</h2>
+          <div id = "flexRowForFilePreview" style="display: none;">
+            <div class="svgContainer">
+              <svg onclick="changeCurrentTexture(g_currentTextureToShow-1);" id="ChangeToPreviousImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+            </div>
+            <div class = "box">
+              <div class = "ImageDisplay_Options">
+                <div>
+                  <h2>Image Options</h2>
+                  <div class="flexRow">
+                    <p>ID (in hex):</p>
+                    <input id="ImageDisplay_ID" onchange="data_setTextureID(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" />
+                  </div>
+                  <div class="flexRow">
+                    <p>Size:</p>
+                    <input id="ImageDisplay_Width" onchange="data_setWidth(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1" />
+                    <p>x</p>
+                    <input id="ImageDisplay_Height" onchange="data_setHeight(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1" />
+                  </div>
+                  <div class="flexRow">
+                    <p id="ImageDisplay_NumTextures_p"># of Mipmaps:</p>
+                    <input id="ImageDisplay_NumTextures" onchange="data_setNumberTextures(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1" />
+                  </div>
+                </div>
+                <div>
+                  <h2>Compression Options</h2>
+                  <div class="flexRow">
+                    <p>Type:</p>
+                    <select onchange="data_setTextureLayer(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow, true);" name="ImageDisplay_CompressionType" id="ImageDisplay_CompressionType">
+                      <script>makeAllCompressionTypes()</script>
+                    </select>
+                    <input id="ImageDisplay_CompressionType2" class="AdvancedOnly" type="number" step="1" onchange="data_setTextureLayer(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow, true);" />
+                  </div>
+                  <div class="flexRow">
+                    <p>Color Type:</p>
+                    <select onchange="data_setColorType(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" name="ImageDisplay_ColorType" id="ImageDisplay_ColorType">
+                      <script>makeAllColorTypes()</script>
+                    </select>
+                    <input id="ImageDisplay_ColorType2" class="AdvancedOnly" type="number" step="1" onchange="data_setColorType(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" />
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="data_setIsColorOnly(g_currentTextureToShow, this.checked); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_ColorOnly" type="checkbox" />
+                    <label for="ImageDisplay_ColorOnly">Only Save Color Information</p>
+                  </div>
+                </div>
+              </div>
+              <div class = "ImageDisplay_Settings">
+                <div>
+                  <h2>Image Preview Background</h2>
+                  <div class="flexRow">
+                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_generic" checked />
+                    <label for="ImageDisplay_bg_generic">Transparent Colors</label>
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_select" />
+                    <label for="ImageDisplay_bg_select">Custom Static Color</label>
+                    <input onchange="document.getElementById('ImageDisplay_bg_select').checked = true; updateFilePreviewBackgroundColor();" type="color" id="ImageDisplay_bg_select_color" value="#000000" />
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_none" />
+                    <label for="ImageDisplay_bg_none">None</label>
+                  </div>
+                </div>
+                <div>
+                  <h2>Image Viewing Type</h2>
+                  <div class="flexRow">
+                    <input onchange="resizeImageCanvas(0);" type="checkbox" name="ImageDisplay_shrinkMipMaps" id="ImageDisplay_shrinkMipMaps" checked />
+                    <label for="ImageDisplay_shrinkMipMaps">Shrink Mip Maps</label>
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="changeImageGridToView(-1);" type="radio" name="ImageDisplay_viewType" id="ImageDisplay_viewType_all" checked />
+                    <label for="ImageDisplay_viewType_all">View Whole Image</label>
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="changeImageGridToView(0);" type="radio" name="ImageDisplay_viewType" id="ImageDisplay_viewType_grid" />
+                    <label for="ImageDisplay_viewType_grid">View Individual Grids</label>
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="changeImageGridToView(this.value);" type="number" name="ImageDisplay_gridToSee" id="ImageDisplay_gridToSee" value="-1" />
+                    <label for="ImageDisplay_gridToSee">Grid Number to See</label>
+                  </div>
+                </div>
+                <div>
+                  <h2>Image Viewing Options</h2>
+                  <div class="flexRow">
+                    <input onchange="resizeImageCanvas(0);" type="checkbox" name="ImageDisplay_viewType_Mouse" id="ImageDisplay_viewType_Mouse" checked />
+                    <label for="ImageDisplay_viewType_Mouse">Selected Pixel Color</label>
+                    <input onchange="ImagePreviewSelectedChange(this.value);" type="color" name="ImageDisplay_viewType_Mouse_Color" id="ImageDisplay_viewType_Mouse_Color" value="#0000FF" />
+                  </div>
+                  <div class="flexRow">
+                    <input type="checkbox" name="ImageDisplay_viewType_Selected" id="ImageDisplay_viewType_Selected" checked />
+                    <label for="ImageDisplay_viewType_Selected">Mouse over Color</label>
+                    <input onchange="ImagePreviewMouseOverChange(this.value);" type="color" name="ImageDisplay_viewType_Selected_Color" id="ImageDisplay_viewType_Selected_Color" value="#00FFFF" />
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="ImagePreviewGridVisibilityChange(this.checked);" type="checkbox" name="ImageDisplay_viewOption_grids" id="ImageDisplay_viewOption_grids" />
+                    <label for="ImageDisplay_viewOption_grids">View Grids</label>
+                    <input onchange="ImagePreviewGridColorChange(this.value);" type="color" id="ImageDisplay_viewOption_grids_color" value="#00FF00">
+                  </div>
+                </div>
+              </div>
+
+              <div id = "flexRowForBothCanvas">
+                <div class="svgContainer">
+                  <svg onclick="changeCurrentMipMap(g_currentTextureMipMap-1);" id="ChangeToPreviousTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                </div>
+                <div class="flexColumn">
+                  <h3>User Image (256x256)</h3>
+                  <div id="ImageCanvasContainer1">
+                    <canvas onclick="mouseClickCanvas()" onmousemove="mouseOverCanvas(event, 0);" onmouseleave="mouseLeaveCanvas();" id="ImageCanvas1" class="ImageCanvasBackground_generic"></canvas>
+                    <div id="GridBackground1" style="display: none;"></div>
+                    <div id="SelectedOutline1"></div>
+                    <div id="MouseOverOutline1" style="display: none;"></div>
+                  </div>
+                  <div id="PixelPreviewGrid1" class="PixelPreviewGrid">
+                    <p>id (grid)</p>
+                    <p>r (0-255)</p>
+                    <p>g (0-255)</p>
+                    <p>b (0-255)</p>
+                    <p>a (0-255)</p>
+                    <p>1</p>
+                    <div> <input type="number" id="ImageDisplay_R" step="1" /> </div>
+                    <div> <input type="number" id="ImageDisplay_G" step="1" /> </div>
+                    <div> <input type="number" id="ImageDisplay_B" step="1" /> </div>
+                    <div> <input type="number" id="ImageDisplay_A" step="1" /> </div>
+                  </div>
+                  <div class="ButtonConvenient flexRow">
+                    <button onclick="downloadOneTexture(g_currentTextureToShow, g_currentTextureMipMap);">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-invert)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                      PNG
+                    </button>
+                    <button onclick="document.getElementById('ImageDisplay_inputPNGButton').click();">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-invert)"><path d="M450-313v-371L330-564l-43-43 193-193 193 193-43 43-120-120v371h-60ZM220-160q-24 0-42-18t-18-42v-143h60v143h520v-143h60v143q0 24-18 42t-42 18H220Z"/></svg>
+                      PNG
+                    </button>
+                    <button ondblclick="data_clearMipMap(g_currentTextureToShow, g_currentTextureMipMap); data_recalculateAllInIndex(g_currentTextureToShow);">
+                      Clear this Mipmap (double click)
+                    </button>
+                    <input type="file" id="ImageDisplay_inputPNGButton" name="ImageDisplay_inputPNGButton" accept=".png" hidden="" onchange="replacePixelsWithPNG(g_currentTextureToShow, g_currentTextureMipMap, this.files[0]);" >
+                  </div>
+                </div>
+                <div class="flexColumn">
+                  <h3>Compressed Image (256x256)</h3>
+                  <div id="ImageCanvasContainer2">
+                    <canvas onclick="mouseClickCanvas()" onmousemove="mouseOverCanvas(event, 1);" onmouseleave="mouseLeaveCanvas();" id="ImageCanvas2" class="ImageCanvasBackground_generic"></canvas>
+                    <div id="GridBackground2" style="display: none;"></div>
+                    <div id="SelectedOutline2"></div>
+                    <div id="MouseOverOutline2" style="display: none;"></div>
+                  </div>
+                  <div id="PixelPreviewGrid2" class="PixelPreviewGrid">
+                    <p>id (grid)</p>
+                    <p>r (0-255)</p>
+                    <p>g (0-255)</p>
+                    <p>b (0-255)</p>
+                    <p>a (0-255)</p>
+                    <p>1</p>
+                    <p>---</p>
+                    <p>---</p>
+                    <p>---</p>
+                    <p>---</p>
+                  </div>
+                  <div class="ButtonConvenient flexRow">
+                    <button onclick="downloadOneCompressedTexture(g_currentTextureToShow, g_currentTextureMipMap);">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color-invert)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+                      PNG
+                    </button>
+                  </div>
+                </div>
+                <div class="svgContainer">
+                  <svg onclick="changeCurrentMipMap(g_currentTextureMipMap+1);" id="ChangeToNextTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="svgContainer">
+              <svg onclick="changeCurrentTexture(g_currentTextureToShow+1);" id="ChangeToNextImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export Info Box -->
+      <div class = "box" id = "ExportBox">
+        <h2>Additional Codes and Information</h2>
+        <script>makeGameModeSelector(gameVersionUpdater);</script>
+
+        <h3>Allow Unique Character Textures [ModSault]</h3>
+        <p>
+          Normally the textures for the Vs. Mode characters share data with each other making
+          entirely unique textures for each player impossible. This code allows all colors
+          to be treated as entirely different textures. Just make sure to open the 
+          appropriate file for the characters you have selected below and redownload it
+          except with "Only Save Color Information" disabled on all textures.
+          <br>
+          This doesn't work on the menus intentionally because I don't know what file has the textures for them.
+          <br>
+          <div id="GeckoCode_Input_Container" class="flexContainer flexRow">
+            <span>
+              <input type="checkbox" id="GeckoCode_Input_Fox" onchange="showCodeForVsModeCharacters();" checked />
+              <label for="GeckoCode_Input_Fox">Fox</label>
+            </span>
+            <span>
+              <input type="checkbox" id="GeckoCode_Input_Falco" onchange="showCodeForVsModeCharacters();" checked />
+              <label for="GeckoCode_Input_Falco">Falco</label>
+            </span>
+            <span>
+              <input type="checkbox" id="GeckoCode_Input_Slippy" onchange="showCodeForVsModeCharacters();" checked />
+              <label for="GeckoCode_Input_Slippy">Slippy</label>
+            </span>
+            <span>
+              <input type="checkbox" id="GeckoCode_Input_Krystal" onchange="showCodeForVsModeCharacters();" checked />
+              <label for="GeckoCode_Input_Krystal">Krystal</label>
+            </span>
+            <span>
+              <input type="checkbox" id="GeckoCode_Input_Peppy" onchange="showCodeForVsModeCharacters();" checked />
+              <label for="GeckoCode_Input_Peppy">Peppy</label>
+            </span>
+            <span>
+              <input type="checkbox" id="GeckoCode_Input_Wolf" onchange="showCodeForVsModeCharacters();" checked />
+              <label for="GeckoCode_Input_Wolf">Wolf</label>
+            </span>
+          </div>
+          <span class="AdvancedOnly"><a href="https://docs.google.com/document/d/14IXe-506VxSMgIWCbY4JguoiHEOAZc3VwpzNE96XtJ0/edit">Code Explanation</a></span>
+        </p>
+        <code id="uniqueColorsCode" class="code-block">Error. Something went wrong.</code>
+
+        <br>
+        <h3>Export Options</h3>
+        <p>Select the filename name you want to export as.</p>
+        <select name="FileNameExport" id="FileNameExport" onchange="updateFileNum(this.value)">
+          <script>makeAllOptionTags()</script>
+        </select>
+
+        <br>
+        <h3>Encoding Warnings/Errors</h3>
+        <p>No matter what you see here the file can still be downloaded. Preferably you still want less warnings and errors.</p>
+        <p id="WarningsText"></p>
+        <p id="ErrorText"></p>
+      </div>
+      <br>
+
+      <!-- Download Buttons -->
+      <div id="ButtonsAtBottomOfScreen">
+        <button onclick="downloadNUT()">Download (tex_pack_xx.nut)</button>
+        <button onclick="downloadFormattedJSON()" class="AdvancedOnly">Download JSON for use in other programs (The key is the texture ID, the value is the highest resolution mip map. idk what programs use this yet so Advanced Only)</button>
+        <button onclick="downloadJSON()" class="AdvancedOnly">Download as JSON (Advanced Mode only, type `AdvConLoad()` into the devtools console to load)</button>
+      </div>
+      <br>
+
+      <!-- File and Offset Preview -->
+      <div class = "box AdvancedOnly" id="FilePreviewContainer">
+        <h2> File Preview </h2>
+        <script>makeGameModeSelector(gameVersionUpdater);</script>
+
+        <h3>General Information</h3>
+        <ul>
+          <li>This is the file you will download upon clicking the button above. This is shown to you to make debugging easier and document the file structure. If you uploaded a file this won't match that. However you can read the descriptions at each offset to understand the original file.</li>
+          <li>The reason there are no addresses here is because after the file is loaded it extracts the data from it and places it somewhere else.</li>
+          <li>The Textures are also sorted into a binary tree with a key and a value. The key being the texture ID, and the value being a small data structure that has all info for the file, including pointers to the copied data from the file.</li>
+          <li>The pixel data and color data are in their own binary trees. Both binary trees are very similar in functionality.</li>
+        </ul>
+
+        <h3>Binary Tree Locations in Memory</h3>
+        <p id="TreeLocations"></p>
+
+        <h3>File Overview</h3>
+        <p id="OffsetAmtsForFiles"></p>
+        
+        <h3>File Contents</h3>
+        <div class = "flexRow flexContainer gap5">
+          Offsets to display (in hex):
+          <input type="text" id="OffsetLowerBound" value="0" onchange="updateOffsetBound(false);" />
+          -
+          <input type="text" id="OffsetHigherBound" value="F0" onchange="updateOffsetBound(true);" />
+        </div>
+
+        <div class="flexContainer flexRow">
+          <div id="OffsetDescriptionGrid"></div>
+          <div id="FilePreviewGrid"></div>
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+  </body>
+</html>
