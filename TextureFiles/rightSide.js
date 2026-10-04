@@ -16,6 +16,7 @@ function updateRightHalfFileName() {
 // If user wants to view another texture file, this changes it
 function changeCurrentTexture(newTexture) {
   g_currentTextureToShow = Math.min(g_AllTextureData.length, Math.max(-1, newTexture));
+  if (g_AllTextureData.length == 0) g_currentTextureToShow = -1;
   changeCurrentMipMap(0, false);
   changeCurrentPixelID(0, false);
 
@@ -47,11 +48,11 @@ function changeCurrentTexture(newTexture) {
   }
 
   // change display on right half of screen
-  if (newTexture == -1) {
+  if (g_currentTextureToShow == -1) {
     document.getElementById("CurrentFileOnDisplayH2").innerText = "No File Selected";
     document.getElementById("flexRowForFilePreview").style.display = "none";
   } else {
-    document.getElementById("CurrentFileOnDisplayH2").innerText = `[${newTexture}; ${data_getIDPretty(newTexture)}] ${g_AllTextureData[newTexture].name}`;
+    document.getElementById("CurrentFileOnDisplayH2").innerText = `[${g_currentTextureToShow}; ${data_getIDPretty(g_currentTextureToShow)}] ${g_AllTextureData[g_currentTextureToShow].name}`;
     document.getElementById("flexRowForFilePreview").style.display = "";
   }
 

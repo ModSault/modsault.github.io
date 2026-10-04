@@ -274,7 +274,7 @@ svg { cursor: pointer; }
 
 .ImageDisplay_Settings {
   display: grid;
-  grid-template-columns: 2fr 2fr 3fr;
+  grid-template-columns: 2fr 2fr 2fr 3fr;
   margin: 2px auto;
 }
 #ImageDisplay_gridToSee {
@@ -285,8 +285,8 @@ svg { cursor: pointer; }
   border-bottom: var(--table-border-color) 1px solid;
   border-right: var(--table-border-color) 1px solid;
 }
-.ImageDisplay_Settings > *:nth-child(3n+1) { border-left: var(--table-border-color) 1px solid; }
-.ImageDisplay_Settings > *:nth-child(-n+3) { border-top: var(--table-border-color) 1px solid; }
+.ImageDisplay_Settings > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
+.ImageDisplay_Settings > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; }
 
 
 

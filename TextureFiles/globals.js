@@ -82,6 +82,18 @@ var g_mouseOverPixel = -1;
 var g_resizeTimeout = setTimeout(() => {}, 10);
 var g_isResizing = false;
 
+// timer for changing textures by holding click
+var textureChangeTimer = null;
+function stopTextureTimer() {
+  clearInterval(textureChangeTimer);
+  textureChangeTimer = null;
+}
+function useTextureTimer(func) {
+  stopTextureTimer();
+  func();
+  textureChangeTimer = setInterval(func, 1000 / (document.getElementById("TextureScrollCountInput").value));
+}
+
 // constants
 const g_copyrightAlertMessage = "THIS IS STILL COPYRIGHTED MATERIAL!!! DO NOT DISTRIBUTE!!";
 const g_JSZipCreditMessage = "Thanks to JSZip for making zipping possible.\nhttps://github.com/Stuk/jszip\nhttps://stuk.github.io/jszip/";
@@ -191,4 +203,28 @@ window.addEventListener("beforeunload", (event) => {
     event.preventDefault();
     event.returnValue = "";
   }
+});
+
+// used for keyboard navigation of textures
+const keyMap = {
+  KeyW: "ChangeToNextTextureButton",     ArrowUp: "ChangeToNextTextureButton",
+  KeyS: "ChangeToPreviousTextureButton", ArrowDown: "ChangeToPreviousTextureButton",
+  KeyA: "ChangeToPreviousImageButton",   ArrowLeft: "ChangeToPreviousImageButton",
+  KeyD: "ChangeToNextImageButton",       ArrowRight: "ChangeToNextImageButton",
+};
+const fire = (code) => document.getElementById(keyMap[code]).parentElement.onpointerdown();
+const isTyping = (t) => t.matches("input, textarea, select") || t.isContentEditable;
+
+window.addEventListener("keydown", (e) => {
+  if (e.repeat || !(e.code in keyMap) || isTyping(e.target)) return;
+  fire(e.code, "onpointerdown");
+});
+
+window.addEventListener("keyup", (e) => {
+  if (!(e.code in keyMap)) return;
+  stopTextureTimer();
+});
+
+window.addEventListener("blur", () => {
+  stopTextureTimer();
 });

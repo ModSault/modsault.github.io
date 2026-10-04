@@ -111,7 +111,7 @@
         <div class = "box" ondrop="replacePixelsWithPNG_DropHandler(event);" ondragover="event.preventDefault();">
           <h2 id="CurrentFileOnDisplayH2">No File Selected</h2>
           <div id = "flexRowForFilePreview" style="display: none;">
-            <button onclick="changeCurrentTexture(g_currentTextureToShow-1);" class="svgContainer">
+            <button onpointerdown="useTextureTimer(() => changeCurrentTexture(g_currentTextureToShow-1))" onpointerup="stopTextureTimer()" onpointerleave="stopTextureTimer()" onpointercancel="stopTextureTimer()"  class="svgContainer">
               <svg id="ChangeToPreviousImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
             </button>
             <div class = "box">
@@ -209,10 +209,17 @@
                     <input onchange="ImagePreviewGridColorChange(this.value);" type="color" id="ImageDisplay_viewOption_grids_color" value="#00FF00">
                   </div>
                 </div>
+                <div>
+                  <h2>Image Scroll Speed</h2>
+                  <p>You can use WASD or the Arrow keys to scroll through</p>
+                  <input type="number" step="1" value="3" id="TextureScrollCountInput" onchange="this.value = Math.max(1, Math.min(50, this.value));" />
+                  <p>textures / mipmaps / palettes per second.</p>
+                  <p>Alternatively hold click on the arrows.</p>
+                </div>
               </div>
 
               <div id = "flexRowForBothCanvas">
-                <button onclick="changeCurrentMipMap(g_currentTextureMipMap-1);" class="svgContainer">
+                <button onpointerdown="useTextureTimer(() => changeCurrentMipMap(g_currentTextureMipMap-1))" onpointerup="stopTextureTimer()" onpointerleave="stopTextureTimer()" onpointercancel="stopTextureTimer()" class="svgContainer">
                   <svg id="ChangeToPreviousTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
                 </button>
                 <div class="flexColumn">
@@ -277,12 +284,12 @@
                     </button>
                   </div>
                 </div>
-                <button onclick="changeCurrentMipMap(g_currentTextureMipMap+1);" class="svgContainer">
+                <button onpointerdown="useTextureTimer(() => changeCurrentMipMap(g_currentTextureMipMap+1))" onpointerup="stopTextureTimer()" onpointerleave="stopTextureTimer()" onpointercancel="stopTextureTimer()" class="svgContainer">
                   <svg id="ChangeToNextTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
                 </button>
               </div>
             </div>
-            <button onclick="changeCurrentTexture(g_currentTextureToShow+1);" class="svgContainer">
+            <button onpointerdown="useTextureTimer(() => changeCurrentTexture(g_currentTextureToShow+1))" onpointerup="stopTextureTimer()" onpointerleave="stopTextureTimer()" onpointercancel="stopTextureTimer()" class="svgContainer">
               <svg id="ChangeToNextImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
             </button>
           </div>
