@@ -132,6 +132,16 @@ svg { cursor: pointer; }
 #Editor_Contents .FileQuickOptions {
   transform: translate(0, -25%)
 }
+#Editor_Contents .FileQuickOptions button {
+  width: 30px;
+  height: 35px;
+  background: transparent;
+  border: none;
+  transform: translateY(-2px);
+}
+#Editor_Contents .FileQuickOptions button svg {
+  translate: -5px;
+}
 #Editor_Contents .fileHeaderTable {
   display: grid;
   grid-template-columns: 200px 600px;
@@ -220,13 +230,17 @@ svg { cursor: pointer; }
   font-size: 30px;
 }
 #flexRowForFilePreview {
+  --sizeOfArrows: 50px;
   margin: 10px auto;
   display: grid;
-  grid-template-columns: 30px 1fr 30px;
+  grid-template-columns: var(--sizeOfArrows) 1fr var(--sizeOfArrows);
   height: 100%;
   width: 99%;
   gap: 5px;
 }
+#flexRowForFilePreview > *:nth-child(1) { grid-column: 1; }
+#flexRowForFilePreview > *:nth-child(2) { grid-column: 2; }
+#flexRowForFilePreview > *:nth-child(3) { grid-column: 3; }
 #flexRowForFilePreview > .box {
   height: 100%;
   width: 100%;
@@ -279,11 +293,15 @@ svg { cursor: pointer; }
 #flexRowForBothCanvas {
   margin: 10px auto;
   display: grid;
-  grid-template-columns: 30px 1fr 1fr 30px;
+  grid-template-columns: var(--sizeOfArrows) 1fr 1fr var(--sizeOfArrows);
   height: 100%;
   width: 100%;
   gap: 15px;
 }
+#flexRowForBothCanvas > *:nth-child(1) { grid-column: 1; }
+#flexRowForBothCanvas > *:nth-child(2) { grid-column: 2; }
+#flexRowForBothCanvas > *:nth-child(3) { grid-column: 3; }
+#flexRowForBothCanvas > *:nth-child(4) { grid-column: 4; }
 #ImageCanvasContainer1, #ImageCanvasContainer2 {
   position: relative;
   display: flex;
@@ -343,6 +361,11 @@ svg { cursor: pointer; }
   position: absolute;
   border-color: var(--TextureFiles-SelectedColor);
   border-style: solid;
+}
+.svgContainer {
+  width: var(--sizeOfArrows);
+  background-color: transparent;
+  border: none;
 }
 
 

@@ -22,7 +22,7 @@ function changeCurrentTexture(newTexture) {
   // change eye icons on all files
   const allDivs = document.querySelectorAll("#Editor_Contents > div");
   for (let i = 0; i < allDivs.length; i++) {
-    const allSVGs = allDivs[i].getElementsByClassName("FileQuickOptions")[0].getElementsByTagName("svg");
+    const allSVGs = allDivs[i].getElementsByClassName("FileQuickOptions")[0].getElementsByTagName("button");
     allSVGs[2].style.display = "none";
     allSVGs[3].style.display = "none";
     if (g_AllTextureData[i].numPixels != 0) {
@@ -35,8 +35,8 @@ function changeCurrentTexture(newTexture) {
   }
 
   // hide arrows if you can't increment by 1 or -1
-  const prevTexture = document.getElementById("ChangeToPreviousImageButton");
-  const nextTexture = document.getElementById("ChangeToNextImageButton");
+  const prevTexture = document.getElementById("ChangeToPreviousImageButton").parentElement;
+  const nextTexture = document.getElementById("ChangeToNextImageButton").parentElement;
   prevTexture.style.display = "";
   nextTexture.style.display = "";
   if (g_currentTextureToShow == 0) {
@@ -67,8 +67,8 @@ function changeCurrentMipMap(newMipMap, refreshAll = true, viewWholeImage = true
   changeCurrentPixelID(g_currentPixel, false); // ensure current pixel is valid
 
   // hide arrows if you can't increment by 1 or -1
-  const prevMipMap = document.getElementById("ChangeToPreviousTextureButton");
-  const nextMipMap = document.getElementById("ChangeToNextTextureButton");
+  const prevMipMap = document.getElementById("ChangeToPreviousTextureButton").parentElement;
+  const nextMipMap = document.getElementById("ChangeToNextTextureButton").parentElement;
   prevMipMap.style.display = "";
   nextMipMap.style.display = "";
   if (g_currentTextureMipMap == 0) {

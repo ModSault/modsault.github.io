@@ -111,9 +111,9 @@
         <div class = "box" ondrop="replacePixelsWithPNG_DropHandler(event);" ondragover="event.preventDefault();">
           <h2 id="CurrentFileOnDisplayH2">No File Selected</h2>
           <div id = "flexRowForFilePreview" style="display: none;">
-            <div class="svgContainer">
-              <svg onclick="changeCurrentTexture(g_currentTextureToShow-1);" id="ChangeToPreviousImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
-            </div>
+            <button onclick="changeCurrentTexture(g_currentTextureToShow-1);" class="svgContainer">
+              <svg id="ChangeToPreviousImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+            </button>
             <div class = "box">
               <div class = "ImageDisplay_Options">
                 <div>
@@ -212,9 +212,9 @@
               </div>
 
               <div id = "flexRowForBothCanvas">
-                <div class="svgContainer">
-                  <svg onclick="changeCurrentMipMap(g_currentTextureMipMap-1);" id="ChangeToPreviousTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
-                </div>
+                <button onclick="changeCurrentMipMap(g_currentTextureMipMap-1);" class="svgContainer">
+                  <svg id="ChangeToPreviousTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                </button>
                 <div class="flexColumn">
                   <h3>User Image (256x256)</h3>
                   <div id="ImageCanvasContainer1">
@@ -277,14 +277,14 @@
                     </button>
                   </div>
                 </div>
-                <div class="svgContainer">
-                  <svg onclick="changeCurrentMipMap(g_currentTextureMipMap+1);" id="ChangeToNextTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
-                </div>
+                <button onclick="changeCurrentMipMap(g_currentTextureMipMap+1);" class="svgContainer">
+                  <svg id="ChangeToNextTextureButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+                </button>
               </div>
             </div>
-            <div class="svgContainer">
-              <svg onclick="changeCurrentTexture(g_currentTextureToShow+1);" id="ChangeToNextImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
-            </div>
+            <button onclick="changeCurrentTexture(g_currentTextureToShow+1);" class="svgContainer">
+              <svg id="ChangeToNextImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+            </button>
           </div>
         </div>
       </div>

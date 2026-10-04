@@ -20,9 +20,10 @@ function refreshAllFiles() {
     toReturn.appendChild(details);
 
     const SVGContainer = DOM_addAny("div", { "className": "FileQuickOptions" });
-    SVGContainer.innerHTML = arrowDownwardSVG + arrowDownwardSVG + eyeVisibleSVG + eyeInvisibleSVG + downloadSVG + XSVG;
-    const allSVGs = SVGContainer.getElementsByTagName("svg");
-    allSVGs[0].classList.add("rotate180");
+    const buttonify = function(svg) { return `<button>${svg}</button>`; }
+    SVGContainer.innerHTML = buttonify(arrowDownwardSVG) + buttonify(arrowDownwardSVG) + buttonify(eyeVisibleSVG) + buttonify(eyeInvisibleSVG) + buttonify(downloadSVG) + buttonify(XSVG);
+    const allSVGs = SVGContainer.getElementsByTagName("button");
+    allSVGs[0].firstChild.classList.add("rotate180");
     allSVGs[0].onclick = function() { // move up button
       const l1 = date_getReEncodeListOnChange(index);
       const l2 = date_getReEncodeListOnChange(index-1);
