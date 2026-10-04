@@ -119,7 +119,7 @@ function Assault_parseFile(file) {
     const allTextureData_backup = g_AllTextureData;
     g_AllTextureData = [];
     const view = new DataView(e.target.result);
-    // try {
+    try {
       // Skip entire file header (20 bytes) and get info on number of files
       // other variable are to account for 
       let curOffset = 0x20;
@@ -268,10 +268,10 @@ function Assault_parseFile(file) {
       data_recalculateAllInIndex(-1);
 
       g_wasFileChanged = false;
-    // } catch (err) {
-    //   alert(`Invalid Star Fox Assault File. Reverting to as if you uploaded nothing. Error: ${err}`);
-    //   g_AllTextureData = allTextureData_backup;
-    // }
+    } catch (err) {
+      alert(`Invalid Star Fox Assault File. Reverting to as if you uploaded nothing. Error: ${err}`);
+      g_AllTextureData = allTextureData_backup;
+    }
     textContainer.style.display = "none";
   };
   reader.readAsArrayBuffer(file);
