@@ -276,7 +276,7 @@ function refreshFileHeaderInfo(index) {
   const frag = document.createDocumentFragment();
   document.activeElement.blur(); // prevent auto scrolling
 
-  const tableHeaders = ["id", "Compression/Encoding", "Width", "Height", data_hasColorData(index) ? "Number of Palettes" : "Number of Mipmaps", "Color Type", "Save Only Colors?"];
+  const tableHeaders = ["id", "Compression/Encoding", "Width", "Height", !data_useMipMapLogic(index) ? "Number of Palettes" : "Number of Mipmaps", "Color Type", "Save Only Colors?", "Image Support"];
   for (let i = 0; i < tableHeaders.length; i++) {
     if (!(data_hasColorData(index)) && i >= 5) continue; // these compressions don't support color modes or being color only. Only hide certain table rows if so
     frag.appendChild(DOM_addAny("p", { "innerText": tableHeaders[i] }));
@@ -396,7 +396,7 @@ function refreshFileHeaderInfo(index) {
     if (i == 4) { // mip maps
       const lowerMipMap = data_getMipMapMaxCount(index);
 
-      if (data_hasColorData(index)) {
+      if (!data_useMipMapLogic(index)) {
         toAdd.appendChild(document.createTextNode(`The game has different colored versions of the same texture. They have separate color data but the same pixel data. I recommend increasing this value if you want multiple of a similar looking texture that only differ by color.`));
       } else {
         toAdd.appendChild(document.createTextNode(`The game has smaller versions of terrain textures for performance reasons. Each one is half the size of the previous one This lets you select the amount you want. Value range: 1-${lowerMipMap}.`));
@@ -474,6 +474,34 @@ function refreshFileHeaderInfo(index) {
         "htmlFor": `Texture_isColorOnly_${index}`
       }));
     }
+    if (i == 7) { // image support
+      toAdd.appendChild(document.createTextNode(`This compression type can support either mipmaps or palettes. Not both (because I don't support it and the game doesn't use it). Mipmaps mean that there are smaller versions of the same texture to save on performance. Palettes are just recolored versions of the base texture thats the same size.`));
+      toAdd.appendChild(DOM_addAny("br"));
+      toAdd.appendChild(DOM_addAny("br"));
+      toAdd.appendChild(DOM_addAny("input", {
+        "checked": curData.useMipMaps,
+        "type": "radio",
+        "id": `Texture_imageSupport_${index}_1`,
+        "name": `Texture_imageSupport_${index}_1`,
+        "onchange": function(e) { data_setUseMipMaps(index, true); data_recalculateAllInIndex(index); }
+      }));
+      toAdd.appendChild(DOM_addAny("label", {
+        "innerText": "Support Mipmaps",
+        "htmlFor": `Texture_imageSupport_${index}_1`
+      }));
+      toAdd.appendChild(DOM_addAny("br"));
+      toAdd.appendChild(DOM_addAny("input", {
+        "checked": !curData.useMipMaps,
+        "type": "radio",
+        "id": `Texture_imageSupport_${index}_2`,
+        "name": `Texture_imageSupport_${index}_2`,
+        "onchange": function(e) { data_setUseMipMaps(index, false); data_recalculateAllInIndex(index); }
+      }));
+      toAdd.appendChild(DOM_addAny("label", {
+        "innerText": "Support Palettes",
+        "htmlFor": `Texture_imageSupport_${index}_2`
+      }));
+    }
     frag.appendChild(toAdd);
   }
 
@@ -525,7 +553,7 @@ function refreshFilePixelInfo(index, fixHigh = true) {
       frag.appendChild(DOM_addAny("p", { "innerText": elem }));
     }
 
-    const width = data_hasColorData(index) ? g_AllTextureData[index].width : g_AllTextureData[index].width >> (text_cur-1);
+    const width = data_useMipMapLogic(index) ? g_AllTextureData[index].width : g_AllTextureData[index].width >> (text_cur-1);
     for (let i = pixel_low_cur; i <= pixel_high_cur; i++) {
       const makeContainerWithInput = function(colorUser, colorCompressed, colorType) {
         const toReturn = DOM_addAny("div");

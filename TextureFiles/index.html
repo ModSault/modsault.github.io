@@ -151,7 +151,14 @@
                   </div>
                   <div class="flexRow">
                     <input onchange="data_setIsColorOnly(g_currentTextureToShow, this.checked); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_ColorOnly" type="checkbox" />
-                    <label for="ImageDisplay_ColorOnly">Only Save Color Information</p>
+                    <label for="ImageDisplay_ColorOnly">Only Save Color Information</label>
+                  </div>
+                  <div class="flexRow">
+                    <input onchange="data_setUseMipMaps(g_currentTextureToShow, true); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportMipmaps" type="radio" />
+                    <label for="ImageDisplay_SupportMipmaps">Support Mipmaps</label>
+                    <span class="wideMargin"></span>
+                    <input onchange="data_setUseMipMaps(g_currentTextureToShow, false); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportPalettes" type="radio" />
+                    <label for="ImageDisplay_SupportPalettes">Support Palettes</label>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 .box p { margin: 0; }
 .flexRow { align-items: center; }
 svg { cursor: pointer; }
+.wideMargin { margin: 0 10px; }
 
 /* ------------ Box for Relevant Files ------------ */
 
@@ -249,7 +250,7 @@ svg { cursor: pointer; }
 }
 .ImageDisplay_Options {
   display: grid;
-  grid-template-columns: 2fr 4fr; /* 240px 500px; */
+  grid-template-columns: 250px 500px;
   margin: 0 auto;
 }
 .ImageDisplay_Options input {

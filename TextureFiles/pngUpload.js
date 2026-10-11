@@ -18,8 +18,8 @@ function replacePixelsWithPNG(index, mipmapIndex, file) {
       // check width and height
       const width = img.naturalWidth;
       const height = img.naturalHeight;
-      const expected_width = data_hasColorData(index) ? g_AllTextureData[index].width : g_AllTextureData[index].width >> mipmapIndex;
-      const expected_height = data_hasColorData(index) ? g_AllTextureData[index].height : g_AllTextureData[index].height >> mipmapIndex;
+      const expected_width = !data_useMipMapLogic(index) ? g_AllTextureData[index].width : g_AllTextureData[index].width >> mipmapIndex;
+      const expected_height = !data_useMipMapLogic(index) ? g_AllTextureData[index].height : g_AllTextureData[index].height >> mipmapIndex;
       if (width != expected_width || height != expected_height) {
         alert(`Your image is ${width}x${height} when your image needed to match that of what you're replacing ${expected_width}x${expected_height}. Resize the image yourself then reupload it.`);
         return;
@@ -60,7 +60,7 @@ function replacePixelsWithPNG(index, mipmapIndex, file) {
 
       // set png to lower res mipmaps if user wants that
       if (document.getElementById("PNGUpload_MipMapCheckbox").checked) {
-        for (let i = mipmapIndex; i < g_AllTextureData[index].pixels.length && !data_hasColorData(index); i++) {
+        for (let i = mipmapIndex; i < g_AllTextureData[index].pixels.length && data_useMipMapLogic(index); i++) {
           data_setMipMapToMatchHigherRes(index, i);
         }
       }

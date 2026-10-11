@@ -35,8 +35,8 @@ function gridToPixelID(width, textureLayer, gridID) {
 // get file data when wanting to download an image
 function getBlobForFileMipMap(index, mipmap, isCompressed = false) {
   const curData = g_AllTextureData[index];
-  const width = data_hasColorData(index) ? curData.width : curData.width >> mipmap;
-  const height = data_hasColorData(index) ? curData.height : curData.height >> mipmap;
+  const width = !data_useMipMapLogic(index) ? curData.width : curData.width >> mipmap;
+  const height = !data_useMipMapLogic(index) ? curData.height : curData.height >> mipmap;
   const pixels = curData.pixels[mipmap];
   const compressedImage = g_allFileProcessedInformation[index+1].compressedImage[mipmap];
 

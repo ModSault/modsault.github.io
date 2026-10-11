@@ -13,6 +13,7 @@ This is an example of its data with fake numbers
     "width": 256,
     "height": 256,
     "colorOnly": false,           // Used normally for player textures only. This just means that this texture file has no pixel data
+    "useMipMaps": false,          // For compression types called `X total colors` they can either have mipmaps or different palettes. This separates their logic
     "colorType": 2,               // How the colors are encoded (only needed for compression types called `X total colors`)
     "TextureLayer": 6,            // This is the compression type. The name came from an error Dolphin gave this one time
     "id": 0x10004234,             // The ID used so that the game can store and find this specific texture from using a binary tree. Highly recommended to be a unique value.

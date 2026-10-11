@@ -108,6 +108,21 @@ function Assault_EncodeHelper_applyAllColors(view, offsetToStartOfColors, indexT
     }
   }
 }
+// does same as above but expects an array of colors, not a map
+function Assault_EncodeHelper_applyAllColors_Array(view, offsetToStartOfColors, palette, colorType) {
+  // description set when making the header of the individual texture
+  const addColorDataToFile = (offset, value) => {
+    offset += offsetToStartOfColors;
+    console.assert(offset != undefined);
+    view.setUint16(offset, value);
+  };
+
+  for (let i = 0; i < palette.length; i++) {
+    const value = Assault_EncodeHelper_rgbaToU16(palette[i], colorType);
+    addColorDataToFile(i*2, value);
+  }
+}
+
 
 // of all palettes (internal and external to this file) it finds the one with the most colors. And other setup like preparing the shapes of allPalettes and indexToColor
 function Assault_EncodeHelper_PrepareForAllPalettes(index, forceSizeAmt) {
@@ -347,7 +362,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   // -------------- calculate fileSize --------------
   // header
   let fileSize = 0x50;
-  if (!data_hasColorData(index)) {
+  if (data_useMipMapLogic(index)) {
     // number of mipmaps means a bigger file. idk why the game just expects
     if (([2,3,4]).includes(numMipMaps))
       fileSize += 0x20;
@@ -357,7 +372,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   // pixels (color only has no pixel data for supported compression types)
   const offsetToStartOfPixels = fileSize;
   let sizeOfPixels = 0;
-  if (!data_hasColorData(index)) {
+  if (data_useMipMapLogic(index)) {
     // mipmap handler
     for (let i = 0; i < numMipMaps && numberOfPixelsToBytesRatio != 0; i++) {
       sizeOfPixels += ((width >> i) * (height >> i)) / numberOfPixelsToBytesRatio;
@@ -371,7 +386,14 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
     fileSize += 0x10 - (fileSize % 0x10); // align
   // color
   const offsetToStartOfColors = fileSize;
-  const sizeOfColors = !data_hasColorData(index) ? 0 : (numberOfColors * 2 * numPalettes);
+  let sizeOfColors = 0;
+  if (data_hasColorData(index)) {
+    if (data_useMipMapLogic(index)) {
+      sizeOfColors += (numberOfColors * 2);
+    } else {
+      sizeOfColors += (numberOfColors * 2 * numPalettes);
+    }
+  }
   fileSize += sizeOfColors;
   if (fileSize % 0x10)
     fileSize += 0x10 - (fileSize % 0x10); // align
@@ -384,7 +406,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   const errors = [];
   const compressedImage = [];
   for (let i = 0; i < g_AllTextureData[index].pixels.length; i++) {
-    const bitShiftAmt = !data_hasColorData(index) ? i : 0;
+    const bitShiftAmt = data_useMipMapLogic(index) ? i : 0;
     compressedImage.push(new Uint8Array(
       4 * (g_AllTextureData[index].width >> bitShiftAmt) * (g_AllTextureData[index].height >> bitShiftAmt)
     ));
@@ -418,7 +440,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   addDataToHeader(0x08, 2, sizeOfPixels, 11, "Total size of pixel data");
   addDataToHeader(0x0C, 1, offsetToStartOfPixels, 15, "Offset to start of pixel data");
   addDataToHeader(0x0E, 1, Math.min(0xFFFF, numberOfColors), 17, "Total number of colors in color data");
-  addDataToHeader(0x11, 0, !data_hasColorData(index) ? numMipMaps : 1, 9, "Total number of mip maps (aka smaller versions of same texture. Always 1 if compression type only support palettes and not mipmaps)");
+  addDataToHeader(0x11, 0, data_useMipMapLogic(index) ? numMipMaps : 1, 9, "Total number of mip maps (aka smaller versions of same texture. Always 1 if compression type only support palettes and not mipmaps)");
   addDataToHeader(0x12, 0, curData.colorType, 4, "The color type (only affects colors if in the color data segment)");
   addDataToHeader(0x13, 0, curData.TextureLayer, 9, "The compression type (also called texture layer on an error)");
   addDataToHeader(0x14, 1, writeSize ? width : 0, 4, "Width of full resolution texture (is 0 if it only saves color information)");
@@ -461,7 +483,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   if (height % h !== 0 && h !== 0) {
     errors.push(`The height (${height}) is not divisible by the grid size for this compression type (${h}). Honestly I would've expected my code to crash since it expects the height to always be valid, so if you even see this that's impressive.`);
   }
-  if (width >> numMipMaps === 0 || height >> numMipMaps === 0) {
+  if (data_useMipMapLogic(index) && (width >> numMipMaps === 0 || height >> numMipMaps === 0)) {
     errors.push(`There are ${numMipMaps} mipmaps. However either the width (${width}) or height (${height}) isn't larger than or equal to ${1 << numMipMaps} meaning that at least one mip maps is 0x0 which shouldn't be the case.`);
   }
   if (numberOfColors > 0xFFFF) {
@@ -492,8 +514,13 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize };
 }
 function Assault_EncodeHelper_GetAllColors(index, paletteIndex, forceSizeAmt = 0xFFFF) {
-  const allPixels = g_AllTextureData[index].pixels[paletteIndex].flat();
-  return quantizeColors(allPixels, forceSizeAmt).palette;
+  if (paletteIndex != -1) {
+    const allPixels = g_AllTextureData[index].pixels[paletteIndex].flat();
+    return quantizeColors(allPixels, forceSizeAmt).palette;
+  } else {
+    const allPixels = g_AllTextureData[index].pixels.flat();
+    return quantizeColors(allPixels, forceSizeAmt).palette;
+  }
 }
 
 /* ------------ Encode ------------ */
@@ -557,16 +584,22 @@ function Assault_generalEncode(index, updateWarningsAndErrors = true) {
       case 5:
         if (g_AllTextureData[index].colorOnly)
           return Assault_EncodeColorOnly(index);
+        if (data_useMipMapLogic(index))
+          return Assault_EncodeLayer5_Mipmaps(index);
         return Assault_EncodeLayer5(index);
         break;
       case 6:
         if (g_AllTextureData[index].colorOnly)
           return Assault_EncodeColorOnly(index);
+        if (data_useMipMapLogic(index))
+          return Assault_EncodeLayer6_Mipmaps(index);
         return Assault_EncodeLayer6(index);
         break;
       case 7:
         if (g_AllTextureData[index].colorOnly)
           return Assault_EncodeColorOnly(index);
+        if (data_useMipMapLogic(index))
+          return Assault_EncodeLayer7_Mipmaps(index);
         return Assault_EncodeLayer7(index);
         break;
       case 10:
@@ -590,7 +623,7 @@ function Assault_generalEncode(index, updateWarningsAndErrors = true) {
   // account for if this texture has no pixel data (aka it saves only color information)
   let fileIndexWithPixelData = data_getTextureWithPixelData(index) ?? -1;
   if (fileIndexWithPixelData != -1 && g_AllTextureData[index].colorOnly) {
-    if (g_allFileProcessedInformation[fileIndexWithPixelData+1].indexToColor.length <= index-fileIndexWithPixelData) {
+    if (!g_allFileProcessedInformation[fileIndexWithPixelData+1].indexToColor || g_allFileProcessedInformation[fileIndexWithPixelData+1].indexToColor.length <= index-fileIndexWithPixelData) {
       fileIndexWithPixelData = -1
     }
   }
@@ -603,7 +636,7 @@ function Assault_generalEncode(index, updateWarningsAndErrors = true) {
   for (let j = 0; j < g_AllTextureData[index].pixels.length && pixelToByteRatio != 0 && fileIndexWithPixelData != -1; j++) {
     const byteToPixelRatio = 1 / pixelToByteRatio;
     let currentWidth, currentHeight;
-    if (!data_hasColorData(index)) {
+    if (data_useMipMapLogic(index)) {
       // mipmaps
       currentWidth = g_AllTextureData[index].width >> (j);
       currentHeight = g_AllTextureData[index].height >> (j);
@@ -620,10 +653,12 @@ function Assault_generalEncode(index, updateWarningsAndErrors = true) {
     } else {
       view_pixelsOnly = new DataView(downloadSegment, curPixelOffset, sizeOfPixelData);
     }
-    curPixelOffset += sizeOfPixelData * (!data_hasColorData(index));
-    const sizeOfColorData = g_allFileProcessedInformation[fileIndexWithPixelData+1].biggestPalette_size * 2;
+    curPixelOffset += sizeOfPixelData * (data_useMipMapLogic(index));
+
+    let sizeOfColorData = g_allFileProcessedInformation[fileIndexWithPixelData+1].biggestPalette_size * 2;
     const view_colorsOnly = new DataView(downloadSegment, curColorOffset, sizeOfColorData);
-    curColorOffset += sizeOfColorData;
+    if (!data_useMipMapLogic(index))
+      curColorOffset += sizeOfColorData;
     
     switch (g_AllTextureData[index].TextureLayer) {
       case 1: {
@@ -802,7 +837,11 @@ function quantizeColors(colors, maxColors = 256) {
 function Assault_EncodeHelper_NearestColorIndex(c, palettes, i, j) {
   let best = -1;
   let bestDist = Infinity;
-  const palette = palettes[i][j];
+  let palette;
+  if (i != -1)
+    palette = palettes[i][j];
+  else
+    palette = palettes;
   for (let i = 0; i < palette.length; i++) {
     const p = palette[i];
     const d = (c.r - p.r) ** 2 + (c.g - p.g) ** 2 + (c.b - p.b) ** 2 + (c.a - p.a) ** 2;
@@ -1129,6 +1168,60 @@ function Assault_EncodeLayer5(index) {
 
   return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize, indexToColor, biggestPalette_size };
 }
+// only have 1 palette
+function Assault_EncodeLayer5_Mipmaps(index) {
+  const curData = g_AllTextureData[index];
+  const numberOfPixelsToBytesRatio = getPixelsToByteRatio(curData.TextureLayer);
+  const compressionMaxPaletteSize = Math.min(0xFFFF, data_getMaxRecommendedColorsSize(index));
+  const palette = Assault_EncodeHelper_GetAllColors(index, -1, compressionMaxPaletteSize);
+  const biggestPalette_size = palette.length;
+
+  const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, compressionMaxPaletteSize);
+  const view = new DataView(downloadSegment);
+  const addPixelDataToFile = (offset, value, pixelID) => {
+    offset += offsetToStartOfPixels;
+    console.assert(offset < offsetToStartOfColors);
+    console.assert(offset != undefined);
+    descriptions[offset] = {
+      description: `Pixel ID ${pixelID} and ${pixelID+1} - color index for each pixel ID`,
+      type: "2 4 bit Integers (unsigned)"
+    };
+    view.setUint8(offset, value);
+  };
+
+  const { w, h } = getGridSizes(curData.TextureLayer);
+  let currentMipMapOffset = 0;
+  for (let mipmapNum = 0; mipmapNum < curData.pixels.length; mipmapNum++) {
+    const curWidthMax = curData.width >> mipmapNum;
+    const curHeightMax = curData.height >> mipmapNum;
+
+    for (let pixelID = 0; pixelID < curData.pixels[mipmapNum].length; pixelID+=2) {
+      const curPixel1 = curData.pixels[mipmapNum][pixelID];
+      const curPixel2 = curData.pixels[mipmapNum][pixelID+1];
+      const colIndex1 = Assault_EncodeHelper_NearestColorIndex(curPixel1, palette, -1, -1);
+      const colIndex2 = Assault_EncodeHelper_NearestColorIndex(curPixel2, palette, -1, -1);
+
+      // recover this pixel's actual (x, y) in the full mipmap image
+      const x = pixelID % curWidthMax;
+      const y = Math.floor(pixelID / curWidthMax);
+
+      // which grid cell it falls into
+      const grid = pixelIDtoGrid(curWidthMax, curData.TextureLayer, pixelID);
+      const localX = x % w;
+      const localY = y % h;
+      const pixelNumInGrid = localY * w + localX;
+
+      const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
+      addPixelDataToFile(currentMipMapOffset+offset, (colIndex1 << 4) | (colIndex2), pixelID);
+    }
+    currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
+  }
+
+  // save color information
+  Assault_EncodeHelper_applyAllColors_Array(view, offsetToStartOfColors, palette, curData.colorType);
+
+  return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize, biggestPalette_size };
+}
 // This has separate color and pixel data.
 function Assault_EncodeLayer6(index) {
   const curData = g_AllTextureData[index];
@@ -1172,6 +1265,57 @@ function Assault_EncodeLayer6(index) {
 
   return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize, indexToColor, biggestPalette_size };
 }
+// only have 1 palette
+function Assault_EncodeLayer6_Mipmaps(index) {
+  const curData = g_AllTextureData[index];
+  const numberOfPixelsToBytesRatio = getPixelsToByteRatio(curData.TextureLayer);
+  const compressionMaxPaletteSize = Math.min(0xFFFF, data_getMaxRecommendedColorsSize(index));
+  const palette = Assault_EncodeHelper_GetAllColors(index, -1, compressionMaxPaletteSize);
+  const biggestPalette_size = palette.length;
+
+  const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, compressionMaxPaletteSize);
+  const view = new DataView(downloadSegment);
+  const addPixelDataToFile = (offset, value, pixelID) => {
+    offset += offsetToStartOfPixels;
+    console.assert(offset != undefined);
+    descriptions[offset] = {
+      description: `Pixel ID ${pixelID} - color index for this pixel ID`,
+      type: "1 Byte Integer (unsigned)"
+    };
+    view.setUint8(offset, value);
+  };
+
+  const { w, h } = getGridSizes(curData.TextureLayer);
+  let currentMipMapOffset = 0;
+  for (let mipmapNum = 0; mipmapNum < curData.pixels.length; mipmapNum++) {
+    const curWidthMax = curData.width >> mipmapNum;
+    const curHeightMax = curData.height >> mipmapNum;
+
+    for (let pixelID = 0; pixelID < curData.pixels[mipmapNum].length; pixelID++) {
+      const curPixel = curData.pixels[mipmapNum][pixelID];
+      const colIndex = Assault_EncodeHelper_NearestColorIndex(curPixel, palette, -1, -1);
+
+      // recover this pixel's actual (x, y) in the full mipmap image
+      const x = pixelID % curWidthMax;
+      const y = Math.floor(pixelID / curWidthMax);
+
+      // which grid cell it falls into
+      const grid = pixelIDtoGrid(curWidthMax, curData.TextureLayer, pixelID);
+      const localX = x % w;
+      const localY = y % h;
+      const pixelNumInGrid = localY * w + localX;
+
+      const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
+      addPixelDataToFile(currentMipMapOffset+offset, colIndex, pixelID);
+    }
+    currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
+  }
+
+  // save color information
+  Assault_EncodeHelper_applyAllColors_Array(view, offsetToStartOfColors, palette, curData.colorType);
+
+  return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize, biggestPalette_size };
+}
 // This has separate color and pixel data.
 function Assault_EncodeLayer7(index) {
   const curData = g_AllTextureData[index];
@@ -1214,6 +1358,57 @@ function Assault_EncodeLayer7(index) {
   Assault_EncodeHelper_applyAllColors(view, offsetToStartOfColors, indexToColor[0], curData.colorType, biggestPalette_size);
 
   return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize, indexToColor, biggestPalette_size };
+}
+// only have 1 palette
+function Assault_EncodeLayer7_Mipmaps(index) {
+  const curData = g_AllTextureData[index];
+  const numberOfPixelsToBytesRatio = getPixelsToByteRatio(curData.TextureLayer);
+  const compressionMaxPaletteSize = Math.min(0xFFFF, data_getMaxRecommendedColorsSize(index));
+  const palette = Assault_EncodeHelper_GetAllColors(index, -1, compressionMaxPaletteSize);
+  const biggestPalette_size = palette.length;
+
+  const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, compressionMaxPaletteSize);
+  const view = new DataView(downloadSegment);
+  const addPixelDataToFile = (offset, value, pixelID) => {
+    offset += offsetToStartOfPixels;
+    console.assert(offset != undefined);
+    descriptions[offset] = {
+      description: `Pixel ID ${pixelID} - color index for this pixel ID`,
+      type: "2 Byte Integer (unsigned)"
+    };
+    view.setUint16(offset, value);
+  };
+
+ const { w, h } = getGridSizes(curData.TextureLayer);
+  let currentMipMapOffset = 0;
+  for (let mipmapNum = 0; mipmapNum < curData.pixels.length; mipmapNum++) {
+    const curWidthMax = curData.width >> mipmapNum;
+    const curHeightMax = curData.height >> mipmapNum;
+
+    for (let pixelID = 0; pixelID < curData.pixels[mipmapNum].length; pixelID++) {
+      const curPixel = curData.pixels[mipmapNum][pixelID];
+      const colIndex = Assault_EncodeHelper_NearestColorIndex(curPixel, palette, -1, -1);
+
+      // recover this pixel's actual (x, y) in the full mipmap image
+      const x = pixelID % curWidthMax;
+      const y = Math.floor(pixelID / curWidthMax);
+
+      // which grid cell it falls into
+      const grid = pixelIDtoGrid(curWidthMax, curData.TextureLayer, pixelID);
+      const localX = x % w;
+      const localY = y % h;
+      const pixelNumInGrid = localY * w + localX;
+
+      const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
+      addPixelDataToFile(currentMipMapOffset+offset, colIndex, pixelID);
+    }
+    currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
+  }
+
+  // save color information
+  Assault_EncodeHelper_applyAllColors_Array(view, offsetToStartOfColors, palette, curData.colorType);
+
+  return { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize, biggestPalette_size };
 }
 
 function Assault_EncodeLayer10(index) {

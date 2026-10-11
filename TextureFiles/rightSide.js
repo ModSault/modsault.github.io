@@ -84,7 +84,7 @@ function changeCurrentMipMap(newMipMap, refreshAll = true, viewWholeImage = true
   const H3_1 = containerForH3.getElementsByClassName("flexColumn")[0].getElementsByTagName("h3")[0];
   const H3_2 = containerForH3.getElementsByClassName("flexColumn")[1].getElementsByTagName("h3")[0];
   const totalNum = curData.pixels.length;
-  if (!data_hasColorData(g_currentTextureToShow)) {
+  if (data_useMipMapLogic(g_currentTextureToShow)) {
     const ImageResolutionText = (["Full", "Half", `1/${Math.pow(2, g_currentTextureMipMap)}`])[Math.min(2, g_currentTextureMipMap)];
     const width = curData.width >> g_currentTextureMipMap;
     const height = curData.height >> g_currentTextureMipMap;
@@ -137,19 +137,23 @@ function updateAllInfoInRightFilePreview() {
   document.getElementById("ImageDisplay_Height").value = curData.height;
   document.getElementById("ImageDisplay_Height").step = h;
   document.getElementById("ImageDisplay_NumTextures").value = curData.pixels.length;
-  document.getElementById("ImageDisplay_NumTextures_p").innerText = data_hasColorData(g_currentTextureToShow) ? "# of Palettes:" : "# of Mipmaps:"
+  document.getElementById("ImageDisplay_NumTextures_p").innerText = !data_useMipMapLogic(g_currentTextureToShow) ? "# of Palettes:" : "# of Mipmaps:"
   document.getElementById("ImageDisplay_CompressionType").value = curData.TextureLayer;
   document.getElementById("ImageDisplay_CompressionType2").value = curData.TextureLayer;
   document.getElementById("ImageDisplay_ColorType").value = curData.colorType;
   document.getElementById("ImageDisplay_ColorType2").value = curData.colorType;
   document.getElementById("ImageDisplay_ColorOnly").checked = curData.colorOnly;
+  document.getElementById("ImageDisplay_SupportMipmaps").checked = curData.useMipMaps;
+  document.getElementById("ImageDisplay_SupportPalettes").checked = !curData.useMipMaps;
 
   // hide certain compression if they aren't needed for selected algorithm
   document.getElementById("ImageDisplay_ColorType").parentElement.style.display = "";
   document.getElementById("ImageDisplay_ColorOnly").parentElement.style.display = "";
+  document.getElementById("ImageDisplay_SupportPalettes").parentElement.style.display = "";
   if (!data_hasColorData(g_currentTextureToShow)) {
     document.getElementById("ImageDisplay_ColorType").parentElement.style.display = "none";
     document.getElementById("ImageDisplay_ColorOnly").parentElement.style.display = "none";
+    document.getElementById("ImageDisplay_SupportPalettes").parentElement.style.display = "none";
   }
 
   // ensure the name shown to the user to correct (mainly on ID change)
@@ -168,7 +172,7 @@ function updatePixelInfoRightFilePreview(pixelID) {
   const compressedPixels = g_allFileProcessedInformation[g_currentTextureToShow+1].compressedImage[g_currentTextureMipMap];
   const neededGrid1 = document.getElementById("PixelPreviewGrid1");
   const neededGrid2 = document.getElementById("PixelPreviewGrid2");
-  const currentGrid = pixelIDtoGrid(curData.width >> (!data_hasColorData(g_currentTextureToShow) * g_currentTextureMipMap), curData.TextureLayer, pixelID);
+  const currentGrid = pixelIDtoGrid(curData.width >> (data_useMipMapLogic(g_currentTextureToShow) * g_currentTextureMipMap), curData.TextureLayer, pixelID);
   neededGrid1.getElementsByTagName("p")[5].innerText = `${pixelID} (${currentGrid})`;
   neededGrid1.getElementsByTagName("div")[0].getElementsByTagName("input")[0].value = curPixel == undefined ? 'N/A' : Math.round(curPixel.r);
   neededGrid1.getElementsByTagName("div")[1].getElementsByTagName("input")[0].value = curPixel == undefined ? 'N/A' : Math.round(curPixel.g);
@@ -231,8 +235,8 @@ function updateFilePreviewBackgroundColor() {
 // If user wants to see a specific grid instead of the entire image, this changes that
 function changeImageGridToView(gridToSee, refreshAll = true) {
   const curData = g_AllTextureData[g_currentTextureToShow];
-  const width = curData.width >> g_currentTextureMipMap;
-  const height = curData.height >> g_currentTextureMipMap;
+  const width = data_useMipMapLogic(g_currentTextureToShow) ? curData.width >> g_currentTextureMipMap : curData.width;
+  const height = data_useMipMapLogic(g_currentTextureToShow) ? curData.height >> g_currentTextureMipMap : curData.height;
   const { w, h } = getGridSizes(curData.TextureLayer);
   const highestGrid = (width / w) * (height / h) - 1;
   gridToSee = Math.max(-1, Math.min(highestGrid, gridToSee));
@@ -345,7 +349,7 @@ function redrawCanvas() {
   const pixels = curData.pixels[g_currentTextureMipMap];
   const compressedPixels = g_allFileProcessedInformation[g_currentTextureToShow+1].compressedImage[g_currentTextureMipMap];
 
-  const hasColorData = data_hasColorData(g_currentTextureToShow);
+  const hasColorData = !data_useMipMapLogic(g_currentTextureToShow);
   const fullWidth = curData.width >> (g_currentTextureMipMap * !hasColorData);
   const fullHeight = curData.height >> (g_currentTextureMipMap * !hasColorData);
   const width = gridToSee == -1 ? fullWidth : w;
@@ -422,7 +426,7 @@ function resizeImageCanvas(waitTime = 250) {
       const container = container_es[i];
       const container_width = container.getBoundingClientRect().width;
       const container_height = container.getBoundingClientRect().height;
-      const hasColorData = data_hasColorData(g_currentTextureToShow);
+      const hasColorData = !data_useMipMapLogic(g_currentTextureToShow);
       const image_width = (gridToSee == -1) ? curData.width >> (g_currentTextureMipMap * !hasColorData) : w;
       const image_height = (gridToSee == -1) ? curData.height >> (g_currentTextureMipMap * !hasColorData) : h;
       

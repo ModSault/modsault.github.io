@@ -158,11 +158,10 @@ function Assault_parseFile(file) {
         data_setHeight(i, height, false);
         data_setNumberTextures(i, numberTextures, false);
         data_setIsColorOnly(i, sizeOfPixelData == 0, false);
+        data_setUseMipMaps(i, (!isNaN(numPalettes) && numMipMaps > 1), false)
 
         // failsafe check. Ensure there aren't both mipmaps and more than 1 palette
-        if (!isNaN(numPalettes) && numMipMaps > 1) {
-          console.error(`Texture ID ${i} has both palettes and mipmaps. This might be a massive problem.`);
-        }
+        console.assert(!(numPalettes > 1 && numMipMaps > 1), `Texture ID ${i} has both palettes (${numPalettes}) and mipmaps (${numMipMaps}). This might be a massive problem.`);
 
         // look for texture ID
         for (let j = 0x10; j < offsetToPixels; j += 0x10) {
@@ -180,7 +179,7 @@ function Assault_parseFile(file) {
         for (let j = 0; j < Math.max(numberTextures, g_AllTextureData[i].pixels.length); j++) {
           let currentWidth = width;
           let currentHeight = height;
-          if (!data_hasColorData(i)) {
+          if (data_useMipMapLogic(i)) {
             currentWidth = width >> (j);
             currentHeight = height >> (j);
             additionalColorOffset = 0;

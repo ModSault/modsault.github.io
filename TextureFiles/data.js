@@ -52,6 +52,11 @@ function data_hasColorData(index) {
   return ([5,6,7]).includes(g_AllTextureData[index].TextureLayer);
 }
 
+function data_useMipMapLogic(index) {
+  if (!data_hasColorData(index)) return true;
+  return g_AllTextureData[index].useMipMaps;
+}
+
 function data_getMipMapMaxCount(index) {
   const { w, h } = getGridSizes(g_AllTextureData[index].TextureLayer);
   const width_maxNumberTextures = Math.floor(Math.log2(g_AllTextureData[index].width / w) + 1);
@@ -149,6 +154,7 @@ function data_addNewTexture(name) {
     "width": 0,
     "height": 0,
     "colorOnly": false,
+    "useMipMaps": false,
     "colorType": 2,
     "TextureLayer": 6,
     "id": 0x1000FFFF,
@@ -224,7 +230,7 @@ function data_resizeTextures(index) {
     }
     allData[i] = curTexture.splice(0, width*height);
 
-    if (!data_hasColorData(index)) {
+    if (data_useMipMapLogic(index)) {
       width = width >> 1;
       height = height >> 1;
     }
@@ -243,7 +249,7 @@ function data_clearMipMap(index, mipmapIndex) {
 }
 // If there are palettes outside of this texture (only present in vanilla with Vs mode characters)
 // ensure they all function the same
-function data_makeExternalPalettesTheSame(index, resize) {
+function data_makeExternalPalettesTheSame(index, resize = true) {
   if (!data_hasColorData(index)) return;
 
   for (const i of date_getReEncodeListOnChange(index)) {
@@ -255,6 +261,15 @@ function data_makeExternalPalettesTheSame(index, resize) {
     if (resize)
       data_resizeTextures(i);
   }
+}
+
+// sets whether to use mipmaps or different palettes
+function data_setUseMipMaps(index, newValue, resize = true) {
+  g_AllTextureData[index].useMipMaps = !!newValue;
+
+  data_setNumberTextures(index, g_AllTextureData[index].pixels.length, false);
+  if (resize)
+    data_resizeTextures(index);
 }
 
 // sets width to proper value and ensures image is correct size (if resize is true)
@@ -341,7 +356,7 @@ function data_setTextureLayer(index, newTextureLayer, resize = true) {
 // this is for number of mipmaps and palettes depending on the compression type used
 function data_setNumberTextures(index, newNumber, resize = true) {
   let maxNumberTextures = data_getMipMapMaxCount(index);
-  if (data_hasColorData(index))
+  if (!data_useMipMapLogic(index))
     maxNumberTextures = newNumber; // infinite palette support
 
   const valueToChangeTo = Math.max(1, Math.min(maxNumberTextures, newNumber));
@@ -353,7 +368,7 @@ function data_setNumberTextures(index, newNumber, resize = true) {
 
   if (resize) {
     data_resizeTextures(index);
-    for (let i = oldValue; i < valueToChangeTo && !data_hasColorData(index); i++) {
+    for (let i = oldValue; i < valueToChangeTo && data_useMipMapLogic(index); i++) {
       data_setMipMapToMatchHigherRes(index, i);
     }
   }
