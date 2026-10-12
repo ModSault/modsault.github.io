@@ -212,12 +212,47 @@ const keyMap = {
   KeyS: "ChangeToPreviousTextureButton", ArrowDown: "ChangeToPreviousTextureButton",
   KeyA: "ChangeToPreviousImageButton",   ArrowLeft: "ChangeToPreviousImageButton",
   KeyD: "ChangeToNextImageButton",       ArrowRight: "ChangeToNextImageButton",
+  KeyE: "",
+  KeyQ: "", // no button equivalent
 };
-const fire = (code) => document.getElementById(keyMap[code]).parentElement.onpointerdown();
-const isTyping = (t) => t.matches("input, textarea, select") || t.isContentEditable;
 
 window.addEventListener("keydown", (e) => {
+  const fire = (code) => document.getElementById(keyMap[code]).parentElement.onpointerdown();
+  const isTyping = (t) => t.matches("input, textarea, select") || t.isContentEditable;
+
   if (e.repeat || !(e.code in keyMap) || isTyping(e.target)) return;
+  if (e.code == "KeyE") {
+    useTextureTimer(() => {
+      if (
+        g_currentTextureToShow == g_AllTextureData.length - 1 &&
+        g_currentTextureMipMap == g_AllTextureData[g_currentTextureToShow].pixels.length - 1
+      )
+        return;
+
+      if (!g_AllTextureData[g_currentTextureToShow] || g_currentTextureMipMap + 1 >= g_AllTextureData[g_currentTextureToShow].pixels.length)
+        changeCurrentTexture(Math.min(g_AllTextureData.length-1, g_currentTextureToShow+1));
+      else
+        changeCurrentMipMap(g_currentTextureMipMap+1);
+    });
+    return;
+  }
+  if (e.code == "KeyQ") {
+    useTextureTimer(() => {
+      if (
+        g_currentTextureToShow == 0 &&
+        g_currentTextureMipMap == 0
+      )
+        return;
+
+      if (g_currentTextureToShow != -1 && g_currentTextureMipMap <= 0) {
+        changeCurrentTexture(Math.max(0, g_currentTextureToShow-1));
+        changeCurrentMipMap(g_AllTextureData[g_currentTextureToShow].pixels.length-1);
+      } else {
+        changeCurrentMipMap(g_currentTextureMipMap-1);
+      }
+    });
+    return;
+  }
   fire(e.code, "onpointerdown");
 });
 
