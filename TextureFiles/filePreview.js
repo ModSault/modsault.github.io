@@ -7,7 +7,7 @@ function showFileOffsetsInFilePreview() {
     return value.toString(16).toUpperCase();
   }
 
-  const topRow = ['Name', 'Size (bytes)', 'Header of File', 'Pixel Data', 'Color Data'];
+  const topRow = ['Name', 'Size (bytes)', 'Header of Texture', 'Pixel Data', 'Color Data'];
   for (const innerText of topRow) {
     frag.appendChild(DOM_addAny("p", { innerText }));
   }
@@ -19,21 +19,22 @@ function showFileOffsetsInFilePreview() {
     frag.appendChild(DOM_addAny("p", { innerText: name }));
     frag.appendChild(DOM_addAny("p", { innerText: `0x${hexify(curSize)}` }));
 
-    const startOffset = currentOffset;
-    const endOffset = currentOffset + curSize;
-    frag.appendChild(DOM_addAny("p", { innerText: `0x${hexify(startOffset)} - 0x${hexify(endOffset)}` }));
+    const headerStart = currentOffset;
+    let headerEnd = currentOffset + g_allFileProcessedInformation[i].offsetToStartOfPixels - 1;
+    if (headerEnd < 0) headerEnd = currentOffset + curSize - 1;
+    frag.appendChild(DOM_addAny("p", { innerText: `0x${hexify(headerStart)} - 0x${hexify(headerEnd)}` }));
 
-    const pixelDataStart = startOffset + g_allFileProcessedInformation[i].offsetToStartOfPixels;
-    const pixelDataEnd = pixelDataStart + g_allFileProcessedInformation[i].offsetToStartOfColors - g_allFileProcessedInformation[i].offsetToStartOfPixels;
-    if (pixelDataStart <= 0 || pixelDataStart == pixelDataEnd) {
+    const pixelDataStart = currentOffset + g_allFileProcessedInformation[i].offsetToStartOfPixels;
+    const pixelDataEnd = pixelDataStart + g_allFileProcessedInformation[i].offsetToStartOfColors - g_allFileProcessedInformation[i].offsetToStartOfPixels - 1;
+    if (pixelDataStart <= 0 || pixelDataStart == pixelDataEnd + 1) {
       frag.appendChild(DOM_addAny("p", { innerText: '---' }));
     } else {
       frag.appendChild(DOM_addAny("p", { innerText: `0x${hexify(pixelDataStart)} - 0x${hexify(pixelDataEnd)}` }));
     }
 
-    const colorDataStart = startOffset + g_allFileProcessedInformation[i].offsetToStartOfColors;
-    const colorDataEnd = endOffset;
-    if (colorDataStart <= 0 || colorDataStart == colorDataEnd) {
+    const colorDataStart = currentOffset + g_allFileProcessedInformation[i].offsetToStartOfColors;
+    const colorDataEnd = currentOffset + curSize - 1;
+    if (colorDataStart <= 0 || colorDataStart == colorDataEnd + 1) {
       frag.appendChild(DOM_addAny("p", { innerText: '---' }));
     } else {
       frag.appendChild(DOM_addAny("p", { innerText: `0x${hexify(colorDataStart)} - 0x${hexify(colorDataEnd)}` }));

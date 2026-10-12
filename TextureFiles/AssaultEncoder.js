@@ -466,7 +466,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
     for (let j = 0; j < numColorsReal; j++) {
       const curOffset = offsetToStartOfColors + (2 * i * numColorsReal) + (2 * j);
       descriptions[curOffset] = {
-        description: `Palette #${i} - Color Index ${j}`,
+        description: `Palette #${i+1} - Color Index ${j}`,
         type: "2 Byte Integer (unsigned)"
       };
       downloadSegmentColors.fill(((i % 2) === 0) ? 3 : 17, curOffset, curOffset + 2);
@@ -863,10 +863,10 @@ function Assault_EncodeLayer1(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, 0);
   const view = new DataView(downloadSegment);
-  const addDataToFile = (offset, value, pixelID) => {
+  const addDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} color - rgb565, alpha channel is always 255`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} color - rgb565, alpha channel is always 255`,
       type: "2 Byte Integer (unsigned)"
     };
     console.assert(offset != undefined);
@@ -894,7 +894,7 @@ function Assault_EncodeLayer1(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = (grid * (w * h) + pixelNumInGrid) / numberOfPixelsToBytesRatio; // 2 bytes per pixel
-      addDataToFile(currentMipMapOffset+offset, u16Color, pixelID);
+      addDataToFile(currentMipMapOffset+offset, u16Color, pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -907,10 +907,10 @@ function Assault_EncodeLayer2(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, 0);
   const view = new DataView(downloadSegment);
-  const addDataToFile = (offset, value, pixelID) => {
+  const addDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} color - rgb555 or rgba4443 depending on mode bit`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} color - rgb555 or rgba4443 depending on mode bit`,
       type: "2 Byte Integer (unsigned)"
     };
     console.assert(offset != undefined);
@@ -938,7 +938,7 @@ function Assault_EncodeLayer2(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = (grid * (w * h) + pixelNumInGrid) / numberOfPixelsToBytesRatio; // 2 bytes per pixel
-      addDataToFile(currentMipMapOffset+offset, u16Color, pixelID);
+      addDataToFile(currentMipMapOffset+offset, u16Color, pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -951,10 +951,10 @@ function Assault_EncodeLayer3(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, 0);
   const view = new DataView(downloadSegment);
-  const addDataToFile = (offset, value, pixelID, colorChannel) => {
+  const addDataToFile = (offset, value, pixelID, colorChannel, mipmapNum) => {
     offset += offsetToStartOfPixels;
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} - ${colorChannel} channel`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} - ${colorChannel} channel`,
       type: "1 Byte Integer (unsigned)"
     };
     console.assert(offset != undefined);
@@ -982,10 +982,10 @@ function Assault_EncodeLayer3(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = ((4* grid * (w * h)) + (2*pixelNumInGrid)); // 4 bytes per pixel, but split up for some reason
-      addDataToFile(currentMipMapOffset+offset+0x00, curPixel.a, pixelID, "alpha");
-      addDataToFile(currentMipMapOffset+offset+0x01, curPixel.r, pixelID, "red");
-      addDataToFile(currentMipMapOffset+offset+0x20, curPixel.g, pixelID, "green");
-      addDataToFile(currentMipMapOffset+offset+0x21, curPixel.b, pixelID, "blue");
+      addDataToFile(currentMipMapOffset+offset+0x00, curPixel.a, pixelID, "alpha", mipmapNum);
+      addDataToFile(currentMipMapOffset+offset+0x01, curPixel.r, pixelID, "red", mipmapNum);
+      addDataToFile(currentMipMapOffset+offset+0x20, curPixel.g, pixelID, "green", mipmapNum);
+      addDataToFile(currentMipMapOffset+offset+0x21, curPixel.b, pixelID, "blue", mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -1003,13 +1003,13 @@ function Assault_EncodeLayer4(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, 0);
   const view = new DataView(downloadSegment);
-  const addPixelDataToFile = (offset, color1, color2, blends, pixelID) => {
+  const addPixelDataToFile = (offset, color1, color2, blends, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     console.assert(offset < offsetToStartOfColors);
     console.assert(offset != undefined);
     descriptions[offset] = { description: `Color Blend 1 RGB565 format`, type: "2 Byte Integer (unsigned)" };
     descriptions[offset+2] = { description: `Color Blend 2 RGB565 format`, type: "2 Byte Integer (unsigned)" };
-    descriptions[offset+4] = { description: `4x4 Grid starting at top left Pixel ID ${pixelID} - Every 2 bits represent a blend of the 2 colors before it in the file. If color 2 > color 1 and all bits are on, its a transparent pixel.`, type: "4 Byte Integer (unsigned)" };
+    descriptions[offset+4] = { description: `4x4 Grid starting at top left Mipmap ${mipmapNum+1} Pixel ID ${pixelID} - Every 2 bits represent a blend of the 2 colors before it in the file. If color 2 > color 1 and all bits are on, its a transparent pixel.`, type: "4 Byte Integer (unsigned)" };
     view.setUint16(offset, color1);
     view.setUint16(offset+2, color2);
     view.setUint32(offset+4, blends);
@@ -1113,7 +1113,7 @@ function Assault_EncodeLayer4(index) {
             const smallPixelID = startY*curWidthMax+startX;
             const { color1, color2, blends } = encodeSmallBlock(curData, mipmapNum, curWidthMax, startX, startY);
             const offset = bigBlockOffset + smallBlockNumber*smallBlockByteSize;
-            addPixelDataToFile(currentMipMapOffset+offset, color1, color2, blends, smallPixelID);
+            addPixelDataToFile(currentMipMapOffset+offset, color1, color2, blends, smallPixelID, mipmapNum);
           }
         }
       }
@@ -1178,12 +1178,12 @@ function Assault_EncodeLayer5_Mipmaps(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, compressionMaxPaletteSize);
   const view = new DataView(downloadSegment);
-  const addPixelDataToFile = (offset, value, pixelID) => {
+  const addPixelDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     console.assert(offset < offsetToStartOfColors);
     console.assert(offset != undefined);
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} and ${pixelID+1} - color index for each pixel ID`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} and ${pixelID+1} - color index for each pixel ID`,
       type: "2 4 bit Integers (unsigned)"
     };
     view.setUint8(offset, value);
@@ -1212,7 +1212,7 @@ function Assault_EncodeLayer5_Mipmaps(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
-      addPixelDataToFile(currentMipMapOffset+offset, (colIndex1 << 4) | (colIndex2), pixelID);
+      addPixelDataToFile(currentMipMapOffset+offset, (colIndex1 << 4) | (colIndex2), pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -1275,11 +1275,11 @@ function Assault_EncodeLayer6_Mipmaps(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, compressionMaxPaletteSize);
   const view = new DataView(downloadSegment);
-  const addPixelDataToFile = (offset, value, pixelID) => {
+  const addPixelDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     console.assert(offset != undefined);
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} - color index for this pixel ID`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} - color index for this pixel ID`,
       type: "1 Byte Integer (unsigned)"
     };
     view.setUint8(offset, value);
@@ -1306,7 +1306,7 @@ function Assault_EncodeLayer6_Mipmaps(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
-      addPixelDataToFile(currentMipMapOffset+offset, colIndex, pixelID);
+      addPixelDataToFile(currentMipMapOffset+offset, colIndex, pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -1369,11 +1369,11 @@ function Assault_EncodeLayer7_Mipmaps(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, compressionMaxPaletteSize);
   const view = new DataView(downloadSegment);
-  const addPixelDataToFile = (offset, value, pixelID) => {
+  const addPixelDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     console.assert(offset != undefined);
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} - color index for this pixel ID`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} - color index for this pixel ID`,
       type: "2 Byte Integer (unsigned)"
     };
     view.setUint16(offset, value);
@@ -1400,7 +1400,7 @@ function Assault_EncodeLayer7_Mipmaps(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
-      addPixelDataToFile(currentMipMapOffset+offset, colIndex, pixelID);
+      addPixelDataToFile(currentMipMapOffset+offset, colIndex, pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -1417,11 +1417,11 @@ function Assault_EncodeLayer10(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, 0);
   const view = new DataView(downloadSegment);
-  const addPixelDataToFile = (offset, value, pixelID) => {
+  const addPixelDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     console.assert(offset != undefined);
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} - value for all channels`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} - value for all channels`,
       type: "1 Byte Integer (unsigned)"
     };
     view.setUint8(offset, value);
@@ -1449,7 +1449,7 @@ function Assault_EncodeLayer10(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
-      addPixelDataToFile(currentMipMapOffset+offset, value, pixelID);
+      addPixelDataToFile(currentMipMapOffset+offset, value, pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
@@ -1462,11 +1462,11 @@ function Assault_EncodeLayer11(index) {
 
   const { downloadSegment, downloadSegmentColors, descriptions, warnings, errors, compressedImage, offsetToStartOfPixels, offsetToStartOfColors, fileSize } = Assault_EncodeHelper_HeaderAndSetup(index, 0);
   const view = new DataView(downloadSegment);
-  const addPixelDataToFile = (offset, value, pixelID) => {
+  const addPixelDataToFile = (offset, value, pixelID, mipmapNum) => {
     offset += offsetToStartOfPixels;
     console.assert(offset != undefined);
     descriptions[offset] = {
-      description: `Pixel ID ${pixelID} - First byte is color of RGB channels, second byte is for alpha channel`,
+      description: `Mipmap ${mipmapNum+1} Pixel ID ${pixelID} - First byte is color of RGB channels, second byte is for alpha channel`,
       type: "2 Byte Integer (unsigned)"
     };
     view.setUint16(offset, value);
@@ -1495,7 +1495,7 @@ function Assault_EncodeLayer11(index) {
       const pixelNumInGrid = localY * w + localX;
 
       const offset = ((grid * (w * h)) + (pixelNumInGrid)) / numberOfPixelsToBytesRatio;
-      addPixelDataToFile(currentMipMapOffset+offset, (valueA << 8) | valueRGB, pixelID);
+      addPixelDataToFile(currentMipMapOffset+offset, (valueA << 8) | valueRGB, pixelID, mipmapNum);
     }
     currentMipMapOffset += (curWidthMax*curHeightMax)/numberOfPixelsToBytesRatio;
   }
