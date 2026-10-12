@@ -295,7 +295,7 @@ function displayWarningsAndErrors() {
   const warning_frag = document.createDocumentFragment();
   const error_frag = document.createDocumentFragment();
   const makeNameOfTexture = function(index) {
-    return `[${index-1}; ${data_getIDPretty(index-1)}] ${g_AllTextureData[index-1].name}`;
+    return data_getTextureDisplayName(index-1);
   }
   const addText = function (index, text, isError) {
     const textToAdd = `'${makeNameOfTexture(index)}': ${text}`;

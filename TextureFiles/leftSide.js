@@ -74,7 +74,7 @@ function refreshAllFiles() {
       URL.revokeObjectURL(url);
     }
     allSVGs[5].onclick = function() { // delete button
-      const response = confirm(`Delete '[${index}; ${data_getIDPretty(index)}] ${g_AllTextureData[index].name}' that is ${g_AllTextureData[index].width}x${g_AllTextureData[index].height} pixels`);
+      const response = confirm(`Delete '${data_getTextureDisplayName(index)}' that is ${g_AllTextureData[index].width}x${g_AllTextureData[index].height} pixels`);
       if (!response) { return; }
 
       const l1 = date_getReEncodeListOnChange(index);
@@ -114,7 +114,7 @@ function refreshAllFiles() {
 
   // show "download all individually" button only if at least two textures exist
   const showButton = g_AllTextureData.length > 1;
-  document.querySelector("#Editor_BottomBar > span > button:nth-child(2)").style.display = showButton ? "" : "none";
+  document.querySelector("#Editor_BottomBar > span > button:nth-child(2)").disabled = showButton ? false : true;
 }
 
 // Called when expanding info on a texture (allows for creating less elements if its never opened)
@@ -146,6 +146,10 @@ function showTextureInfoLeftPanel(index) {
     "innerText": "Pixels"
   }));
 
+  frag.appendChild(DOM_addAny("p", {
+    "innerText": "The input field is your r/g/b/a value, the arrow points to what it is in the compressed image. So the input is your color, and the other number is what you'll see in game."
+  }));
+  frag.appendChild(DOM_addAny("br"));
   const pixelToShow_text = DOM_addAny("div", {
     "className": "flexRow pixelInfoContainer_text"
   });
@@ -269,14 +273,14 @@ function showTextureInfoLeftPanel(index) {
 function refreshFileHeaderInfo(index) {
   const curData = g_AllTextureData[index];
   const details = document.getElementById("Editor_Contents").getElementsByTagName("details")[index];
-  details.getElementsByTagName("summary")[0].innerText = `[${index}; ${data_getIDPretty(index)}] ${curData.name} (${curData.pixels.length} - ${curData.width}x${curData.height})`;
+  details.getElementsByTagName("summary")[0].innerText = data_getTextureDisplayName(index);
   details.getElementsByTagName("summary")[0].style.marginLeft = (data_hasColorData(index) && curData.colorOnly) ? "30px" : "";
   const tableNeeded = details.getElementsByClassName("fileHeaderTable")[0];
   if (tableNeeded == null) return; // not there
   const frag = document.createDocumentFragment();
   document.activeElement.blur(); // prevent auto scrolling
 
-  const tableHeaders = ["id", "Compression/Encoding", "Width", "Height", !data_useMipMapLogic(index) ? "Number of Palettes" : "Number of Mipmaps", "Color Type", "Save Only Colors?", "Image Support"];
+  const tableHeaders = ["id", "Compression / Encoding", "Width", "Height", !data_useMipMapLogic(index) ? "Number of Palettes" : "Number of Mipmaps", "Color Type", "Save Only Colors?", "Image Support"];
   for (let i = 0; i < tableHeaders.length; i++) {
     if (!(data_hasColorData(index)) && i >= 5) continue; // these compressions don't support color modes or being color only. Only hide certain table rows if so
     frag.appendChild(DOM_addAny("p", { "innerText": tableHeaders[i] }));
@@ -565,8 +569,7 @@ function refreshFilePixelInfo(index, fixHigh = true) {
           "name": "Texture_Color_"+colorType,
           "onchange": function(event) { data_setPixel(index, text_cur-1, i, colorType, event.target.value); data_recalculateAllInIndex(index); }
         }));
-        toReturn.appendChild(DOM_addAny("br"));
-        toReturn.appendChild(document.createTextNode(`Compressed: ${colorCompressed}`));
+        toReturn.appendChild(document.createTextNode(` -> ${colorCompressed}`));
 
         return toReturn;
       }
@@ -574,8 +577,7 @@ function refreshFilePixelInfo(index, fixHigh = true) {
       const compressedPixels = g_allFileProcessedInformation[index+1].compressedImage[text_cur-1];
 
       frag.appendChild(DOM_addAny("p", {
-        "innerText": `${i}
-        (${pixelIDtoGrid(width, g_AllTextureData[index].TextureLayer, i)})`
+        "innerText": `${i} (${pixelIDtoGrid(width, g_AllTextureData[index].TextureLayer, i)})`
       }));
       frag.appendChild(makeContainerWithInput(curPixel.r, compressedPixels[i*4+0], "r"));
       frag.appendChild(makeContainerWithInput(curPixel.g, compressedPixels[i*4+1], "g"));

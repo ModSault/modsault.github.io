@@ -60,13 +60,18 @@ svg { cursor: pointer; }
   width: 100%;
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
+}
+@media (max-width: 1909px) {
+  #EditorAndImageBox {
+    flex-wrap: wrap;
+  }
 }
 #EditorAndImageBox button { font-size: 20px; }
 
 #EditorAndImageBox > *:nth-child(1) {
-  min-width: 860px;
+  min-width: 700px;
   width: max-content;
   padding: 0;
   overflow: auto;
@@ -112,10 +117,11 @@ svg { cursor: pointer; }
 }
 #Editor_Contents details summary {
   font-size: 20px;
+  font-family: Consolas, Monaco, "Courier New", monospace;
 }
-#Editor_Contents details p, #Editor_Contents details h4 {
+#Editor_Contents details > p, #Editor_Contents details > h4 {
   margin: 0;
-  max-width: 760px;
+  max-width: 600px;
 }
 #Editor_Contents details h4 {
   margin-top: 15px;
@@ -145,7 +151,7 @@ svg { cursor: pointer; }
 }
 #Editor_Contents .fileHeaderTable {
   display: grid;
-  grid-template-columns: 200px 600px;
+  grid-template-columns: 150px 450px;
   margin: 0 auto;
   font-size: 16px;
 }
@@ -161,13 +167,13 @@ svg { cursor: pointer; }
 #Editor_Contents .fileHeaderTable > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
 #Editor_Contents .PixelsTable {
   display: grid;
-  grid-template-columns: max-content repeat(4, 165px);
+  grid-template-columns: max-content repeat(4, 139px);
   margin: 0 auto;
   font-size: 16px;
   margin-top: 5px;
 }
 #Editor_Contents .PixelsTable input {
-  width: 100px;
+  width: 45px;
 }
 #Editor_Contents .PixelsTable > *:nth-child(5n+1) { border-left: var(--table-border-color) 1px solid; }
 #Editor_Contents .PixelsTable > *:nth-child(-n+5) { border-top: var(--table-border-color) 1px solid; }
@@ -220,22 +226,25 @@ svg { cursor: pointer; }
 
 #EditorAndImageBox > *:nth-child(2) {
   overflow: hidden;
-  padding: 30px;
+  padding: 30px 0;
   flex-grow: 99;
   height: 1000px;
-  min-width: 1280px;
+  min-width: 1100px;
   box-sizing: border-box;
 }
 #EditorAndImageBox > *:nth-child(2) > h2 {
   text-align: center;
   font-size: 30px;
 }
+#EditorAndImageBox .flexRow input[type="color"] {
+  margin-left: 5px;
+}
 #flexRowForFilePreview {
   --sizeOfArrows: 50px;
   margin: 10px auto;
   display: grid;
   grid-template-columns: var(--sizeOfArrows) 1fr var(--sizeOfArrows);
-  height: 100%;
+  height: 90%;
   width: 99%;
   gap: 5px;
 }
@@ -275,7 +284,7 @@ svg { cursor: pointer; }
 
 .ImageDisplay_Settings {
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 3fr;
+  grid-template-columns: 2fr 2fr 2fr 2fr;
   margin: 2px auto;
 }
 #ImageDisplay_gridToSee {
@@ -289,7 +298,7 @@ svg { cursor: pointer; }
 .ImageDisplay_Settings > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
 .ImageDisplay_Settings > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; }
 
-
+#TextureScrollCountInput { width: 50px; }
 
 #flexRowForBothCanvas {
   margin: 10px auto;

@@ -44,6 +44,10 @@ function getPixelsToByteRatio(textureLayer) {
   }
 }
 
+function data_getTextureDisplayName(index) {
+  const curData = g_AllTextureData[index];
+  return `[${data_getIDPretty(index)}] Texture #${index+1} (${curData.pixels.length} - ${curData.width}x${curData.height})`;
+}
 function data_getIDPretty(index) {
   const id = g_AllTextureData[index].id;
   return id.toString(16).toUpperCase().padStart(8, "0");

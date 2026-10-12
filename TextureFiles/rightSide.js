@@ -8,7 +8,7 @@ function updateRightHalfFileName() {
     document.getElementById("CurrentFileOnDisplayH2").innerText = "No File Selected";
     document.getElementById("flexRowForFilePreview").style.display = "none";
   } else {
-    document.getElementById("CurrentFileOnDisplayH2").innerText = `[${g_currentTextureToShow}; ${data_getIDPretty(g_currentTextureToShow)}] ${g_AllTextureData[g_currentTextureToShow].name}`;
+    document.getElementById("CurrentFileOnDisplayH2").innerText = data_getTextureDisplayName(g_currentTextureToShow);
     document.getElementById("flexRowForFilePreview").style.display = "";
   }
 }
@@ -52,7 +52,7 @@ function changeCurrentTexture(newTexture) {
     document.getElementById("CurrentFileOnDisplayH2").innerText = "No File Selected";
     document.getElementById("flexRowForFilePreview").style.display = "none";
   } else {
-    document.getElementById("CurrentFileOnDisplayH2").innerText = `[${g_currentTextureToShow}; ${data_getIDPretty(g_currentTextureToShow)}] ${g_AllTextureData[g_currentTextureToShow].name}`;
+    document.getElementById("CurrentFileOnDisplayH2").innerText = data_getTextureDisplayName(g_currentTextureToShow);
     document.getElementById("flexRowForFilePreview").style.display = "";
   }
 

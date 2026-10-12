@@ -15,7 +15,7 @@ function showFileOffsetsInFilePreview() {
   let currentOffset = 0;
   for (let i = 0; i < g_allFileProcessedInformation.length; i++) {
     const curSize = g_allFileProcessedInformation[i].downloadSegment.byteLength;
-    const name = (i === 0) ? "Header" : `[${i-1}; ${data_getIDPretty(i-1)}] ${g_AllTextureData[i-1].name}`;
+    const name = (i === 0) ? "Header" : data_getTextureDisplayName(i-1);
     frag.appendChild(DOM_addAny("p", { innerText: name }));
     frag.appendChild(DOM_addAny("p", { innerText: `0x${hexify(curSize)}` }));
 
