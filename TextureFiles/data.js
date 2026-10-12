@@ -270,6 +270,8 @@ function data_makeExternalPalettesTheSame(index, resize = true) {
 // sets whether to use mipmaps or different palettes
 function data_setUseMipMaps(index, newValue, resize = true) {
   g_AllTextureData[index].useMipMaps = !!newValue;
+  if (!!newValue)
+    data_setIsColorOnly(index, false, false);
 
   data_setNumberTextures(index, g_AllTextureData[index].pixels.length, false);
   if (resize)
@@ -381,7 +383,9 @@ function data_setNumberTextures(index, newNumber, resize = true) {
 // updates: "colorOnly": false
 // should only be used with Vs mode characters
 function data_setIsColorOnly(index, newIsColor, resize = true) {
-  g_AllTextureData[index].colorOnly = newIsColor;
+  g_AllTextureData[index].colorOnly = !!newIsColor;
+  if (!!newIsColor)
+    data_setUseMipMaps(index, false, false);
   if (index != 0 && newIsColor)
     data_setNumberTextures(index, Math.max(g_AllTextureData[index].pixels.length, g_AllTextureData[index-1].pixels.length), false);
   g_wasFileChanged = true;
