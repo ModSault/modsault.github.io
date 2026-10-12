@@ -226,7 +226,7 @@ svg { cursor: pointer; }
 
 #EditorAndImageBox > *:nth-child(2) {
   overflow: hidden;
-  padding: 30px 0;
+  padding: 0 0 30px 0;
   flex-grow: 99;
   height: 1000px;
   min-width: 1100px;
@@ -236,8 +236,23 @@ svg { cursor: pointer; }
   text-align: center;
   font-size: 30px;
 }
-#EditorAndImageBox .flexRow input[type="color"] {
+#EditorAndImageBox > *:nth-child(2) .flexRow input[type="color"] {
   margin-left: 5px;
+}
+#ImagePreview_TopBar {
+  box-sizing: border-box;
+  width: 100%;
+  gap: 30px;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 10px 0;
+  background-color: var(--background-color-tooltip);
+  border-bottom: var(--navbar-background-color-hover) 4px solid;
+  margin-bottom: 5px;
+  gap: 20%;
 }
 #flexRowForFilePreview {
   --sizeOfArrows: 50px;
@@ -257,32 +272,32 @@ svg { cursor: pointer; }
   box-sizing: border-box;
   filter: drop-shadow(0 0 3px var(--table-border-color));
 }
-.ImageDisplay_Options {
+#ImageDisplay_Options {
   display: grid;
   grid-template-columns: 250px 500px;
   margin: 0 auto;
 }
-.ImageDisplay_Options input {
+#ImageDisplay_ID, #ImageDisplay_NumTextures, #ImageDisplay_ColorType2, #ImageDisplay_CompressionType2 {
   width: 100px;
 }
 #ImageDisplay_Width, #ImageDisplay_Height {
   width: 60px;
 }
-#AdvancedModeCheckMark:checked ~ #ContainerForAll .ImageDisplay_Options select {
+#AdvancedModeCheckMark:checked ~ #ContainerForAll #ImageDisplay_Options select {
   width: 200px;
 }
-.ImageDisplay_Options input[type="radio"], .ImageDisplay_Options input[type="checkbox"] {
+#ImageDisplay_Options input[type="radio"], #ImageDisplay_Options input[type="checkbox"] {
   width: unset;
 }
-.ImageDisplay_Options > * {
+#ImageDisplay_Options > * {
   padding: 5px;
   border-bottom: var(--table-border-color) 1px solid;
   border-right: var(--table-border-color) 1px solid;
 }
-.ImageDisplay_Options > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
-.ImageDisplay_Options > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
+#ImageDisplay_Options > *:nth-child(2n+1) { border-left: var(--table-border-color) 1px solid; }
+#ImageDisplay_Options > *:nth-child(-n+2) { border-top: var(--table-border-color) 1px solid; }
 
-.ImageDisplay_Settings {
+#ImageDisplay_Settings {
   display: grid;
   grid-template-columns: 2fr 2fr 2fr 2fr;
   margin: 2px auto;
@@ -290,13 +305,13 @@ svg { cursor: pointer; }
 #ImageDisplay_gridToSee {
   width: 50px;
 }
-.ImageDisplay_Settings > * {
+#ImageDisplay_Settings > * {
   padding: 5px;
   border-bottom: var(--table-border-color) 1px solid;
   border-right: var(--table-border-color) 1px solid;
 }
-.ImageDisplay_Settings > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
-.ImageDisplay_Settings > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; }
+#ImageDisplay_Settings > *:nth-child(4n+1) { border-left: var(--table-border-color) 1px solid; }
+#ImageDisplay_Settings > *:nth-child(-n+4) { border-top: var(--table-border-color) 1px solid; }
 
 #TextureScrollCountInput { width: 50px; }
 

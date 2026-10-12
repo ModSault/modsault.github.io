@@ -109,15 +109,26 @@
 
         <!-- Image Canvas Container -->
         <div class = "box" ondrop="replacePixelsWithPNG_DropHandler(event);" ondragover="event.preventDefault();">
+          <div id="ImagePreview_TopBar">
+            <div class="flexRow">
+              <input type="checkbox" id="FilePreview_ShowImageOptions" onchange="document.getElementById('ImageDisplay_Options').style.display = this.checked ? '': 'none'; resizeImageCanvas(0);">
+              <label for="FilePreview_ShowImageOptions">Show Texture Settings and Compression</label>
+            </div>
+            <div class="flexRow">
+              <input type="checkbox" id="FilePreview_ShowImagePreviewOptions" checked onchange="document.getElementById('ImageDisplay_Settings').style.display = this.checked ? '': 'none'; resizeImageCanvas(0);">
+              <label for="FilePreview_ShowImagePreviewOptions">Show Image Display Settings</label>
+            </div>
+          </div>
+
           <h2 id="CurrentFileOnDisplayH2">No File Selected</h2>
           <div id = "flexRowForFilePreview" style="display: none;">
             <button onpointerdown="useTextureTimer(() => changeCurrentTexture(Math.max(0, g_currentTextureToShow-1)))" onpointerup="stopTextureTimer()" onpointerleave="stopTextureTimer()" onpointercancel="stopTextureTimer()"  class="svgContainer">
               <svg id="ChangeToPreviousImageButton" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%" fill="var(--font-color)"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
             </button>
             <div class = "box">
-              <div class = "ImageDisplay_Options">
+              <div id="ImageDisplay_Options" style="display: none;">
                 <div>
-                  <h2>Image Options</h2>
+                  <h2>Texture Settings</h2>
                   <div class="flexRow">
                     <p>ID (in hex):</p>
                     <input id="ImageDisplay_ID" onchange="data_setTextureID(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" />
@@ -162,7 +173,7 @@
                   </div>
                 </div>
               </div>
-              <div class = "ImageDisplay_Settings">
+              <div id="ImageDisplay_Settings">
                 <div>
                   <h2>Image Preview Background</h2>
                   <div class="flexRow">

@@ -23,6 +23,11 @@ function refreshAllFiles() {
     const buttonify = function(svg) { return `<button>${svg}</button>`; }
     SVGContainer.innerHTML = buttonify(arrowDownwardSVG) + buttonify(arrowDownwardSVG) + buttonify(eyeVisibleSVG) + buttonify(eyeInvisibleSVG) + buttonify(downloadSVG) + buttonify(XSVG);
     const allSVGs = SVGContainer.getElementsByTagName("button");
+
+    // reordering texture order is not needed. Leave it to users in advanced mode only
+    allSVGs[0].classList.add("AdvancedOnly");
+    allSVGs[1].classList.add("AdvancedOnly");
+
     allSVGs[0].firstChild.classList.add("rotate180");
     allSVGs[0].onclick = function() { // move up button
       const l1 = date_getReEncodeListOnChange(index);
@@ -137,7 +142,7 @@ function showTextureInfoLeftPanel(index) {
   // otherwise add everything
   const frag = document.createDocumentFragment();
   frag.appendChild(DOM_addAny("h4", {
-    "innerText": "File Header Data"
+    "innerText": "File Header Data (Texture Settings)"
   }));
   frag.appendChild(DOM_addAny("div", {
     "className": "fileHeaderTable"
