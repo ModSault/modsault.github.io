@@ -300,9 +300,11 @@ function displayWarningsAndErrors() {
   const addText = function (index, text, isError) {
     const textToAdd = `'${makeNameOfTexture(index)}': ${text}`;
     if (isError) {
-      error_frag.appendChild(DOM_addAny("p", { "innerText": `Error in ${textToAdd}` }));
+      error_frag.append(document.createElement("br"));
+      error_frag.appendChild(document.createTextNode(`Error in ${textToAdd}`));
     } else {
-      warning_frag.appendChild(DOM_addAny("p", { "innerText": `Warning in ${textToAdd}` }));
+      warning_frag.append(document.createElement("br"));
+      warning_frag.appendChild(document.createTextNode(`Warning in ${textToAdd}`));
     }
   }
 
@@ -318,9 +320,8 @@ function displayWarningsAndErrors() {
   }
 
   // add all errors and warnings
-  warning_frag.appendChild(DOM_addAny("p", {
-    "innerText": "Be careful if replacing a file with something larger than it's original size, it may cause problems"
-  }));
+  warning_frag.append(document.createElement("br"));
+  warning_frag.appendChild(document.createTextNode("Be careful if replacing a file with something larger than it's original size, it may cause problems"));
   for (let i = 1; i < g_allFileProcessedInformation.length; i++) {
     const curWarns = g_allFileProcessedInformation[i].warnings;
     const curErrors = g_allFileProcessedInformation[i].errors;
@@ -332,6 +333,13 @@ function displayWarningsAndErrors() {
     }
   }
 
+  // remove first <br> tag if present
+  if (warning_frag.firstChild)
+    warning_frag.removeChild(warning_frag.firstChild);
+  if (error_frag.firstChild)
+    error_frag.removeChild(error_frag.firstChild);
+
+  // show on screen
   document.getElementById("WarningsText").replaceChildren(warning_frag);
   document.getElementById("ErrorText").replaceChildren(error_frag);
 }

@@ -220,17 +220,17 @@
                   <h2>Texture Settings</h2>
                   <div class="flexRow">
                     <p>ID (in hex):</p>
-                    <input id="ImageDisplay_ID" onchange="data_setTextureID(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" />
+                    <input id="ImageDisplay_ID" onchange="data_setTextureID(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);">
                   </div>
                   <div class="flexRow">
                     <p>Size:</p>
-                    <input id="ImageDisplay_Width" onchange="data_setWidth(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1" />
+                    <input id="ImageDisplay_Width" onchange="data_setWidth(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1">
                     <p>x</p>
-                    <input id="ImageDisplay_Height" onchange="data_setHeight(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1" />
+                    <input id="ImageDisplay_Height" onchange="data_setHeight(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1">
                   </div>
                   <div class="flexRow">
                     <p id="ImageDisplay_NumTextures_p"># of Mipmaps:</p>
-                    <input id="ImageDisplay_NumTextures" onchange="data_setNumberTextures(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1" />
+                    <input id="ImageDisplay_NumTextures" onchange="data_setNumberTextures(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" type="number" step="1">
                   </div>
                 </div>
                 <div>
@@ -240,24 +240,24 @@
                     <select onchange="data_setTextureLayer(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow, true);" name="ImageDisplay_CompressionType" id="ImageDisplay_CompressionType">
                       <script>makeAllCompressionTypes()</script>
                     </select>
-                    <input id="ImageDisplay_CompressionType2" class="AdvancedOnly" type="number" step="1" onchange="data_setTextureLayer(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow, true);" />
+                    <input id="ImageDisplay_CompressionType2" class="AdvancedOnly" type="number" step="1" onchange="data_setTextureLayer(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow, true);">
                   </div>
                   <div class="flexRow">
                     <p>Color Type:</p>
                     <select onchange="data_setColorType(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" name="ImageDisplay_ColorType" id="ImageDisplay_ColorType">
                       <script>makeAllColorTypes()</script>
                     </select>
-                    <input id="ImageDisplay_ColorType2" class="AdvancedOnly" type="number" step="1" onchange="data_setColorType(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);" />
+                    <input id="ImageDisplay_ColorType2" class="AdvancedOnly" type="number" step="1" onchange="data_setColorType(g_currentTextureToShow, this.value); data_recalculateAllInIndex(g_currentTextureToShow);">
                   </div>
                   <div class="flexRow">
-                    <input onchange="data_setIsColorOnly(g_currentTextureToShow, this.checked); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_ColorOnly" type="checkbox" />
+                    <input onchange="data_setIsColorOnly(g_currentTextureToShow, this.checked); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_ColorOnly" type="checkbox">
                     <label for="ImageDisplay_ColorOnly">Only Save Color Information</label>
                   </div>
                   <div class="flexRow">
-                    <input onchange="data_setUseMipMaps(g_currentTextureToShow, true); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportMipmaps" type="radio" />
+                    <input onchange="data_setUseMipMaps(g_currentTextureToShow, true); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportMipmaps" type="radio">
                     <label for="ImageDisplay_SupportMipmaps">Support Mipmaps</label>
                     <span class="wideMargin"></span>
-                    <input onchange="data_setUseMipMaps(g_currentTextureToShow, false); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportPalettes" type="radio" />
+                    <input onchange="data_setUseMipMaps(g_currentTextureToShow, false); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportPalettes" type="radio">
                     <label for="ImageDisplay_SupportPalettes">Support Palettes</label>
                   </div>
                 </div>
@@ -266,52 +266,52 @@
                 <div>
                   <h2>Image Preview Background</h2>
                   <div class="flexRow">
-                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_generic" checked />
+                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_generic" checked>
                     <label for="ImageDisplay_bg_generic">Transparent Colors</label>
                   </div>
                   <div class="flexRow">
-                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_select" />
+                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_select">
                     <label for="ImageDisplay_bg_select">Static Color</label>
-                    <input onchange="document.getElementById('ImageDisplay_bg_select').checked = true; updateFilePreviewBackgroundColor();" type="color" id="ImageDisplay_bg_select_color" value="#000000" />
+                    <input onchange="document.getElementById('ImageDisplay_bg_select').checked = true; updateFilePreviewBackgroundColor();" type="color" id="ImageDisplay_bg_select_color" value="#000000">
                   </div>
                   <div class="flexRow">
-                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_none" />
+                    <input onchange="updateFilePreviewBackgroundColor();" type="radio" name="ImageDisplay_bg" id="ImageDisplay_bg_none">
                     <label for="ImageDisplay_bg_none">None</label>
                   </div>
                 </div>
                 <div>
                   <h2>Image Viewing Type</h2>
                   <div class="flexRow">
-                    <input onchange="resizeImageCanvas(0);" type="checkbox" name="ImageDisplay_shrinkMipMaps" id="ImageDisplay_shrinkMipMaps" checked />
+                    <input onchange="resizeImageCanvas(0);" type="checkbox" name="ImageDisplay_shrinkMipMaps" id="ImageDisplay_shrinkMipMaps" checked>
                     <label for="ImageDisplay_shrinkMipMaps">Shrink Mip Maps</label>
                   </div>
                   <div class="flexRow">
-                    <input onchange="changeImageGridToView(-1);" type="radio" name="ImageDisplay_viewType" id="ImageDisplay_viewType_all" checked />
+                    <input onchange="changeImageGridToView(-1);" type="radio" name="ImageDisplay_viewType" id="ImageDisplay_viewType_all" checked>
                     <label for="ImageDisplay_viewType_all">View Whole Image</label>
                   </div>
                   <div class="flexRow">
-                    <input onchange="changeImageGridToView(0);" type="radio" name="ImageDisplay_viewType" id="ImageDisplay_viewType_grid" />
+                    <input onchange="changeImageGridToView(0);" type="radio" name="ImageDisplay_viewType" id="ImageDisplay_viewType_grid">
                     <label for="ImageDisplay_viewType_grid">View Individual Grids</label>
                   </div>
                   <div class="flexRow">
-                    <input onchange="changeImageGridToView(this.value);" type="number" name="ImageDisplay_gridToSee" id="ImageDisplay_gridToSee" value="-1" />
+                    <input onchange="changeImageGridToView(this.value);" type="number" name="ImageDisplay_gridToSee" id="ImageDisplay_gridToSee" value="-1">
                     <label for="ImageDisplay_gridToSee">Grid Number to See</label>
                   </div>
                 </div>
                 <div>
                   <h2>Image Viewing Options</h2>
                   <div class="flexRow">
-                    <input onchange="resizeImageCanvas(0);" type="checkbox" name="ImageDisplay_viewType_Mouse" id="ImageDisplay_viewType_Mouse" checked />
+                    <input onchange="resizeImageCanvas(0);" type="checkbox" name="ImageDisplay_viewType_Mouse" id="ImageDisplay_viewType_Mouse" checked>
                     <label for="ImageDisplay_viewType_Mouse">Selected Pixel</label>
-                    <input onchange="ImagePreviewSelectedChange(this.value);" type="color" name="ImageDisplay_viewType_Mouse_Color" id="ImageDisplay_viewType_Mouse_Color" value="#0000FF" />
+                    <input onchange="ImagePreviewSelectedChange(this.value);" type="color" name="ImageDisplay_viewType_Mouse_Color" id="ImageDisplay_viewType_Mouse_Color" value="#0000FF">
                   </div>
                   <div class="flexRow">
-                    <input type="checkbox" name="ImageDisplay_viewType_Selected" id="ImageDisplay_viewType_Selected" checked />
+                    <input type="checkbox" name="ImageDisplay_viewType_Selected" id="ImageDisplay_viewType_Selected" checked>
                     <label for="ImageDisplay_viewType_Selected">Mouse over</label>
-                    <input onchange="ImagePreviewMouseOverChange(this.value);" type="color" name="ImageDisplay_viewType_Selected_Color" id="ImageDisplay_viewType_Selected_Color" value="#00FFFF" />
+                    <input onchange="ImagePreviewMouseOverChange(this.value);" type="color" name="ImageDisplay_viewType_Selected_Color" id="ImageDisplay_viewType_Selected_Color" value="#00FFFF">
                   </div>
                   <div class="flexRow">
-                    <input onchange="ImagePreviewGridVisibilityChange(this.checked);" type="checkbox" name="ImageDisplay_viewOption_grids" id="ImageDisplay_viewOption_grids" />
+                    <input onchange="ImagePreviewGridVisibilityChange(this.checked);" type="checkbox" name="ImageDisplay_viewOption_grids" id="ImageDisplay_viewOption_grids">
                     <label for="ImageDisplay_viewOption_grids">View Grids</label>
                     <input onchange="ImagePreviewGridColorChange(this.value);" type="color" id="ImageDisplay_viewOption_grids_color" value="#00FF00">
                   </div>
@@ -320,7 +320,7 @@
                   <h2>Image Scroll Speed</h2>
                   <p>
                     You can use WASDQE or the Arrow keys to scroll through
-                    <input type="number" step="1" value="3" id="TextureScrollCountInput" onchange="this.value = Math.max(1, Math.min(50, this.value));" />
+                    <input type="number" step="1" value="3" id="TextureScrollCountInput" onchange="this.value = Math.max(1, Math.min(50, this.value));">
                     textures / mipmaps / palettes per second.
                     Alternatively hold click on the arrows.
                   </p>
@@ -346,10 +346,10 @@
                     <p>b (0-255)</p>
                     <p>a (0-255)</p>
                     <p>1</p>
-                    <div> <input type="number" id="ImageDisplay_R" step="1" /> </div>
-                    <div> <input type="number" id="ImageDisplay_G" step="1" /> </div>
-                    <div> <input type="number" id="ImageDisplay_B" step="1" /> </div>
-                    <div> <input type="number" id="ImageDisplay_A" step="1" /> </div>
+                    <div> <input type="number" id="ImageDisplay_R" step="1"> </div>
+                    <div> <input type="number" id="ImageDisplay_G" step="1"> </div>
+                    <div> <input type="number" id="ImageDisplay_B" step="1"> </div>
+                    <div> <input type="number" id="ImageDisplay_A" step="1"> </div>
                   </div>
                   <div class="ButtonConvenient flexRow">
                     <button onclick="downloadOneTexture(g_currentTextureToShow, g_currentTextureMipMap);">
@@ -414,41 +414,42 @@
         <p>
           Normally the textures for the Vs. Mode characters share data with each other making
           entirely unique textures for each player impossible. This code allows all 4 colored player textures
-          to be treated as entirely different. Just make sure to open the 
+          to be treated as entirely different. Just make sure to open the
           appropriate file for the characters you have selected below and redownload it
           except with "Only Save Color Information" disabled on all textures.
-          <br>
-          <br>
-          This doesn't work on the menus intentionally because I don't know what file has the textures for them.
-          <br>
-          <div id="GeckoCode_Input_Container" class="flexContainer flexRow">
-            <span>
-              <input type="checkbox" id="GeckoCode_Input_Fox" onchange="showCodeForVsModeCharacters();" checked />
-              <label for="GeckoCode_Input_Fox">Fox</label>
-            </span>
-            <span>
-              <input type="checkbox" id="GeckoCode_Input_Falco" onchange="showCodeForVsModeCharacters();" checked />
-              <label for="GeckoCode_Input_Falco">Falco</label>
-            </span>
-            <span>
-              <input type="checkbox" id="GeckoCode_Input_Slippy" onchange="showCodeForVsModeCharacters();" checked />
-              <label for="GeckoCode_Input_Slippy">Slippy</label>
-            </span>
-            <span>
-              <input type="checkbox" id="GeckoCode_Input_Krystal" onchange="showCodeForVsModeCharacters();" checked />
-              <label for="GeckoCode_Input_Krystal">Krystal</label>
-            </span>
-            <span>
-              <input type="checkbox" id="GeckoCode_Input_Peppy" onchange="showCodeForVsModeCharacters();" checked />
-              <label for="GeckoCode_Input_Peppy">Peppy</label>
-            </span>
-            <span>
-              <input type="checkbox" id="GeckoCode_Input_Wolf" onchange="showCodeForVsModeCharacters();" checked />
-              <label for="GeckoCode_Input_Wolf">Wolf</label>
-            </span>
-          </div>
-          <span class="AdvancedOnly"><a href="https://docs.google.com/document/d/14IXe-506VxSMgIWCbY4JguoiHEOAZc3VwpzNE96XtJ0/edit">Code Explanation</a></span>
         </p>
+        <br>
+        <p>
+          This doesn't work on the menus intentionally because I don't know what file has the textures for them.
+        </p>
+        <div id="GeckoCode_Input_Container" class="flexContainer flexRow">
+          <span>
+            <input type="checkbox" id="GeckoCode_Input_Fox" onchange="showCodeForVsModeCharacters();" checked>
+            <label for="GeckoCode_Input_Fox">Fox</label>
+          </span>
+          <span>
+            <input type="checkbox" id="GeckoCode_Input_Falco" onchange="showCodeForVsModeCharacters();" checked>
+            <label for="GeckoCode_Input_Falco">Falco</label>
+          </span>
+          <span>
+            <input type="checkbox" id="GeckoCode_Input_Slippy" onchange="showCodeForVsModeCharacters();" checked>
+            <label for="GeckoCode_Input_Slippy">Slippy</label>
+          </span>
+          <span>
+            <input type="checkbox" id="GeckoCode_Input_Krystal" onchange="showCodeForVsModeCharacters();" checked>
+            <label for="GeckoCode_Input_Krystal">Krystal</label>
+          </span>
+          <span>
+            <input type="checkbox" id="GeckoCode_Input_Peppy" onchange="showCodeForVsModeCharacters();" checked>
+            <label for="GeckoCode_Input_Peppy">Peppy</label>
+          </span>
+          <span>
+            <input type="checkbox" id="GeckoCode_Input_Wolf" onchange="showCodeForVsModeCharacters();" checked>
+            <label for="GeckoCode_Input_Wolf">Wolf</label>
+          </span>
+        </div>
+
+        <span class="AdvancedOnly"><a href="https://docs.google.com/document/d/14IXe-506VxSMgIWCbY4JguoiHEOAZc3VwpzNE96XtJ0/edit">Code Explanation</a></span>
         <code id="uniqueColorsCode" class="code-block">Error. Something went wrong.</code>
 
         <br>
@@ -492,14 +493,14 @@
         <p id="TreeLocations"></p>
 
         <h3>File Overview</h3>
-        <p id="OffsetAmtsForFiles"></p>
+        <div id="OffsetAmtsForFiles"></div>
         
         <h3>File Contents</h3>
         <div class = "flexRow flexContainer gap5">
           Offsets to display (in hex):
-          <input type="text" id="OffsetLowerBound" value="0" onchange="updateOffsetBound(false);" />
+          <input type="text" id="OffsetLowerBound" value="0" onchange="updateOffsetBound(false);">
           -
-          <input type="text" id="OffsetHigherBound" value="F0" onchange="updateOffsetBound(true);" />
+          <input type="text" id="OffsetHigherBound" value="F0" onchange="updateOffsetBound(true);">
         </div>
 
         <div class="flexContainer flexRow">
