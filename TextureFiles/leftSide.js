@@ -141,13 +141,13 @@ function showTextureInfoLeftPanel(index) {
 
   // otherwise add everything
   const frag = document.createDocumentFragment();
-  frag.appendChild(DOM_addAny("h4", {
+  frag.appendChild(DOM_addAny("h2", {
     "innerText": "File Header Data (Texture Settings)"
   }));
   frag.appendChild(DOM_addAny("div", {
     "className": "fileHeaderTable"
   }));
-  frag.appendChild(DOM_addAny("h4", {
+  frag.appendChild(DOM_addAny("h2", {
     "innerText": "Pixels"
   }));
 
@@ -207,7 +207,7 @@ function showTextureInfoLeftPanel(index) {
   }));
 
   // ---------------------------- Color information --------------------------------
-  frag.appendChild(DOM_addAny("h4", {
+  frag.appendChild(DOM_addAny("h2", {
     "innerText": "Colors",
     "className": "AdvancedOnly"
   }));

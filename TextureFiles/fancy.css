@@ -123,11 +123,11 @@ li svg { cursor: unset; translate: 0 3px;}
   font-size: 20px;
   font-family: Consolas, Monaco, "Courier New", monospace;
 }
-#Editor_Contents details > p, #Editor_Contents details > h4 {
+#Editor_Contents details > p, #Editor_Contents details > h2 {
   margin: 0;
   max-width: 600px;
 }
-#Editor_Contents details h4 {
+#Editor_Contents details h2 {
   margin-top: 15px;
   font-size: 18px;
 }
