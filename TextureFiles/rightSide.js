@@ -174,10 +174,10 @@ function updatePixelInfoRightFilePreview(pixelID) {
   const neededGrid2 = document.getElementById("PixelPreviewGrid2");
   const currentGrid = pixelIDtoGrid(curData.width >> (data_useMipMapLogic(g_currentTextureToShow) * g_currentTextureMipMap), curData.TextureLayer, pixelID);
   neededGrid1.getElementsByTagName("p")[5].innerText = `${pixelID} (${currentGrid})`;
-  neededGrid1.getElementsByTagName("div")[0].getElementsByTagName("input")[0].value = curPixel == undefined ? 'N/A' : Math.round(curPixel.r);
-  neededGrid1.getElementsByTagName("div")[1].getElementsByTagName("input")[0].value = curPixel == undefined ? 'N/A' : Math.round(curPixel.g);
-  neededGrid1.getElementsByTagName("div")[2].getElementsByTagName("input")[0].value = curPixel == undefined ? 'N/A' : Math.round(curPixel.b);
-  neededGrid1.getElementsByTagName("div")[3].getElementsByTagName("input")[0].value = curPixel == undefined ? 'N/A' : Math.round(curPixel.a);
+  neededGrid1.getElementsByTagName("div")[0].getElementsByTagName("input")[0].value = curPixel == undefined ? '-1' : Math.round(curPixel.r);
+  neededGrid1.getElementsByTagName("div")[1].getElementsByTagName("input")[0].value = curPixel == undefined ? '-1' : Math.round(curPixel.g);
+  neededGrid1.getElementsByTagName("div")[2].getElementsByTagName("input")[0].value = curPixel == undefined ? '-1' : Math.round(curPixel.b);
+  neededGrid1.getElementsByTagName("div")[3].getElementsByTagName("input")[0].value = curPixel == undefined ? '-1' : Math.round(curPixel.a);
   neededGrid2.getElementsByTagName("p")[5].innerText = `${pixelID} (${currentGrid})`;
   neededGrid2.getElementsByTagName("p")[6].innerText = curPixel == undefined ? 'N/A' : compressedPixels[pixelID*4+0];
   neededGrid2.getElementsByTagName("p")[7].innerText = curPixel == undefined ? 'N/A' : compressedPixels[pixelID*4+1];
