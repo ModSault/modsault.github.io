@@ -6,12 +6,12 @@ li svg { cursor: unset; translate: 0 3px;}
 
 /* ------------ Box for Relevant Files ------------ */
 
-#RelevantFilesBox { margin-bottom: 10px; }
-#RelevantFilesBox summary {
+#GeneralInfoBox, #RelevantFilesBox { margin-bottom: 10px; }
+#GeneralInfoBox summary, #RelevantFilesBox summary {
   font-size: 18px;
   margin: 10px;
 }
-#RelevantFilesBox h2 {
+#GeneralInfoBox h2, #RelevantFilesBox h2 {
   display: inline;
 }
 

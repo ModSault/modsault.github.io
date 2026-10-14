@@ -36,8 +36,8 @@
     <script>makeHeader("Star Fox Assault Texture File Manipulation", gameVersionUpdater);</script>
     
     <div id = "ContainerForAll">
-      <!-- Commonly Asked questions and relevant game files -->
-      <details class = "box" id="RelevantFilesBox" open>
+      <!-- General Information and Questions -->
+      <details class = "box" id="GeneralInfoBox" open>
         <summary>
           <h2>Information About The Tool</h2>
         </summary>
@@ -151,12 +151,15 @@
         <p>I didn't know that different palettes in the same texture could exist until I was like 99% done with this tool. So instead of redesigning all the systems for it I just did a half fix where if a compression type supports different palettes it doesn't support mip maps. The game never uses both at once so I didn't think it was too important to account for and I want to move onto other projects.</p>
         <h3>How to report bugs</h3>
         <p>I have a small audience so doing anything would get my attention. Using GitHub issues would be best but even a Reddit DM would work if you really wanted to (assuming I get an email).</p>
-        <h3>All Relevant Filenames</h3>
+      </details>
+
+      <!-- Relevant Filenames for this tool -->
+      <details class = "box" id="RelevantFilesBox">
+        <summary>
+          <h2>All Relevant Game Filenames and Descriptions</h2>
+        </summary>
         <p>These are files that this tool is meant to read and modify.</p>
-        <details>
-          <summary>Dropdown button</summary>
-          <div id="FileNameGrid"><p>Loading...</p></div>
-        </details>
+        <div id="FileNameGrid"><p>Loading...</p></div>
       </details>
 
       <!-- Import Game File -->
