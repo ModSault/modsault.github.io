@@ -2,6 +2,7 @@
 .flexRow { align-items: center; }
 svg { cursor: pointer; }
 .wideMargin { margin: 0 10px; }
+li svg { cursor: unset; translate: 0 3px;}
 
 /* ------------ Box for Relevant Files ------------ */
 
@@ -9,6 +10,9 @@ svg { cursor: pointer; }
 #RelevantFilesBox summary {
   font-size: 18px;
   margin: 10px;
+}
+#RelevantFilesBox h2 {
+  display: inline;
 }
 
 #FileNameGrid {

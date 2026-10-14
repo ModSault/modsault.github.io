@@ -37,16 +37,106 @@
     
     <div id = "ContainerForAll">
       <!-- Commonly Asked questions and relevant game files -->
-      <div class = "box" id="RelevantFilesBox">
-        <h2>Information About The Tool</h2>
+      <details class = "box" id="RelevantFilesBox" open>
+        <summary>
+          <h2>Information About The Tool</h2>
+        </summary>
         <h3>How to use the Tool</h3>
-        <p>I assume you already dumped your game copy to your computer and extracted its files. If not you can find lots of guides on the internet. Using the big box below you can upload any '.nut' file from the the game's disc. You will then be able to view and edit all the textures within those files. If something doesn't make sense expand the information of the left half of the screen and explanations for each aspect of the file will be given. As far as editing the actual image goes I'd recommend not using this tool. You technically can but its inferior to MS Paint from the 1900s. And that's fine. Download the image as a PNG and edit the image in whatever you want (ensure the image size is the same), then upload it. Whenever you are satisfied with all the textures, scroll down, click the blue button and replace the game file to have your changes in game.</p>
+        <ul>
+          <li>This tool requires you to have already extracted your game files from Star Fox Assault. If you haven't done so and don't know how, you can follow my guide <a href="https://docs.google.com/document/d/1Pfa-unVVwhVFgTSOnGAU32MTkhSYWFgFhDzaiVJabRI/edit?tab=t.0#heading=h.o89sk8lmcn9b">here</a>.</li>
+          <li><span class="code-inline">.nut Files Overview</span> - These are container files for multiple texture files at once. A file can contain hundreds of textures. This tool allows you to view and edit all the textures they contain.</li>
+          <li><span class="code-inline">Uploading Files</span> - Below this box is a dashed upload area. Either click on it and select the file you want on your pc, or drag and drop the file of interest into that area. This will load the file and all of its contents. </li>
+          <li>
+            <span class="code-inline">Left side of this tool</span>
+            - Right below where you upload your .nut files is a quick overview of all textures within the file. You have the ability to remove, add, and view all textures from here.
+            <ul>
+              <li>
+                <span class="code-inline">[WWWWWWWW] Texture #X (Y - ZZxUU)</span>
+                - This is one texture within the entire container file. Clicking on it displays all information regarding the texture with explanations.
+                WWWWWWWW is the texture ID that the game uses to identify the texture. X is the texture's position in the container, starting at 1.
+                Y is the number of mipmaps or palettes, and ZZ and UU are the texture's width and height, respectively.
+                An indented entry indicates that "Only Save Color Information" is checked for the file.
+              </li>
+              <li class="AdvancedOnly">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)" class="rotate180"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path></svg>
+                - (Advanced mode only) This reorders the textures in the container. This moves the texture up by 1.
+              </li>
+              <li class="AdvancedOnly">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path></svg>
+                - (Advanced mode only) This reorders the textures in the container. This moves the texture down by 1.
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"></path></svg>
+                - The texture is not currently displayed in the preview. Click to show it.
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M607.5-372.5Q660-425 660-500t-52.5-127.5Q555-680 480-680t-127.5 52.5Q300-575 300-500t52.5 127.5Q405-320 480-320t127.5-52.5Zm-204-51Q372-455 372-500t31.5-76.5Q435-608 480-608t76.5 31.5Q588-545 588-500t-31.5 76.5Q525-392 480-392t-76.5-31.5ZM214-281.5Q94-363 40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200q-146 0-266-81.5ZM480-500Zm207.5 160.5Q782-399 832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280q113 0 207.5-59.5Z"></path></svg>
+                - The texture is currently displayed in the preview. Click to hide it.
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"></path></svg>
+                - This downloads all mipmaps and palettes for the selected texture in a ZIP archive.
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--red-button)"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"></path></svg>
+                - This permanently deletes the texture from the container file.
+              </li>
+              <li>
+                <span class="code-inline">File Header Data (Texture Settings)</span>
+                - (Only visible when expanding the textures contents by clicking on it) This displays the texture's metadata, such as its dimensions and compression format. All options and values are explained there.
+              </li>
+              <li>
+                <span class="code-inline">Pixels</span>
+                - (Only visible when expanding the textures contents by clicking on it) This displays all rgba values of all pixels in the image. Pixel IDs start at 0 in the top-left corner and increase from left to right, moving down one row at a time. It also displays the value of the compressed image you'll see in game.
+              </li>
+              <li class="AdvancedOnly">
+                <span class="code-inline">Colors</span>
+                - (Advanced mode only. Only visible when expanding the textures contents by clicking on it) This displays all colors found in the file if not embedded in the pixels. This does nothing aside from providing you with more information about the file.
+              </li>
+            </ul>
+          </li>
+          
+
+          <li>
+            <span class="code-inline">Right side of this tool</span>
+            - On the right half of the screen (or below the above contents if your screen is too small) is a preview of all of the texture's content in a more user friendly presentation.
+            <ul>
+              <li>
+                <span class="code-inline">The User's Image</span>
+                - This is the image you can freely modify. If you uploaded a game file then it is also the texture within the file.
+              </li>
+              <li>
+                <span class="code-inline">Compressed Image</span>
+                - This is the image you will see in the game when exporting the file. You cannot edit it. The selected compression algorithm can change the image's appearance, so it may not look exactly like the editable "user" image.
+              </li>
+              <li>
+                <span class="code-inline">Show Texture Settings and Compression</span>
+                - This allows for changing information about the image, like the width, height, and compression. It's recommended to use the left side of the screen to edit this information because it also contains explanations.
+              </li>
+              <li>
+                <span class="code-inline">Show Image Display Settings</span>
+                - This allows for changing how you preview the image. Including the background of transparent images, the size of the mipmaps and whether to view the whole image or individual grids, the colors of pixels highlighted and selected, and the scroll speed.
+              </li>
+              <li>
+                <svg class="rotate90" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path></svg>
+                <svg class="rotate270" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path></svg>
+                - Use the arrows to switch between textures or cycle through a texture's mipmaps/palettes. Clicking an arrow outside the white glow switches textures; clicking inside the glow switches mipmaps/palettes. You can also navigate using WASD, Q/E, and the arrow keys. Holding any of these scrolls through the textures
+              </li>
+              <li>
+                <span class="code-inline">Buttons at the Bottom</span>
+                - These allow you to download the texture, upload another one (ensure the image sizes match), or set all rgba channels of the texture to 0 respectively.
+              </li>
+            </ul>
+          </li>
+          <li><span class="code-inline">Exporting</span> - At the very bottom of the page there is a dropdown to select the filename to download. Select the appropriate file name and then click the big blue button.</li>
+          <li class="AdvancedOnly"><span class="code-inline">File Preview</span> - (Advanced mode only) Allows you to see all information regarding the file you will download along with explanations for what each offset means. Recommended for debugging and learning.</li>
+        </ul>
         <h3>What games does this tool work on?</h3>
         <p>This is meant for Star Fox Assault. If it happens to work for another game then that's a coincidence. This tool was made by observing how the '.nut' files are used in Star Fox Assault and designing it around that. If it turns out there is a feature/value in the these files that is supported by Star Fox Assault and I missed it, let me know. If implementing it isn't too difficult I'd be down for its addition.</p>
         <h3>Alternative Tools</h3>
         <p>There is a tool called <a href="https://github.com/marco-calautti/Rainbow">Rainbow</a> (<a href="https://github.com/marco-calautti/Rainbow/releases/download/1.2.2-8/rainbow_win32_bin_1.2.2-8.zip">Download</a>). It can't export '.nut' files and doesn't read all of them perfectly, but is 99% functional for viewing them and could be useful in case this tool and the game disagree somewhere.</p>
         <h3>How do I edit the images.</h3>
-        <p>You could manually write the red, green, blue, and alpha channels for all pixels you want to change in this tool. But let's be real here, don't do that. Download the image as a PNG, and use your preferred tool (like <a href="https://www.photopea.com/">Photopea</a>) to modify the image. Use whatever you want, as long as it exports PNGs then you're good. Just upload it to the site and it'll take care of the rest.</p>
+        <p>You could manually write the red, green, blue, and alpha channels for all pixels you want to change in this tool. But let's be real here, don't do that. Download the image as a PNG, and use your preferred tool (like <a href="https://www.photopea.com/">Photopea</a>) to modify the image. Use whatever you want, as long as it exports PNGs then you're good. Just upload it to the site and it'll take care of the rest (assuming the image size is the same).</p>
         <h3>I changed a file but nothing happened in game</h3>
         <p>Not all of these files are read by the game so its possible you changed a file thats never used by the game. If your playing singleplayer than thats also a problem. They load everything they need inside of the '.fpc' files and not the '.nut' files.</p>
         <h3>What do half of these settings mean?</h3>
@@ -67,7 +157,7 @@
           <summary>Dropdown button</summary>
           <div id="FileNameGrid"><p>Loading...</p></div>
         </details>
-      </div>
+      </details>
 
       <!-- Import Game File -->
       <div id = "InputFileContainer" class = "box">
@@ -101,9 +191,8 @@
               <button onclick="data_addNewTextureFromScratch();">Add New Texture</button>
               <button disabled onclick="downloadAllTextures();">Download All Individually (.png)</button>
             </span>
-            <p>To import an image you need to make a new texture first.</p>
-            <p>Then upload it by clicking on it and scrolling to the pixel data.</p>
-            <p>This is to prevent me from having to worry about validating images sizes.</p>
+            <p>This adds a new texture to the container file.</p>
+            <p>Only recommended if you need a new texture for the game to use.</p>
           </div>
         </div>
 
@@ -324,10 +413,11 @@
         <h3>Allow Unique Character Textures [ModSault]</h3>
         <p>
           Normally the textures for the Vs. Mode characters share data with each other making
-          entirely unique textures for each player impossible. This code allows all colors
-          to be treated as entirely different textures. Just make sure to open the 
+          entirely unique textures for each player impossible. This code allows all 4 colored player textures
+          to be treated as entirely different. Just make sure to open the 
           appropriate file for the characters you have selected below and redownload it
           except with "Only Save Color Information" disabled on all textures.
+          <br>
           <br>
           This doesn't work on the menus intentionally because I don't know what file has the textures for them.
           <br>

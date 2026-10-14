@@ -73,6 +73,8 @@
 a { color: var(--link-color) }
 a:hover { color: var(--link-color-hover) }
 a:visited { color: var(--link-color-visited) }
+li { margin-bottom: 5px; }
+.box li > ul { margin-top: 5px; }
 
 body { margin: 0; min-width: 1280px; }
 button, summary { cursor: pointer; }
@@ -193,6 +195,16 @@ button, summary { cursor: pointer; }
   border: 1px solid var(--font-color);
   display: block;
   font-size: 16px;
+}
+.code-inline {
+  font-family: Consolas, Monaco, "Courier New", monospace;
+  display: inline-block;
+  background-color: var(--code-block-bg);
+  color: var(--font-color-invert);
+  padding: 2px 2px;
+  border-radius: 6px;
+  border: 1px solid var(--font-color);
+
 }
 
 /* ---------------- Tooltip ----------------- */
