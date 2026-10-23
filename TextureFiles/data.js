@@ -61,6 +61,11 @@ function data_useMipMapLogic(index) {
   return g_AllTextureData[index].useMipMaps;
 }
 
+function data_getDownloadNameAsPNG(index, mipmapIndex, isCompressed) {
+  const compressedText = isCompressed ? "_compressed" : "";
+  return `Texture_${(index+1).toString(10).padStart(3, "0")}_mipmap_${mipmapIndex+1}${compressedText}.png`
+}
+
 function data_getMipMapMaxCount(index) {
   const { w, h } = getGridSizes(g_AllTextureData[index].TextureLayer);
   const width_maxNumberTextures = Math.floor(Math.log2(g_AllTextureData[index].width / w) + 1);

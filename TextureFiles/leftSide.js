@@ -64,9 +64,13 @@ function refreshAllFiles() {
 
       const zip = new JSZip();
       for (let j = 0; j < g_AllTextureData[index].pixels.length; j++) {
-        const blob = await getBlobForFileMipMap(index, j);
-        const fileName = sanitizeFilename(g_AllTextureData[index].name + `_${j}.png`);
-        zip.file(fileName, blob);
+        const blob1 = await getBlobForFileMipMap(index, j);
+        const fileName1 = sanitizeFilename(data_getDownloadNameAsPNG(index, j, false));
+        zip.file(fileName1, blob1);
+
+        const blob2 = await getBlobForFileMipMap(index, j, true);
+        const fileName2 = sanitizeFilename(data_getDownloadNameAsPNG(index, j, true));
+        zip.file(fileName2, blob2);
       }
       zip.file("credit.txt", g_JSZipCreditMessage);
 

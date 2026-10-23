@@ -131,9 +131,13 @@ async function downloadAllTextures() {
 
   for (let i = 0; i < g_AllTextureData.length; i++) {
     for (let j = 0; j < g_AllTextureData[i].pixels.length; j++) {
-      const blob = await getBlobForFileMipMap(i, j);
-      const fileName = sanitizeFilename(g_AllTextureData[i].name + `_${j}.png`);
-      zip.file(fileName, blob);
+      const blob1 = await getBlobForFileMipMap(i, j);
+      const fileName1 = sanitizeFilename(data_getDownloadNameAsPNG(i, j, false));
+      zip.file(fileName1, blob1);
+
+      const blob2 = await getBlobForFileMipMap(i, j, true);
+      const fileName2 = sanitizeFilename(data_getDownloadNameAsPNG(i, j, true));
+      zip.file(fileName2, blob2);
     }
     textToShow.innerText = `Downloading (${(i/g_AllTextureData.length*100).toFixed(1)}%)...`;
   }
@@ -159,7 +163,7 @@ async function downloadOneTexture(index, mipmapIndex) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = sanitizeFilename(`${g_AllTextureData[index].name}.png`);
+  a.download = sanitizeFilename(data_getDownloadNameAsPNG(index, mipmapIndex, false));
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -171,7 +175,7 @@ async function downloadOneCompressedTexture(index, mipmapIndex) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = sanitizeFilename(`${g_AllTextureData[index].name}_compressed.png`);
+  a.download = sanitizeFilename(data_getDownloadNameAsPNG(index, mipmapIndex, true));
   a.click();
   URL.revokeObjectURL(url);
 }
