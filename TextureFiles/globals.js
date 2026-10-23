@@ -103,67 +103,63 @@ const g_JSZipCreditMessage = "Thanks to JSZip for making zipping possible.\nhttp
 const allCompressionTypesNames = [
   {
     "val": 1,
-    "name": "(2 -) RGB 565"
+    "name": "(2) RGB 565"
   },
   {
     "val": 2,
-    "name": "(2 -) RGBA and Mode Shifter"
+    "name": "(2) RGBA and Mode Shifter"
   },
   {
     "val": 3,
-    "name": "(4 -) Uncompressed"
+    "name": "(4) Uncompressed"
   },
   {
     "val": 4,
-    "name": "(0.5 -) Blend 2 Colors per 16 Pixels"
+    "name": "(0.5) Blend 2 Colors per 16 Pixels"
   },
   {
     "val": 5,
-    "name": "(0.5 2) 16 total colors"
+    "name": "(0.5) 16 total colors"
   },
   {
     "val": 6,
-    "name": "(1 2) 256 total colors"
+    "name": "(1) 256 total colors"
   },
   {
     "val": 7,
-    "name": "(2 2) 65536 total colors"
+    "name": "(2) 65536 total colors"
   },
   {
     "val": 10,
-    "name": "(1 -) Transparent to White Scale"
+    "name": "(1) Transparent to White Scale"
   },
   {
     "val": 11,
-    "name": "(2 -) Brightness and Transparent Options"
+    "name": "(2) Brightness and Transparent Options"
   },
   {
     "val": 12,
-    "name": "(0.5 -) Same as Blend 2 Colors per 16 Pixels???"
+    "name": "(0.5) Same as Blend 2 Colors per 16 Pixels???"
   }
 ]
 
 // These are all the color types with their value in the file along with what they are. Only really needed for `X total colors` compression types.
 const allColorTypes = [
   {
-    "val": 0,
-    "name": "RGB 0-255 and A 0-255"
-  },
-  {
     "val": 1,
-    "name": "R 0-31, G 0-63, B 0-31, A = 255"
+    "name": "(2) R 0-31, G 0-63, B 0-31, A = 255"
   },
   {
     "val": 2,
-    "name": "Support for both RGBA and only RGB per pixel"
+    "name": "(2) Support for both RGBA and only RGB per pixel"
   },
   {
     "val": 3,
-    "name": "Same as RGB 0-255 and A 0-255 ???"
+    "name": "(4) Uncompressed"
   },
   {
     "val": 11,
-    "name": "Same as RGB 0-255 and A 0-255, again???"
+    "name": "(2) RGB 0-255 and A 0-255"
   }
 ]
 

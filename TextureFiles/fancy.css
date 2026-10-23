@@ -4,6 +4,9 @@ svg { cursor: pointer; }
 .wideMargin { margin: 0 10px; }
 li svg { cursor: unset; translate: 0 3px;}
 
+#AllowMipMapsOrPalette { display: none; }
+#AllowMipMapsOrPalette:not(:checked) ~ #ContainerForAll .PaletteOptionOnly { display: none; }
+
 /* ------------ Box for Relevant Files ------------ */
 
 #GeneralInfoBox, #RelevantFilesBox { margin-bottom: 10px; }

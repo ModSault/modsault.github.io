@@ -4,25 +4,25 @@
 
 // Turns 16 bit value to rgba 0-255. used to get raw color information from the game's file
 // opposite of `Assault_EncodeHelper_rgbaToU16`.
-function Assault_getColorFromU16(u16, colorType) {
+function Assault_getColorFromU16(u16, colorType, u16_2 = undefined) {
   const valueTo255 = function(value, max) {
     return Math.round((((value) & max) / max) * 255);
   }
   let r, g, b, a;
 
-  if (((colorType % 4) == 0) || ((colorType % 4) == 3)) {
+  if (colorType == 11) {
     r = valueTo255(u16, 0xFF);
     g = valueTo255(u16, 0xFF);
     b = valueTo255(u16, 0xFF);
     a = valueTo255(u16 >> 8, 0xFF);
   }
-  if ((colorType % 4) == 1) {
+  if (colorType == 1) {
     r = valueTo255(u16 >> 11, 0x1F);
     g = valueTo255(u16 >> 5, 0x3F);
     b = valueTo255(u16, 0x1F);
     a = 255;
   }
-  if ((colorType % 4) == 2) {
+  if (colorType == 2) {
     const mode = u16 >> 15;
     if (mode == 0) {
       r = valueTo255(u16 >> 8, 0xF);
@@ -36,6 +36,12 @@ function Assault_getColorFromU16(u16, colorType) {
       b = valueTo255(u16, 0x1F);
       a = 255;
     }
+  }
+  if (colorType == 3) {
+    r = valueTo255(u16, 0xFF);
+    g = valueTo255(u16 >> 8, 0xFF);
+    b = valueTo255(u16_2, 0xFF);
+    a = valueTo255(u16_2 >> 8, 0xFF);
   }
 
   return { r, g, b, a };
@@ -139,8 +145,6 @@ function Assault_parseFile(file) {
         // get and save info from individual file header
         const sizeOfPixelData = view.getUint32(curOffset + 0x8);
         const numberOfColors = view.getUint16(curOffset + 0xE);
-        const sizeOfColorData = view.getUint32(curOffset + 0x4);
-        const numPalettes = Math.ceil(sizeOfColorData / (2 * numberOfColors));
         const offsetToPixels = (sizeOfPixelData == 0) ? offsetToLastPixels : curOffset + view.getUint16(curOffset + 0xC);
         const offsetToColors = curOffset + view.getUint16(curOffset + 0xC) + (sizeOfPixelData);
 
@@ -150,15 +154,20 @@ function Assault_parseFile(file) {
         data_setColorType(i, colorType, false);
         data_setTextureLayer(i, textureLayer, false);
 
+        const sizeOfColorData = view.getUint32(curOffset + 0x4);
+        const bytesPerColor = (colorType == 3) ? 4 : 2;
+        const numPalettes = Math.ceil(sizeOfColorData / (bytesPerColor * numberOfColors));
+
         const numMipMaps = view.getUint8(curOffset + 0x11);
         const numberTextures = isNaN(numPalettes) ? numMipMaps : Math.max(numPalettes, numMipMaps);
         const width = (sizeOfPixelData == 0) ? lastWidth : view.getUint16(curOffset+0x14);
         const height = (sizeOfPixelData == 0) ? lastHeight : view.getUint16(curOffset+0x16);
+        const useMipMapSupport = ((numPalettes || 0) <= 1 && numMipMaps >= 0); // ensure there aren't more palettes than expected. 0 mipmaps for player colors since they have no texture
         data_setWidth(i, width, false);
         data_setHeight(i, height, false);
         data_setNumberTextures(i, numberTextures, false);
         data_setIsColorOnly(i, sizeOfPixelData == 0, false);
-        data_setUseMipMaps(i, (!isNaN(numPalettes) && numMipMaps > 1), false)
+        data_setUseMipMaps(i, useMipMapSupport, false);
 
         // failsafe check. Ensure there aren't both mipmaps and more than 1 palette
         console.assert(!(numPalettes > 1 && numMipMaps > 1), `Texture ID ${i} has both palettes (${numPalettes}) and mipmaps (${numMipMaps}). This might be a massive problem.`);
@@ -170,6 +179,9 @@ function Assault_parseFile(file) {
             break;
           }
         }
+
+        // Ensure there isn't more than 1 palette and more than 1 mipmap. Cause I don't support that
+        console.assert(useMipMapSupport, `Texture #${i+1} used Palettes instead of Mipmaps. You shouldn't see this if loading a vanilla game file.`);
 
         // go through all mipmaps or palettes and get their image data
         // colors are grabbed to if possible. They aren't used for anything though
@@ -189,11 +201,11 @@ function Assault_parseFile(file) {
           const currentSizeOfPixelData = (sizeOfPixelData == 0 && numberTextures == 0) ? lastSizeOfPixelData : currentWidth * currentHeight;// (sizeOfPixelData - additionalPixelOffset)
 
           const view_pixelsOnly = new DataView(e.target.result, offsetToPixels + additionalPixelOffset, currentSizeOfPixelData / numberOfPixelsToBytesRatio);
-          const view_colorsOnly = new DataView(e.target.result, offsetToColors + additionalColorOffset, numberOfColors*2);
+          const view_colorsOnly = new DataView(e.target.result, offsetToColors + additionalColorOffset, numberOfColors*bytesPerColor);
           additionalPixelOffset += (currentWidth * currentHeight) / numberOfPixelsToBytesRatio;
-          additionalColorOffset += (numberOfColors*2);
+          additionalColorOffset += (numberOfColors*bytesPerColor);
 
-          Assault_parseColors(i, j, view_colorsOnly, colorType);
+          Assault_parseColors(i, j, view_colorsOnly, colorType, numberOfColors);
           switch (textureLayer) {
             case 1: {
               // written as 4 within in the game
@@ -213,15 +225,15 @@ function Assault_parseFile(file) {
               break;
             } case 5: {
               // written as 8 within in the game
-              Assault_parseLayer5(i, j, view_pixelsOnly, view_colorsOnly, colorType, currentWidth);
+              Assault_parseLayer5(i, j, view_pixelsOnly, view_colorsOnly, colorType, currentWidth, numberOfColors);
               break;
             } case 6: {
               // written as 9 within in the game
-              Assault_parseLayer6(i, j, view_pixelsOnly, view_colorsOnly, colorType, currentWidth);
+              Assault_parseLayer6(i, j, view_pixelsOnly, view_colorsOnly, colorType, currentWidth, numberOfColors);
               break;
             } case 7: { // !!!!!!!!!!!!!!! NOT TESTED !!!!!!!!!!!!!!
               // written as 10 within in the game
-              Assault_parseLayer7(i, j, view_pixelsOnly, view_colorsOnly, colorType, currentWidth);
+              Assault_parseLayer7(i, j, view_pixelsOnly, view_colorsOnly, colorType, currentWidth, numberOfColors);
               break;
             } case 10: {
               // written as 1 within in the game
@@ -277,9 +289,15 @@ function Assault_parseFile(file) {
 }
 
 // read color data from the file
-function Assault_parseColors(i, j, view, colorType) {
-  for (let iter = 0; iter < view.byteLength; iter += 2) {
-    const colorU16 = view.getUint16(iter);
+function Assault_parseColors(i, j, view, colorType, numberOfColors) {
+  for (let iter = 0; iter < numberOfColors; iter++) {
+    const colorU16 = view.getUint16(2 * iter);
+    if (colorType == 3) {
+      const colorU16_2 = view.getUint16((2 * iter) + (2 * numberOfColors));
+      const {r, g, b, a} = Assault_getColorFromU16(colorU16, colorType, colorU16_2);
+      data_addNewColor(i, j, r, g, b, a, false);
+      continue;
+    }
     const {r, g, b, a} = Assault_getColorFromU16(colorU16, colorType);
     data_addNewColor(i, j, r, g, b, a, false);
   }
@@ -475,7 +493,7 @@ function Assault_parseLayer4(i, j, view, width, toCompressedImage = false) {
   console.assert(numberOfPixels == g_AllTextureData[i].pixels[j].length, i, numberOfPixels, g_AllTextureData[i].pixels[j].length);
 }
 
-function Assault_parseLayer5(i, j, view_pixels, view_colors, colorType, width, toCompressedImage = false) {
+function Assault_parseLayer5(i, j, view_pixels, view_colors, colorType, width, numberOfColors, toCompressedImage = false) {
   const numberOfPixels = view_pixels.byteLength * 2;
   const height = Math.ceil(numberOfPixels / width);
 
@@ -504,7 +522,8 @@ function Assault_parseLayer5(i, j, view_pixels, view_colors, colorType, width, t
         ? (byte & 0xF0) >> 4   // odd indexInBlock -> high nibble, shifted into 0-15
         : (byte & 0x0F);       // even indexInBlock -> low nibble
       const colorU16 = view_colors.getUint16((colorIndex * 2));
-      const  { r, g, b, a } = Assault_getColorFromU16(colorU16, colorType);
+      const colorU16_2 = (colorType == 3) ? view_colors.getUint16((colorIndex * 2) + (numberOfColors * 2)) : undefined;
+      const { r, g, b, a } = Assault_getColorFromU16(colorU16, colorType, colorU16_2);
 
       if (!toCompressedImage) {
         data_addPixel(i, j, r, g, b, a);
@@ -518,7 +537,7 @@ function Assault_parseLayer5(i, j, view_pixels, view_colors, colorType, width, t
   console.assert(numberOfPixels == g_AllTextureData[i].pixels[j].length, i, numberOfPixels, g_AllTextureData[i].pixels[j].length);
 }
 
-function Assault_parseLayer6(i, j, view_pixels, view_colors, colorType, width, toCompressedImage = false) {
+function Assault_parseLayer6(i, j, view_pixels, view_colors, colorType, width, numberOfColors, toCompressedImage = false) {
   const numberOfPixels = view_pixels.byteLength;
   const height = Math.ceil(numberOfPixels / width);
 
@@ -545,7 +564,8 @@ function Assault_parseLayer6(i, j, view_pixels, view_colors, colorType, width, t
       const pixelOffset = (blockIndex * pixelsPerBlock) + indexInBlock;
       const colorIndex = view_pixels.getUint8(pixelOffset);
       const colorU16 = view_colors.getUint16((colorIndex * 2));
-      const  { r, g, b, a } = Assault_getColorFromU16(colorU16, colorType);
+      const colorU16_2 = (colorType == 3) ? view_colors.getUint16((colorIndex * 2) + (numberOfColors * 2)) : undefined;
+      const { r, g, b, a } = Assault_getColorFromU16(colorU16, colorType, colorU16_2);
 
       if (!toCompressedImage) {
         data_addPixel(i, j, r, g, b, a);
@@ -559,7 +579,7 @@ function Assault_parseLayer6(i, j, view_pixels, view_colors, colorType, width, t
   console.assert(numberOfPixels == g_AllTextureData[i].pixels[j].length, i, numberOfPixels, g_AllTextureData[i].pixels[j].length);
 }
 
-function Assault_parseLayer7(i, j, view_pixels, view_colors, colorType, width, toCompressedImage = false) {
+function Assault_parseLayer7(i, j, view_pixels, view_colors, colorType, width, numberOfColors, toCompressedImage = false) {
   const numberOfPixels = view_pixels.byteLength / 2;
   const height = Math.ceil(numberOfPixels / width);
 
@@ -586,7 +606,8 @@ function Assault_parseLayer7(i, j, view_pixels, view_colors, colorType, width, t
       const pixelOffset = (blockIndex * pixelsPerBlock * 2) + (indexInBlock * 2);
       const colorIndex = view_pixels.getUint16(pixelOffset);
       const colorU16 = view_colors.getUint16((colorIndex * 2));
-      const  { r, g, b, a } = Assault_getColorFromU16(colorU16, colorType);
+      const colorU16_2 = (colorType == 3) ? view_colors.getUint16((colorIndex * 2) + (numberOfColors * 2)) : undefined;
+      const { r, g, b, a } = Assault_getColorFromU16(colorU16, colorType, colorU16_2);
 
       if (!toCompressedImage) {
         data_addPixel(i, j, r, g, b, a);

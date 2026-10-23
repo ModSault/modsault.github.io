@@ -31,6 +31,7 @@
     </div>
 
     <input type="checkbox" id="AdvancedModeCheckMark" name="AdvancedModeCheckMark" hidden>
+    <input type="checkbox" id="AllowMipMapsOrPalette" name="AllowMipMapsOrPalette" hidden>
     <input type="file" id="JSONLoadFile" name="JSONLoadFile" accept=".json" onchange="LoadJSONFile(this.files[0]);" hidden>
     <script>makeNavBar("..");</script>
     <script>makeHeader("Star Fox Assault Texture File Manipulation", gameVersionUpdater);</script>
@@ -54,7 +55,7 @@
                 <span class="code-inline">[WWWWWWWW] Texture #X (Y - ZZxUU)</span>
                 - This is one texture within the entire container file. Clicking on it displays all information regarding the texture with explanations.
                 WWWWWWWW is the texture ID that the game uses to identify the texture. X is the texture's position in the container, starting at 1.
-                Y is the number of mipmaps or palettes, and ZZ and UU are the texture's width and height, respectively.
+                Y is the number of mipmaps, and ZZ and UU are the texture's width and height, respectively.
                 An indented entry indicates that "Only Save Color Information" is checked for the file.
               </li>
               <li class="AdvancedOnly">
@@ -75,7 +76,7 @@
               </li>
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"></path></svg>
-                - This downloads all mipmaps and palettes for the selected texture in a ZIP archive.
+                - This downloads all mipmaps for the selected texture in a ZIP archive.
               </li>
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--red-button)"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"></path></svg>
@@ -120,7 +121,7 @@
               <li>
                 <svg class="rotate90" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path></svg>
                 <svg class="rotate270" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"></path></svg>
-                - Use the arrows to switch between textures or cycle through a texture's mipmaps/palettes. Clicking an arrow outside the white glow switches textures; clicking inside the glow switches mipmaps/palettes. You can also navigate using WASD, Q/E, and the arrow keys. Holding any of these scrolls through the textures
+                - Use the arrows to switch between textures or cycle through a texture's mipmaps. Clicking an arrow outside the white glow switches textures; clicking inside the glow switches mipmaps. You can also navigate using WASD, Q/E, and the arrow keys. Holding any of these scrolls through the textures
               </li>
               <li>
                 <span class="code-inline">Buttons at the Bottom</span>
@@ -135,6 +136,8 @@
         <p>This is meant for Star Fox Assault. If it happens to work for another game then that's a coincidence. This tool was made by observing how the '.nut' files are used in Star Fox Assault and designing it around that. If it turns out there is a feature/value in the these files that is supported by Star Fox Assault and I missed it, let me know. If implementing it isn't too difficult I'd be down for its addition.</p>
         <h3>Alternative Tools</h3>
         <p>There is a tool called <a href="https://github.com/marco-calautti/Rainbow">Rainbow</a> (<a href="https://github.com/marco-calautti/Rainbow/releases/download/1.2.2-8/rainbow_win32_bin_1.2.2-8.zip">Download</a>). It can't export '.nut' files and doesn't read all of them perfectly, but is 99% functional for viewing them and could be useful in case this tool and the game disagree somewhere.</p>
+        <h3>This tool shows 1 image and another shows 2 black and white images.</h3>
+        <p>I assume that means that the compression type is "X total colors" and its color type is uncompressed. For some reason the above tool and Dolphin's texture dumping show it as two separate black and white images instead of 1 colorful image like this tool here does.</p>
         <h3>How do I edit the images.</h3>
         <p>You could manually write the red, green, blue, and alpha channels for all pixels you want to change in this tool. But let's be real here, don't do that. Download the image as a PNG, and use your preferred tool (like <a href="https://www.photopea.com/">Photopea</a>) to modify the image. Use whatever you want, as long as it exports PNGs then you're good. Just upload it to the site and it'll take care of the rest (assuming the image size is the same).</p>
         <h3>I changed a file but nothing happened in game</h3>
@@ -147,8 +150,12 @@
         <p>Can't say I'm surprised. This isn't optimized. For example changing one pixel recompresses the entire thing which is slow (duh). If you think there is a bigger problem open devtools (right click + inspect) and find the console tab. If something red appears report it. </p>
         <h3>Blend Compression is Flawed</h3>
         <p>I'm aware of this. Encoding a file with the blend compression type will make the image differ from what the game file had by some slight amount. Unfortunately I'm not an expert on image compression and I barely understand how the encoding works in the first place. The current encoding algorithm only exists because of AI and because the problem is hard to see with the naked eye I dismissed it.</p>
-        <h3>Why Can't I have mipmaps and different Palettes?</h3>
-        <p>I didn't know that different palettes in the same texture could exist until I was like 99% done with this tool. So instead of redesigning all the systems for it I just did a half fix where if a compression type supports different palettes it doesn't support mip maps. The game never uses both at once so I didn't think it was too important to account for and I want to move onto other projects.</p>
+        <h3 class="AdvancedOnly">Why can I select either mipmaps or different palettes (Advanced Only)?</h3>
+        <p class="AdvancedOnly">
+          As I was making this tool I relied on Dolphin's built in texture dumping tool. For the uncompressed color type for the "x total colors" compression types it would show 2 different black and white images. So I assumed, since color data was saved separate to the pixels, that the game combine two different images to make the final image. So I made the entire tool to support different palettes just to find out later that the texture dumping might be wrong. Its just an uncompressed color format. So instead of deleting all of my code for it I left it. However to enable the option to switch between that and mipmaps you need to check this checkmark.
+          Just know this may cause crashes as I didn't test it after learning having multiple palettes isn't something the game does. I hope you know how to access dev tools on your browser.
+          <input type="checkbox" id="AllowMipMapsOrPalette_UserClickable" onchange="document.getElementById('AllowMipMapsOrPalette').checked = this.checked;">
+        </p>
         <h3>How to report bugs</h3>
         <p>I have a small audience so doing anything would get my attention. Using GitHub issues would be best but even a Reddit DM would work if you really wanted to (assuming I get an email).</p>
       </details>
@@ -256,7 +263,7 @@
                     <input onchange="data_setIsColorOnly(g_currentTextureToShow, this.checked); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_ColorOnly" type="checkbox">
                     <label for="ImageDisplay_ColorOnly">Only Save Color Information</label>
                   </div>
-                  <div class="flexRow">
+                  <div class="flexRow PaletteOptionOnly">
                     <input onchange="data_setUseMipMaps(g_currentTextureToShow, true); data_recalculateAllInIndex(g_currentTextureToShow);" id="ImageDisplay_SupportMipmaps" type="radio">
                     <label for="ImageDisplay_SupportMipmaps">Support Mipmaps</label>
                     <span class="wideMargin"></span>

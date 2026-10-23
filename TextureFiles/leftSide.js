@@ -288,7 +288,12 @@ function refreshFileHeaderInfo(index) {
   const tableHeaders = ["id", "Compression / Encoding", "Width", "Height", !data_useMipMapLogic(index) ? "Number of Palettes" : "Number of Mipmaps", "Color Type", "Save Only Colors?", "Image Support"];
   for (let i = 0; i < tableHeaders.length; i++) {
     if (!(data_hasColorData(index)) && i >= 5) continue; // these compressions don't support color modes or being color only. Only hide certain table rows if so
-    frag.appendChild(DOM_addAny("p", { "innerText": tableHeaders[i] }));
+    
+    const PaletteOptionOnly = (i == 7); // Image support option
+    frag.appendChild(DOM_addAny("p", {
+      "innerText": tableHeaders[i],
+      "className": PaletteOptionOnly ? "PaletteOptionOnly" : ""
+    }));
 
     const toAdd = DOM_addAny("div");
     if (i == 0) { // id
@@ -303,7 +308,7 @@ function refreshFileHeaderInfo(index) {
       }));
     }
     if (i == 1) { // compression/encoding
-      toAdd.appendChild(document.createTextNode("This is the way the image is compressed. They have a different range of colors they can show and memory sizes. The parenthesis shows the number of bytes per pixel. If there is a second number that means the colors are saved separately and the bytes per color is shown. If you don't know what that means just leave it as is assuming you loaded a game file. This is also called a Texture Layer for some reason."));
+      toAdd.appendChild(document.createTextNode("This is the way the image is compressed. They have a different range of colors they can show and memory sizes. The parenthesis shows the number of bytes per pixel. If you don't know what that means just leave it as is assuming you loaded a game file. This is also called a Texture Layer for some reason."));
       toAdd.appendChild(document.createElement("br"));
       toAdd.appendChild(document.createElement("br"));
       
@@ -420,7 +425,7 @@ function refreshFileHeaderInfo(index) {
       }));
     }
     if (i == 5) { // color type
-      toAdd.appendChild(document.createTextNode(`3 Compression types have their colors and pixels separate. Because of this we can change how the colors are read by the game. Each color takes 2 bytes of space no matter what.`));
+      toAdd.appendChild(document.createTextNode(`3 Compression types have their colors and pixels separate. Because of this we can change how the colors are read by the game. Each color takes the same number of bytes as shown in the parenthesis. If you don't know what that means just leave it as is assuming you loaded a game file.`));
       toAdd.appendChild(document.createElement("br"));
       toAdd.appendChild(document.createElement("br"));
 
@@ -463,12 +468,12 @@ function refreshFileHeaderInfo(index) {
           toAdd.appendChild(document.createTextNode("Each pixel has its own color. If the mode is 1, then there are 32 values for red, green, and blue. If the mode bit is 0, then there are 16 values for red, green, and blue and 8 values for alpha. The tool automatically picks what is best."));
           break;
         default:
-          toAdd.appendChild(document.createTextNode("(Unused in game) You set this yourself I see. Can't help you on how it works but it should loop around and be one of the options in the dropdown you avoided."));
+          toAdd.appendChild(document.createTextNode("(Unused in game) You set this yourself I see. Can't help you on how it works but the game will just refuse to use it. So good luck."));
           break;
       }
     }
     if (i == 6) { // color only
-      toAdd.appendChild(document.createTextNode(`Exclusive to Vs mode player character textures, the recolors only save the color information and not the pixel information. I recommend never using this outside of that case as you can just add more palettes to the same texture instead, but if you do it'll look for the first 'X total colors' texture compression above it and base itself of that texture.`));
+      toAdd.appendChild(document.createTextNode(`Exclusive to Vs mode player character textures, the recolors only save the color information and not the pixel information. I recommend never using this outside of that case, but if you do it'll look for the first 'X total colors' texture compression above it and base itself off of that texture.`));
       toAdd.appendChild(DOM_addAny("br"));
       toAdd.appendChild(DOM_addAny("br"));
       toAdd.appendChild(DOM_addAny("input", {
@@ -510,6 +515,7 @@ function refreshFileHeaderInfo(index) {
         "innerText": "Support Palettes",
         "htmlFor": `Texture_imageSupport_${index}_2`
       }));
+      toAdd.classList.add("PaletteOptionOnly");
     }
     frag.appendChild(toAdd);
   }
