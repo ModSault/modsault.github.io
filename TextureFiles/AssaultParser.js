@@ -68,7 +68,7 @@ function Assault_FileChange(file) {
   if (isNaN(newFileNum))
     newFileNum = 0;
   if (filename.indexOf("logos") !== -1) {
-    newFileNum += 79;
+    newFileNum = Math.max(1, newFileNum) + 78;
   }
   updateFileNum(newFileNum);
 

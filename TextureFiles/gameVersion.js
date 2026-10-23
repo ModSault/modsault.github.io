@@ -1,6 +1,17 @@
 // This file handles all changes when the game version is changed (like from USA to Japan)
 
 function gameVersionUpdater() {
+  if (!advancedMode) {
+    if (GameVersion == 2 && g_fileNum == 79) {
+      // ensure logo file is a valid one for PAL version
+      updateFileNum(80);
+    }
+    if (GameVersion != 2 && g_fileNum > 79) {
+      // ensure logo file is valid for USA and Japan versions
+      updateFileNum(79);
+    }
+  }
+
   updateFilenameGrid();
   makeAllOptionTags();
   showAddressOfTrees();
@@ -59,12 +70,22 @@ function makeAllOptionTags() {
     if (i > 79) fileStr = "logo/" + fileStr;
     if (i == 79 && GameVersion == 1) fileStr = "attract/" + fileStr; // file is elsewhere in Japan copy
 
+    // don't allow user to select files that certain versions don't have on disc
+    let display = true;
+    if (i == 79 && GameVersion == 2) display = false;
+    if (i > 79 && GameVersion != 2) display = false;
+
+    // make text strings 
     const desc = (i == -1) ? "Template" : ((g_JSON_filenames == null) ? "Loading..." : g_JSON_filenames[fileStr].Description);
     const padding = "\u00A0".repeat(Math.max(1, 24 - fileStr.length));
 
+    // add html element
     const option = document.createElement("option");
     option.value = i;
     option.innerText = `${fileStr}${padding}(${desc == "" ? "unknown" : desc})`;
+    if (!display) {
+      option.classList.add("AdvancedOnly");
+    }
     fragment.appendChild(option);
   }
 
