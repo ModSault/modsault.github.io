@@ -358,16 +358,28 @@ function LoadJSONFile(file) {
   if (file == undefined) { return; }
 
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
+    const textContainer = document.getElementById("OverlayForDownloading");
+    const textToShow = textContainer.getElementsByClassName("box")[0];
+    textContainer.style.display = "";
+    textToShow.innerText = `Parsing JSON file...`;
+    await waitForPaint();
+
     try {
       g_AllTextureData = JSON.parse(e.target.result);
-      Assault_EncodeAll();
+      await Assault_EncodeAll_async();
+
+      textToShow.innerText = `Rendering to Screen...`;
+      await waitForPaint();
       refreshAllFiles();
+
       data_recalculateAllInIndex(-1);
       g_wasFileChanged = false;
     } catch (err) {
       alert(`Invalid JSON: ${err}`);
     }
+
+    textContainer.style.display = "none";
   };
   reader.readAsText(file);
 }
