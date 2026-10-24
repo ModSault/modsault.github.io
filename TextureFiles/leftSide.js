@@ -283,7 +283,7 @@ function refreshFileHeaderInfo(index) {
   const curData = g_AllTextureData[index];
   const details = document.getElementById("Editor_Contents").getElementsByTagName("details")[index];
   details.getElementsByTagName("summary")[0].innerText = data_getTextureDisplayName(index);
-  details.getElementsByTagName("summary")[0].style.marginLeft = (data_hasColorData(index) && curData.colorOnly) ? "30px" : "";
+  details.getElementsByTagName("summary")[0].style.marginLeft = !(data_hasPixelData(index)) ? "30px" : "";
   const tableNeeded = details.getElementsByClassName("fileHeaderTable")[0];
   if (tableNeeded == null) return; // not there
   const frag = document.createDocumentFragment();

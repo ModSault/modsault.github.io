@@ -55,6 +55,11 @@ function data_getIDPretty(index) {
 function data_hasColorData(index) {
   return ([5,6,7]).includes(g_AllTextureData[index].TextureLayer);
 }
+function data_hasPixelData(index) {
+  if (!([5,6,7]).includes(g_AllTextureData[index].TextureLayer))
+    return true;
+  return !g_AllTextureData[index].colorOnly;
+}
 
 function data_useMipMapLogic(index) {
   if (!data_hasColorData(index)) return true;
@@ -115,39 +120,42 @@ function data_getTextureWithPixelData(index) {
     return undefined;
   if (index >= g_AllTextureData.length)
     return undefined;
-  if (!data_hasColorData(index))
-    return index;
-  if (!g_AllTextureData[index].colorOnly)
+  if (data_hasPixelData(index))
     return index;
 
   for (let i = index-1; i >= 0; i--) {
-    if (!g_AllTextureData[i].colorOnly) {
+    if (data_hasPixelData(i)) {
       return i;
     }
   }
   return undefined;
 }
-function data_getNumberOfExternalPalettes(index) {
+function data_getNumberOfExternalPalettes(index, SkipOneBad = false) {
   if (index < 0 || index >= g_AllTextureData.length)
     return 0;
   if (index == undefined || index == -1)
     return 0;
-  if (!data_hasColorData(index))
-    return 0;
+  if (!data_hasColorData(index)) {
+    if (!SkipOneBad)
+      return 0;
+    SkipOneBad = false;
+  }
 
   let toReturn = 0;
-  for (let i = index+1;
-            i < g_AllTextureData.length &&
-            g_AllTextureData[i].colorOnly &&
-            data_hasColorData(i);
-      i++) {
-    toReturn++;
+  const outerLoopAmt = SkipOneBad ? 2 : 1;
+  for (let j = 0; j < outerLoopAmt; j++) {
+    for (let i = index+1+toReturn;
+              i < g_AllTextureData.length &&
+              !data_hasPixelData(i);
+        i++) {
+      toReturn++;
+    }
   }
   return toReturn;
 }
-function date_getReEncodeListOnChange(index) {
+function date_getReEncodeListOnChange(index, SkipOneBad = false) {
   const startingIndex = data_getTextureWithPixelData(index) ?? index;
-  const numAdditional = data_getNumberOfExternalPalettes(startingIndex);
+  const numAdditional = data_getNumberOfExternalPalettes(startingIndex, SkipOneBad);
   const toReturn = [];
   for (let i = 0; i <= numAdditional; i++) {
     toReturn.push(i+startingIndex);
@@ -261,14 +269,26 @@ function data_clearMipMap(index, mipmapIndex) {
 function data_makeExternalPalettesTheSame(index, resize = true) {
   if (!data_hasColorData(index)) return;
 
-  for (const i of date_getReEncodeListOnChange(index)) {
+  for (const i of date_getReEncodeListOnChange(index, false)) {
     if (i == index) continue;
     g_AllTextureData[i].width = g_AllTextureData[index].width;
     g_AllTextureData[i].height = g_AllTextureData[index].height;
     g_AllTextureData[i].TextureLayer = g_AllTextureData[index].TextureLayer;
     g_AllTextureData[i].colorType = g_AllTextureData[index].colorType;
-    if (resize)
+
+    const oldValue = g_AllTextureData[i].pixels.length;
+    const valueToChangeTo = g_AllTextureData[index].pixels.length;
+    while (g_AllTextureData[i].pixels.length < valueToChangeTo) {
+      g_AllTextureData[i].pixels.push([]);
+    }
+    g_AllTextureData[i].pixels = g_AllTextureData[i].pixels.splice(0, valueToChangeTo);
+
+    if (resize) {
       data_resizeTextures(i);
+      for (let j = oldValue; j < valueToChangeTo && data_useMipMapLogic(i); j++) {
+        data_setMipMapToMatchHigherRes(i, j);
+      }
+    }
   }
 }
 
@@ -335,6 +355,8 @@ function data_setTextureID(index, newID) {
 function data_setColorType(index, newColorType, resize = true) {
   g_AllTextureData[index].colorType = Math.min(255, Math.max(0, newColorType));
   g_wasFileChanged = true;
+  if (resize)
+    data_resizeTextures(index);
   data_makeExternalPalettesTheSame(index, resize);
 }
 // updates: "TextureLayer": 2
@@ -382,16 +404,20 @@ function data_setNumberTextures(index, newNumber, resize = true) {
     }
   }
   g_wasFileChanged = true;
+  data_makeExternalPalettesTheSame(index, resize);
 }
 // updates: "colorOnly": false
 // should only be used with Vs mode characters
 function data_setIsColorOnly(index, newIsColor, resize = true) {
   g_AllTextureData[index].colorOnly = !!newIsColor;
   if (index != 0 && newIsColor)
-    data_setNumberTextures(index, Math.max(g_AllTextureData[index].pixels.length, g_AllTextureData[index-1].pixels.length), false);
+    data_setNumberTextures(index, Math.max(g_AllTextureData[index].pixels.length, g_AllTextureData[index-1].pixels.length), resize);
   g_wasFileChanged = true;
 
-  data_makeExternalPalettesTheSame(data_getTextureWithPixelData(index) ?? index, resize);
+  if (resize) {
+    data_resizeTextures(index);
+  }
+  data_makeExternalPalettesTheSame(index, resize);
 }
 // updates individual element within: "pixels": []
 function data_setPixel(index, mipMapNum, pixelIndex, colorType, newValue) {
@@ -456,7 +482,7 @@ function data_setMipMapToMatchHigherRes(index, mipmapIndex) {
 //    updateGridToSee - changes what grid to view in the preview if needed
 //    reEncodeList - updates all of those indices as well (array of ints)
 function data_recalculateAllInIndex(index, updateGridToSee = false, reEncodeList = undefined) {
-  reEncodeList = reEncodeList ?? date_getReEncodeListOnChange(index);
+  reEncodeList = reEncodeList ?? date_getReEncodeListOnChange(index, true);
   for (const i of reEncodeList) {
     if (i >= g_AllTextureData.length || i < 0) {
       continue;

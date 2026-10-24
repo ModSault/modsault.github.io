@@ -389,7 +389,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   // pixels (color only has no pixel data for supported compression types)
   const offsetToStartOfPixels = fileSize;
   let sizeOfPixels = 0;
-  if (!curData.colorOnly && numberOfPixelsToBytesRatio != 0) {
+  if (data_hasPixelData(index) && numberOfPixelsToBytesRatio != 0) {
     if (data_useMipMapLogic(index)) {
       // mipmap handler
       for (let i = 0; i < numMipMaps; i++) {
@@ -454,7 +454,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
     info.write(view, offset, value);
   };
   
-  const writeSize = !(data_hasColorData(index) && curData.colorOnly);
+  const writeSize = data_hasPixelData(index);
   addDataToHeader(0x00, 2, fileSize, 4, "Total size of this texture file");
   addDataToHeader(0x04, 2, sizeOfColors, 3, "Total size of color data");
   addDataToHeader(0x08, 2, sizeOfPixels, 11, "Total size of pixel data");
@@ -666,7 +666,7 @@ function Assault_generalEncode(index, updateWarningsAndErrors = true) {
 
   // account for if this texture has no pixel data (aka it saves only color information)
   let fileIndexWithPixelData = data_getTextureWithPixelData(index) ?? -1;
-  if (fileIndexWithPixelData != -1 && g_AllTextureData[index].colorOnly) {
+  if (fileIndexWithPixelData != -1 && !(data_hasPixelData(index))) {
     if (!g_allFileProcessedInformation[fileIndexWithPixelData+1].indexToColor || g_allFileProcessedInformation[fileIndexWithPixelData+1].indexToColor.length <= index-fileIndexWithPixelData) {
       fileIndexWithPixelData = -1
     }
@@ -691,7 +691,7 @@ function Assault_generalEncode(index, updateWarningsAndErrors = true) {
     }
     const sizeOfPixelData = currentWidth*currentHeight*byteToPixelRatio;
     let view_pixelsOnly;
-    if (data_hasColorData(index) && g_AllTextureData[index].colorOnly) {
+    if (!data_hasPixelData(index)) {
       // gets previous pixel data if this file has no pixel data
       view_pixelsOnly = new DataView(g_allFileProcessedInformation[fileIndexWithPixelData+1].downloadSegment, curPixelOffset, sizeOfPixelData);
     } else {
