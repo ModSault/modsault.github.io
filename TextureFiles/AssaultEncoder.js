@@ -380,7 +380,7 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   // header
   let fileSize = 0x50;
   if (data_useMipMapLogic(index)) {
-    // number of mipmaps means a bigger file. idk why the game just expects
+    // number of mipmaps means a bigger file. idk why the game just expects this
     if (([2,3,4]).includes(numMipMaps))
       fileSize += 0x20;
     if (([5,6,7]).includes(numMipMaps))
@@ -465,7 +465,16 @@ function Assault_EncodeHelper_HeaderAndSetup(index, numberOfColors) {
   addDataToHeader(0x13, 0, curData.TextureLayer, 9, "The compression type (also called texture layer on an error)");
   addDataToHeader(0x14, 1, writeSize ? width : 0, 4, "Width of full resolution texture (is 0 if it only saves color information)");
   addDataToHeader(0x16, 1, writeSize ? height : 0, 9, "Height of full resolution texture (is 0 if it only saves color information)");
-  addDataToHeader(0x20, 4, 0xB0, 0, "????");
+  addDataToHeader(0x20, 2, 0xB0, 0, "????");
+  if (data_useMipMapLogic(index)) {
+    // describe padding from high mipmaps values
+    if (([2,3,4,5,6,7]).includes(numMipMaps)) {
+      descriptions[0x30] = { description: "No purpose. The game just expects this extra space because of the amount of mipmaps", type: "16 Byte Padding" };
+      descriptions[0x40] = { description: "No purpose. The game just expects this extra space because of the amount of mipmaps", type: "16 Byte Padding" };
+    }
+    if (([5,6,7]).includes(numMipMaps))
+      descriptions[0x50] = { description: "No purpose. The game just expects this extra space because of the amount of mipmaps", type: "16 Byte Padding" };
+  }
   addDataToHeader(offsetToStartOfPixels-0x20, 3, 0x655874, 0, "Magic bytes for file type ('eXt'). idk why this exists.");
   addDataToHeader(offsetToStartOfPixels-0x1C, 2, 0x20, 0, "????");
   addDataToHeader(offsetToStartOfPixels-0x18, 2, 0x10, 0, "????");
