@@ -78,7 +78,7 @@ function refreshAllFiles() {
       const url = URL.createObjectURL(content);
       const a = document.createElement("a");
       a.href = url;
-      a.download = getFileName(".zip");
+      a.download = `Texture_${(index+1).toString(10).padStart(3, "0")}`;
       a.click();
       URL.revokeObjectURL(url);
     }
