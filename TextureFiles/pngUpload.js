@@ -60,7 +60,7 @@ function replacePixelsWithPNG(index, mipmapIndex, file) {
 
       // set png to lower res mipmaps if user wants that
       if (document.getElementById("PNGUpload_MipMapCheckbox").checked) {
-        for (let i = mipmapIndex; i < g_AllTextureData[index].pixels.length && data_useMipMapLogic(index); i++) {
+        for (let i = mipmapIndex + 1; i < g_AllTextureData[index].pixels.length && data_useMipMapLogic(index); i++) {
           data_setMipMapToMatchHigherRes(index, i);
         }
       }
