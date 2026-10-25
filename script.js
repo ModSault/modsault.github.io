@@ -134,6 +134,10 @@ function makeNavBar(pathToRoot) {
                 {
                     "text": "Level Boundary Files (ts_mapdataxx.bin)",
                     "link": pathToRoot + "/LevelBoundaryFiles/"
+                },
+                {
+                    "text": "Texture Files (tex_pack_xx.nut and nslogos.nut)",
+                    "link": pathToRoot + "/TextureFiles/"
                 }
             ]
         },
