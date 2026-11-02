@@ -80,10 +80,14 @@ function Assault_FileChange(file) {
       break;
     }
   }
+
   // add description after filename so its purpose is easier to understand (if it exists)
   let actualFileNameInTable = getFileName();
   if (GameVersion == 1 && newFileNum == 79)
-    actualFileNameInTable = "attract/" + actualFileNameInTable;
+    actualFileNameInTable = "attract/" + actualFileNameInTable; // For Japan logos file
+  if (newFileNum > 79)
+    actualFileNameInTable = "logo/" + actualFileNameInTable; // For PAL logo files (USA and Japan don't have these so don't check GameVersion)
+  let textToAdd = "Unknown / Undocumented File";
   if (g_JSON_filenames != null && g_JSON_filenames[actualFileNameInTable] != undefined) {
     const relevant = g_JSON_filenames[actualFileNameInTable];
     
@@ -93,16 +97,18 @@ function Assault_FileChange(file) {
     if (GameVersion == 2) ext = "PAL";
     if (relevant.IsSameAllVersions) ext = "";
 
-    let textToAdd = relevant["Description"+ext];
-    if (textToAdd == "" || textToAdd.indexOf("<") != -1) textToAdd = "Unknown / Undocumented File";
-
-    for (let node of AssaultLabelFile.childNodes) {
-      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== "") {
-        node.textContent = filename + " (" + textToAdd + ")";
-        break;
-      }
+    const curDesc = relevant["Description"+ext];
+    if (!(curDesc == "" || curDesc.indexOf("<") != -1))
+      textToAdd = curDesc;
+  }
+  for (let node of AssaultLabelFile.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== "") {
+      node.textContent = filename + " (" + textToAdd + ")";
+      break;
     }
   }
+
+  // ensure same file can be uploaded again (act like none was uploaded)
   document.getElementById("Assault_file").value = "";
 
   // actually read the file
