@@ -428,3 +428,12 @@ function printWarningToConsole() {
 }
 printWarningToConsole();
 removeNetworkFeatures();
+
+// -------------------------- Catch all errors and show the user (so that they know something went wrong) ---------------
+
+if (!isLocalhost) {
+  window.addEventListener('error', (event) => {
+    const errorToShow = event.error?.stack ?? `${event.message}\n${event.filename}:${event.lineno}:${event.colno}`;
+    alert(`The web tool encountered an error. You should backup your work, refresh the page, and write a GitHub Issue (https://github.com/ModSault/modsault.github.io/issues) with the below error and what you did so this can be fixed.\n\n${errorToShow}`);
+  });
+}
