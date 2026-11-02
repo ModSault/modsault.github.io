@@ -362,6 +362,8 @@ function Assault_EncodeHelper_rgbaToU16(pixel, colorType) {
       pixel.a << 8 | pixel.b,
     ]
   }
+
+  return 0;
 }
 // This does all the setup for a file. So makes the proper size of bytes to download, errors, warnings,
 // and writing information like width and height

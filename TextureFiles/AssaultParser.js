@@ -8,7 +8,7 @@ function Assault_getColorFromU16(u16, colorType, u16_2 = undefined) {
   const valueTo255 = function(value, max) {
     return Math.round((((value) & max) / max) * 255);
   }
-  let r, g, b, a;
+  let r = 0, g = 0, b = 0, a = 0;
 
   if (colorType == 11) {
     r = valueTo255(u16, 0xFF);
